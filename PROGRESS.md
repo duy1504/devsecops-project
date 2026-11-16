@@ -28,9 +28,11 @@
 - [x] Kiểm tra lại Kyverno (17/11/2026): 1.19.2 vẫn là bản vá mới nhất của 1.19; **v1.20.0 đã ra nhưng chưa gỡ `ClusterPolicy`**; chưa có tag chart 3.10.x. Giữ ghim 1.19.2 / chart 3.9.2 (chi tiết trong `docs/versions.md`).
 - [x] GitHub repo `duy1504/devsecops-project`; `git init -b main` trong `C:\Teo\DevOps`, remote `origin` đã thêm; có `.gitignore`, `.gitattributes` (LF cho script). Commit đầu `88cda11` đã push lên `origin/main` (17/11/2026).
 - [x] WSL2 Ubuntu + Docker Desktop (engine 29.9.1) đang chạy (17/11/2026).
-- [ ] AWS account lab (MFA cho root, SSO hoặc user riêng, AWS Budgets 10–20 USD).
+- [x] AWS account lab đã tạo (Paid plan, 17/11/2026). Chưa xác nhận: MFA root, user/SSO riêng, AWS Budgets.
+- [x] Công cụ trong WSL: `scripts/install-tools.sh` (cài vào `~/.local`, không sudo, ghim phiên bản + SHA-256) chạy thành công 17/11/2026; bộ phiên bản ở mục 1b `docs/versions.md`. AWS CLI 2.40.4 có đủ lệnh Managed Signing.
+- [ ] Cấu hình AWS CLI trong WSL (`aws configure sso` hoặc credential ngắn hạn), `aws sts get-caller-identity` thành công.
 - [ ] Xác nhận region `ap-southeast-1` hỗ trợ ECR Managed Signing; AWS CLI có `put-signing-configuration`.
-- [ ] Môi trường: WSL2 Ubuntu + Docker Desktop; cài công cụ ở mục 4.2 theo phiên bản ghim; chạy bộ lệnh kiểm tra ở mục 4.2; đặt biến ở mục 4.3.
+- [ ] Đặt biến cấu hình ở mục 4.3 (cần AWS CLI đã đăng nhập).
 
 ### Giai đoạn 0 — Spike đường găng (mục 6)
 
@@ -69,6 +71,6 @@ Các điểm kế hoạch ghi là "mẫu, cần đối chiếu":
 | Ngày | Nội dung |
 |---|---|
 | 04/11/2026 | Hoàn thành kế hoạch cuối; xác minh phiên bản Kyverno/Syft; tạo `CLAUDE.md`, `PROGRESS.md`. Chưa triển khai. |
-| 17/11/2026 | Chốt 4 quyết định: lịch tuần tự, kind, cá nhân, repo trong `C:\Teo\DevOps`, AWS account lab riêng. Kiểm tra Kyverno: v1.20.0 đã ra, vẫn còn CRD `ClusterPolicy`; giữ ghim 1.19.2. |
+| 17/11/2026 | Chốt 4 quyết định: lịch tuần tự, kind, cá nhân, repo trong `C:\Teo\DevOps`, AWS account lab riêng. Kiểm tra Kyverno: v1.20.0 đã ra, vẫn còn CRD `ClusterPolicy`; giữ ghim 1.19.2. Repo git nối GitHub, đã push. AWS account (Paid plan) đã tạo. Cài 11 công cụ trong WSL bằng `scripts/install-tools.sh`. |
 
 <!-- Mẫu một dòng nhật ký: | dd/mm/yyyy | Giai đoạn · việc đã xong · bằng chứng (đường dẫn) · vấn đề còn mở | -->

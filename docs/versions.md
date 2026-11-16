@@ -18,6 +18,28 @@ Ghi chú:
 - Ngày trên trang Releases là giờ UTC: v1.19.2 phát hành 20/10/2026 UTC, tức sáng 21/10/2026 giờ Việt Nam (một số trang như endoflife.date ghi 21/10).
 - SHA-256 của Kyverno CLI và Syft được ghim vào workflow (`KYVERNO_CLI_SHA256`, `SYFT_SHA256`, mục 9.4 của kế hoạch). Đổi phiên bản thì đổi hash cùng lúc.
 
+### 1b. Công cụ trên máy (WSL2 Ubuntu 24.04, x86_64) — cài bằng `scripts/install-tools.sh`
+
+Cài vào `~/.local` (không cần sudo), kiểm tra SHA-256 trước khi cài; đã chạy thành công ngày 17/11/2026. Đổi phiên bản = sửa cả VERSION lẫn SHA256 trong script rồi cập nhật bảng này.
+
+| Công cụ | Phiên bản | SHA-256 / bằng chứng | Kiểm tra |
+|---|---|---|---|
+| Go | 1.27.4 | `7226736c…dab24840` — khớp `go.dev/dl/?mode=json` | 17/11/2026 |
+| AWS CLI v2 | 2.40.4 | `81f573c2…0979ae8e`; chữ ký PGP `Good signature` từ key `FB5DB77F…4672475C` (AWS CLI Team; bản key trên keyserver báo hết hạn, AWS gia hạn trong tài liệu); có `put/get-signing-configuration`, `describe-image-signing-status` | 17/11/2026 |
+| Helm | v4.3.2 | `d1c0278d…daa53983` — khớp file `.sha256sum` của get.helm.sh | 17/11/2026 |
+| kind | v0.33.0 | `aee61515…de8d8e0d` — khớp file `.sha256sum` của release | 17/11/2026 |
+| jq | 1.8.2 | `b1c22172…1495870f` — khớp `sha256sum.txt` | 17/11/2026 |
+| Trivy | 0.76.2 | `bc0fc726…54089fdbf` — khớp `trivy_0.76.2_checksums.txt`; thời điểm DB ghi khi scan | 17/11/2026 |
+| Syft | 1.56.0 | như mục 1 | 17/11/2026 |
+| Gitleaks | 8.30.1 | `551f6fc8…3f2470eb` — khớp `gitleaks_8.30.1_checksums.txt`. Workflow (mục 9.4 kế hoạch) ghi tạm `v8.21.2` làm ví dụ → khi viết workflow dùng 8.30.1 | 17/11/2026 |
+| Notation CLI | 1.3.2 | `e1a0f060…cbb6dfe5` — khớp `notation_1.3.2_checksums.txt` | 17/11/2026 |
+| AWS Signer Notation plugin | 1.0.2292 | `f8efa548…1a26c7b9` (link `latest`, ghim hash lúc tải); `notation plugin ls` báo capabilities ENVELOPE, TRUSTED_IDENTITY, REVOCATION_CHECK | 17/11/2026 |
+| Kyverno CLI | v1.19.2 | như mục 1 | 17/11/2026 |
+| kubectl (client) | v1.36.1 | có sẵn qua Docker Desktop (`/usr/local/bin/kubectl`), không do script cài | 17/11/2026 |
+| Docker / Buildx | 29.9.1 / v0.38.0 | Docker Desktop | 17/11/2026 |
+
+**AWS Signer root certificate** (trust anchor cho Notation/extension, chưa cài vào trust store): tải từ `https://d2hvyiie56hcat.cloudfront.net/aws-signer-notation-root.cert`, SHA-256 file `0ccf5295…e879461c9b`; subject = issuer = `AWS Signer Code Signing Root CA G1` (O=AWS, OU=Cryptography); hiệu lực 27/10/2022 → 27/10/2122; fingerprint SHA-256 `90:A8:7D:05:43:C3:F0:94:DB:FF:95:89:B6:64:9A:FF:E2:F3:D6:E0:F3:08:79:9B:E2:25:84:61:C6:86:47:3F`. Đối chiếu lại với tài liệu AWS Signer trước khi đưa vào trust store (spike bước 4).
+
 ## 2. Đang theo dõi — không dùng
 
 | Thành phần | Trạng thái | Ghi chú |
@@ -56,16 +78,9 @@ kubectl -n kyverno get deploy -o jsonpath='{range .items[*]}{.metadata.name}{"  
 
 | Thành phần | Phiên bản / digest | Nguồn | Ngày kiểm tra |
 |---|---|---|---|
-| Kubernetes (kind node image) | | | |
-| kind | | | |
+| Kubernetes (kind node image, kèm digest) | | | |
 | `kyverno-notation-aws` (release/commit, image digest) | | | |
-| Notation CLI | | | |
-| AWS Signer Notation plugin | | | |
-| AWS Signer root certificate (trust store) | | | |
-| Trivy (+ thời điểm DB) | | | |
-| Gitleaks | | | |
-| Docker / Buildx | | | |
-| AWS CLI v2 (có API Managed Signing) | | | |
+| Trivy DB (thời điểm, mỗi lần scan làm bằng chứng) | | | |
 | eksctl (nếu dùng EKS) | | | |
 | Base image `golang:<GO_VERSION>-alpine@sha256:…` | | | |
 | Base image `gcr.io/distroless/static-debian12:nonroot@sha256:…` | | | |
