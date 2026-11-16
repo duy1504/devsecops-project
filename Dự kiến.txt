@@ -1,0 +1,14 @@
+1. Chủ đề
+XÂY DỰNG QUY TRÌNH BẢO MẬT CHUỖI CUNG ỨNG PHẦN MỀM CHO CONTAINER IMAGE SỬ DỤNG SBOM, AMAZON ECR MANAGED SIGNING VÀ KIỂM SOÁT TRIỂN KHAI TRÊN KUBERNETES
+2. Nội dung dự kiến
+- Sử dụng một ứng dụng web mã nguồn mở làm workload mẫu, thực hiện container hóa bằng Docker để phục vụ quá trình xây dựng và triển khai. 
+- Xây dựng pipeline bằng GitHub Actions để tự động kiểm thử, build container image, kiểm tra secret trong mã nguồn, quét lỗ hổng bảo mật và tạo Software Bill of Materials (SBOM). 
+- Chỉ đưa các container image đáp ứng yêu cầu bảo mật lên Amazon ECR; cấu hình Amazon ECR Managed Signing sử dụng AWS Signer để tự động ký số image. 
+- Triển khai ứng dụng trên Kubernetes và áp dụng cơ chế admission policy, dự kiến sử dụng Kyverno, để kiểm soát nguồn image và xác minh chữ ký trước khi cho phép workload được triển khai. 
+- Xây dựng các kịch bản kiểm thử gồm mã nguồn chứa secret, image có lỗ hổng nghiêm trọng, image chưa được ký và image đến từ registry không được cho phép. 
+3. Kết quả dự kiến
+- Hoàn thiện quy trình từ mã nguồn, kiểm tra bảo mật, build container image, lưu trữ đến triển khai ứng dụng trên Kubernetes. 
+- Tạo được SBOM, báo cáo lỗ hổng và kết quả kiểm tra secret trước khi container image được đưa vào registry tin cậy. 
+- Container image đáp ứng yêu cầu được lưu trữ trên Amazon ECR và tự động ký số bằng Amazon ECR Managed Signing sử dụng AWS Signer. 
+- Áp dụng được chính sách trên Kubernetes để chỉ cho phép các container image có nguồn gốc phù hợp và chữ ký hợp lệ được triển khai. 
+- Demo được khả năng phát hiện hoặc ngăn chặn các trường hợp mã nguồn chứa secret, image có lỗ hổng mức Critical, image chưa ký và image đến từ nguồn không được phép.

@@ -1,0 +1,73 @@
+# Bộ phiên bản của đồ án
+
+**Ngày kiểm tra:** 04/11/2026, khoảng 21:15 giờ Việt Nam (UTC+7)
+**Cách kiểm tra:** đọc trực tiếp tag trong repo Git của dự án (`git ls-remote`, `git fetch` từng tag), đọc `Chart.yaml` tại tag chart, tải asset release để đối chiếu SHA-256 và chạy thử binary. Không dựa vào kết quả công cụ tìm kiếm, vì chúng có thể chưa cập nhật các bản mới phát hành.
+
+> Cập nhật file này mỗi khi đổi phiên bản, và kiểm tra lại toàn bộ ngay trước buổi demo/bảo vệ.
+
+## 1. Đã xác minh
+
+| Thành phần | Phiên bản ghim | Bằng chứng | Kiểm tra |
+|---|---|---|---|
+| Kyverno (app) | **v1.19.2** | Tag `v1.19.2` → commit `e63308f1e16c05cd009ac4864be6ec25c66b49be`; thời điểm build `2026-10-20T22:13:49Z`; trang Releases đánh dấu *Latest* | 04/11/2026 |
+| Kyverno Helm chart | **3.9.2** | Tag `kyverno-chart-3.9.2` trỏ cùng commit `e63308f`; `charts/kyverno/Chart.yaml`: `version: 3.9.2`, `appVersion: v1.19.2` | 04/11/2026 |
+| Kyverno CLI | **v1.19.2** | Asset `kyverno-cli_v1.19.2_linux_x86_64.tar.gz`, SHA-256 `357eaf1df8bc24ddd5a73979fadeaae6a032e8710f11af264229756e4956bf4a` (khớp `checksums.txt` của release; `kyverno version` báo `1.19.2`, commit `e63308f`) | 04/11/2026 |
+| Syft | **v1.56.0** | Tag ổn định mới nhất; asset `syft_1.56.0_linux_amd64.tar.gz`, SHA-256 `1c2493cfcf52d3367d6cb25780d9190c111c2219c34c820574c43e8bae15c528` (khớp `syft_1.56.0_checksums.txt`) | 04/11/2026 |
+
+Ghi chú:
+- Ngày trên trang Releases là giờ UTC: v1.19.2 phát hành 20/10/2026 UTC, tức sáng 21/10/2026 giờ Việt Nam (một số trang như endoflife.date ghi 21/10).
+- SHA-256 của Kyverno CLI và Syft được ghim vào workflow (`KYVERNO_CLI_SHA256`, `SYFT_SHA256`, mục 9.4 của kế hoạch). Đổi phiên bản thì đổi hash cùng lúc.
+
+## 2. Đang theo dõi — không dùng
+
+| Thành phần | Trạng thái | Ghi chú |
+|---|---|---|
+| Kyverno 1.20 (kiểm tra 17/11/2026) | **`v1.20.0` đã phát hành** (tag trỏ commit `f666af0`, `2026-11-11T12:42:56Z`; có rc.1–rc.5 trước đó) | Tại `v1.20.0`, `config/crds/kyverno/kyverno.io_clusterpolicies.yaml` **vẫn còn**, `deprecated: true`, cảnh báo "kyverno.io/v1 ClusterPolicy is deprecated and will be removed" → 1.20 **chưa gỡ** `ClusterPolicy`. Chưa đánh giá tương thích `kyverno-notation-aws` với 1.20 |
+| Kyverno 1.20 (ghi chép 04/11/2026) | **`v1.20.0-rc.1`** (pre-release): tag annotated lúc `2026-11-02T23:38:17+02:00` (≈ 04:38 ngày 03/11/2026 giờ Việt Nam), commit `24e23f9` | Chưa có bản `v1.20.0` chính thức. rc.1 **vẫn còn** CRD `kyverno.io_clusterpolicies.yaml`, đánh dấu `deprecated: true` kèm cảnh báo "will be removed". Chưa xác định bản chính thức có thực sự gỡ `ClusterPolicy` hay lùi lịch |
+| Helm chart cho 1.20 | **Chưa xác minh** | Đến 17/11/2026 vẫn không có tag `kyverno-chart-3.10.*` trong repo (`Chart.yaml` ở tag `v1.20.0` chỉ là placeholder `v0.0.0`); môi trường kiểm tra không truy cập được Helm index (`kyverno.github.io`). Kiểm tra bằng `helm search repo ... --devel` trên máy local |
+
+Hệ quả cho đồ án:
+- Giữ nguyên quyết định ghim **Kyverno 1.19.2 / chart 3.9.2** (17/11/2026: vẫn là bản vá mới nhất của nhánh 1.19). Nâng lên 1.20 là thay đổi công cụ → phải hỏi người dùng và thử lại tương thích extension.
+- Từ 1.18, Kyverno theo mô hình hỗ trợ N-1 ("main + 1"): bản minor hiện tại và bản ngay trước nhận bản vá cộng đồng, chỉ cho CVE critical/high và lỗi nghiêm trọng ([thông báo 1.18](https://kyverno.io/blog/2026/04/24/announcing-kyverno-release-1.18/), mục "Updated Support Policy"). Khi 1.20.0 phát hành, 1.19 vẫn được vá cho tới khi 1.21 ra rồi mới hết hỗ trợ → ghi vào phần "Giới hạn" của báo cáo.
+
+## 3. Lệnh kiểm tra lại
+
+```bash
+# Tag Kyverno 1.19/1.20 và chart
+git ls-remote --tags https://github.com/kyverno/kyverno \
+  | grep -E 'refs/tags/(v1\.(19|20)\.|kyverno-chart-3\.(9|10)\.)' | grep -v '\^{}'
+
+# Chart ổn định và pre-release (chỉ để xem, KHÔNG dùng --devel khi cài)
+helm repo update
+helm search repo kyverno/kyverno --versions | head
+helm search repo kyverno/kyverno --versions --devel | head
+
+# Đối chiếu SHA-256 của asset đã ghim
+curl -fsSL https://github.com/kyverno/kyverno/releases/download/v1.19.2/checksums.txt \
+  | grep 'kyverno-cli_v1.19.2_linux_x86_64.tar.gz$'
+curl -fsSL https://github.com/anchore/syft/releases/download/v1.56.0/syft_1.56.0_checksums.txt \
+  | grep 'syft_1.56.0_linux_amd64.tar.gz$'
+
+# Sau khi cài lên cụm: image Kyverno đang chạy
+kubectl -n kyverno get deploy -o jsonpath='{range .items[*]}{.metadata.name}{"  "}{.spec.template.spec.containers[0].image}{"\n"}{end}'
+```
+
+## 4. Chưa kiểm tra — điền sau spike
+
+| Thành phần | Phiên bản / digest | Nguồn | Ngày kiểm tra |
+|---|---|---|---|
+| Kubernetes (kind node image) | | | |
+| kind | | | |
+| `kyverno-notation-aws` (release/commit, image digest) | | | |
+| Notation CLI | | | |
+| AWS Signer Notation plugin | | | |
+| AWS Signer root certificate (trust store) | | | |
+| Trivy (+ thời điểm DB) | | | |
+| Gitleaks | | | |
+| Docker / Buildx | | | |
+| AWS CLI v2 (có API Managed Signing) | | | |
+| eksctl (nếu dùng EKS) | | | |
+| Base image `golang:<GO_VERSION>-alpine@sha256:…` | | | |
+| Base image `gcr.io/distroless/static-debian12:nonroot@sha256:…` | | | |
+| podinfo (tag/commit upstream) | | | |
+| GitHub Actions dùng trong workflow (commit SHA) | | | |

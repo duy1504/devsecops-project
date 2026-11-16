@@ -1,0 +1,10 @@
+# Repo tạo trên Windows nhưng script chạy trên WSL2 / runner Ubuntu → giữ LF
+* text=auto eol=lf
+*.ps1 text eol=crlf
+
+# File nhị phân
+*.png binary
+*.jpg binary
+*.pdf binary
+*.tar binary
+*.gz binary

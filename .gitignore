@@ -1,0 +1,28 @@
+# Secret & credential — không bao giờ commit (CLAUDE.md, quy tắc 8)
+.env
+.env.*
+*.pem
+*.key
+.aws/
+kubeconfig
+*.kubeconfig
+*token*
+
+# Artifact sinh ra khi build/scan/phát hành (lưu ở GitHub artifact, không lưu trong Git)
+*.tar
+image.tar.sha256
+image.id
+verification.json
+reports/
+release/
+signing-config.json
+
+# File render từ template
+policies/rendered/
+
+# Cài đặt cục bộ của Claude Code
+.claude/settings.local.json
+
+# OS / editor
+Thumbs.db
+.DS_Store
