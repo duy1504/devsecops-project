@@ -3,8 +3,18 @@
 Đọc file này đầu mỗi phiên. Cập nhật khi xong một giai đoạn hoặc có thay đổi quan trọng (quy tắc trong `CLAUDE.md`).
 
 **Cập nhật lần cuối:** 17/11/2026
-**Trạng thái:** ✅ Lập kế hoạch hoàn thành · ⏳ Triển khai **chưa bắt đầu** (chưa có code, chưa cài công cụ, chưa tạo tài nguyên AWS hay repo GitHub)
-**Giai đoạn kế tiếp:** chuẩn bị môi trường (mục 4) → spike đường găng (mục 6)
+**Trạng thái:** ✅ Lập kế hoạch hoàn thành · 🔄 Chuẩn bị môi trường **đang làm** (repo GitHub, WSL/Docker, công cụ đã xong; AWS account đã tạo nhưng chưa đăng nhập CLI) · chưa có code ứng dụng, chưa tạo tài nguyên AWS nào
+**Giai đoạn kế tiếp:** hoàn tất đăng nhập AWS (mục 4) → spike đường găng (mục 6)
+
+## ⏸ Điểm dừng (17/11/2026) — làm tiếp từ đây
+
+Đang chờ **người dùng** làm trên AWS (Claude không xử lý credential):
+1. Xác nhận: MFA cho root, AWS Budgets (~10 USD), user riêng dùng hằng ngày (không dùng root).
+2. Bật IAM Identity Center → tạo user, gán permission set `AdministratorAccess` vào account lab.
+3. Trong WSL: `aws configure sso` (region mặc định `ap-southeast-1`, profile gợi ý `devsecops`) → `aws sts get-caller-identity --profile devsecops`.
+4. Báo lại **tên profile** cho Claude.
+
+Sau đó Claude làm: kiểm tra region hỗ trợ ECR Managed Signing → đặt biến mục 4.3 → spike mục 6.1 bước 1–3 (repo `podinfo` **chưa** bật signing rule → `D_unsigned` → `D_wrongsigner` ký bằng profile B). Chứng chỉ gốc AWS Signer đã tải và ghi fingerprint trong `docs/versions.md` (dùng ở bước 4).
 
 ## Đã hoàn thành
 
@@ -71,6 +81,6 @@ Các điểm kế hoạch ghi là "mẫu, cần đối chiếu":
 | Ngày | Nội dung |
 |---|---|
 | 04/11/2026 | Hoàn thành kế hoạch cuối; xác minh phiên bản Kyverno/Syft; tạo `CLAUDE.md`, `PROGRESS.md`. Chưa triển khai. |
-| 17/11/2026 | Chốt 4 quyết định: lịch tuần tự, kind, cá nhân, repo trong `C:\Teo\DevOps`, AWS account lab riêng. Kiểm tra Kyverno: v1.20.0 đã ra, vẫn còn CRD `ClusterPolicy`; giữ ghim 1.19.2. Repo git nối GitHub, đã push. AWS account (Paid plan) đã tạo. Cài 11 công cụ trong WSL bằng `scripts/install-tools.sh`. |
+| 17/11/2026 | Chốt 4 quyết định: lịch tuần tự, kind, cá nhân, repo trong `C:\Teo\DevOps`, AWS account lab riêng. Kiểm tra Kyverno: v1.20.0 đã ra, vẫn còn CRD `ClusterPolicy`; giữ ghim 1.19.2. Repo git nối GitHub, đã push. AWS account (Paid plan) đã tạo. Cài 11 công cụ trong WSL bằng `scripts/install-tools.sh` (commit `1fd35f4`). Tạm dừng: chờ người dùng bật MFA/Budgets/SSO và chạy `aws configure sso`. |
 
 <!-- Mẫu một dòng nhật ký: | dd/mm/yyyy | Giai đoạn · việc đã xong · bằng chứng (đường dẫn) · vấn đề còn mở | -->
