@@ -9,7 +9,7 @@ COPY app/go.mod app/go.sum ./
 RUN go mod download
 COPY app/ .
 # REVISION: commit podinfo upstream (không phải secret), hiện ở endpoint /version
-ARG REVISION=unknown
+ARG REVISION=fd3a834ed8d14b80ea334cf8a2fddd4597924da6
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
     go build -trimpath -ldflags="-s -w -X github.com/stefanprodan/podinfo/pkg/version.REVISION=${REVISION}" \
     -o /out/podinfo ./cmd/podinfo

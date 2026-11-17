@@ -31,7 +31,7 @@ Cài vào `~/.local` (không cần sudo), kiểm tra SHA-256 trước khi cài; 
 | jq | 1.8.2 | `b1c22172…1495870f` — khớp `sha256sum.txt` | 17/11/2026 |
 | Trivy | 0.76.2 | `bc0fc726…54089fdbf` — khớp `trivy_0.76.2_checksums.txt`; thời điểm DB ghi khi scan | 17/11/2026 |
 | Syft | 1.56.0 | như mục 1 | 17/11/2026 |
-| Gitleaks | 8.30.1 | `551f6fc8…3f2470eb` — khớp `gitleaks_8.30.1_checksums.txt`. Workflow (mục 9.4 kế hoạch) ghi tạm `v8.21.2` làm ví dụ → khi viết workflow dùng 8.30.1 | 17/11/2026 |
+| Gitleaks | 8.30.1 | `551f6fc8…3f2470eb` — khớp `gitleaks_8.30.1_checksums.txt`. Workflow dùng đúng 8.30.1 (kế hoạch mục 9.4 ghi `v8.21.2` chỉ là ví dụ) | 17/11/2026 |
 | Notation CLI | 1.3.2 | `e1a0f060…cbb6dfe5` — khớp `notation_1.3.2_checksums.txt` | 17/11/2026 |
 | AWS Signer Notation plugin | 1.0.2292 | `f8efa548…1a26c7b9` (link `latest`, ghim hash lúc tải); `notation plugin ls` báo capabilities ENVELOPE, TRUSTED_IDENTITY, REVOCATION_CHECK | 17/11/2026 |
 | Kyverno CLI | v1.19.2 | như mục 1 | 17/11/2026 |
@@ -118,4 +118,5 @@ kubectl -n kyverno get deploy -o jsonpath='{range .items[*]}{.metadata.name}{"  
 | Base image builder | `golang:1.27.4-alpine@sha256:70bd7ddea8b6cbe5d6943cde279d6b67feb10cc924fb9100d1d8757c1575b280` (index) | `docker buildx imagetools inspect`; podinfo 6.17.0 yêu cầu `go 1.27.0` | 17/11/2026 |
 | Base image runtime | `gcr.io/distroless/static-debian12:nonroot@sha256:afa5c872c891853ca7fcf1f12c3edb23f7eeef36189728842dd51042ff57f7ab` (index) | `docker buildx imagetools inspect` | 17/11/2026 |
 | podinfo | tag `6.17.0`, commit `fd3a834ed8d14b80ea334cf8a2fddd4597924da6` | GitHub, chi tiết `docs/upstream.md` | 17/11/2026 |
-| GitHub Actions dùng trong workflow (commit SHA) | | | |
+| GitHub Actions dùng trong workflow (commit SHA) | `actions/checkout` v7.0.1 `3d3c42e5aac5ba805825da76410c181273ba90b1`; `actions/setup-go` v7.1.0 `d8cbb8045d7f43706b9177cceb36c1f91a6644d5`; `docker/setup-buildx-action` v4.4.1 `f87e5991a6d7451dcb8d9637bfbc97413f497069`; `docker/build-push-action` v7.4.0 `c3c9e263c25d99ce0380d002d59b67737d91b0dc`; `actions/upload-artifact` v7.0.2 `cf430e030ddbb5b0abf93d22962f4752f3646cd9` | `git ls-remote` tag mới nhất → commit (`^{}`) | 17/11/2026 |
+| Công cụ CLI trong workflow | Gitleaks 8.30.1, Syft 1.56.0, Trivy 0.76.2, Kyverno CLI v1.19.2 — cùng SHA-256 với mục 1/1b (cài binary, không dùng action/image `latest`) | `.github/workflows/ci-cd.yml` | 17/11/2026 |

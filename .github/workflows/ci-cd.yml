@@ -1,0 +1,211 @@
+# Pipeline bảo mật chuỗi cung ứng (kế hoạch mục 9). Hiện có: verify + policy-test (không quyền AWS).
+# publish/deploy thêm sau khi spike Managed Signing đạt (mục 6.2).
+# Action ghim theo commit SHA đầy đủ; công cụ CLI ghim phiên bản + SHA-256 (nguồn: docs/versions.md).
+name: secure-supply-chain
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  LOCAL_IMAGE: podinfo:ci
+  GO_VERSION: "1.27.4"              # khớp builder trong Dockerfile
+  GITLEAKS_VERSION: "8.30.1"
+  GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb   # gitleaks_8.30.1_linux_x64.tar.gz
+  SYFT_VERSION: "1.56.0"
+  SYFT_SHA256: 1c2493cfcf52d3367d6cb25780d9190c111c2219c34c820574c43e8bae15c528       # syft_1.56.0_linux_amd64.tar.gz
+  TRIVY_VERSION: "0.76.2"
+  TRIVY_SHA256: bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf      # trivy_0.76.2_Linux-64bit.tar.gz
+  KYVERNO_CLI_VERSION: v1.19.2      # phải trùng bản Kyverno trên cụm
+  KYVERNO_CLI_SHA256: 357eaf1df8bc24ddd5a73979fadeaae6a032e8710f11af264229756e4956bf4a # kyverno-cli_v1.19.2_linux_x86_64.tar.gz
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read                 # KHÔNG có id-token
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 0             # Gitleaks quét toàn lịch sử
+          persist-credentials: false
+
+      - name: Install pinned CLI tools (version + SHA-256)
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP"
+          fetch() {  # fetch <url> <sha256> <file>
+            curl -fsSL --retry 3 -o "$3" "$1"
+            echo "$2  $3" | sha256sum -c -
+          }
+          fetch "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" "$GITLEAKS_SHA256" gitleaks.tgz
+          fetch "https://github.com/anchore/syft/releases/download/v${SYFT_VERSION}/syft_${SYFT_VERSION}_linux_amd64.tar.gz" "$SYFT_SHA256" syft.tgz
+          fetch "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz" "$TRIVY_SHA256" trivy.tgz
+          tar -xzf gitleaks.tgz gitleaks && tar -xzf syft.tgz syft && tar -xzf trivy.tgz trivy
+          sudo install -m 0755 gitleaks syft trivy /usr/local/bin/
+          gitleaks version; syft version | grep -E '^Version'; trivy --version | sed -n 1p
+
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5  # v7.1.0
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: app/go.sum
+
+      - name: Unit test
+        id: test
+        env:
+          GOTOOLCHAIN: local
+        run: go -C app test -count=1 ./...
+
+      - name: Secret scan (Gitleaks, toàn lịch sử)
+        id: gitleaks
+        run: |
+          mkdir -p reports
+          gitleaks git . --config .gitleaks.toml --redact --no-banner \
+            --report-format json --report-path reports/gitleaks.json
+
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069  # v4.4.1
+
+      - name: Build once
+        id: build
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc  # v7.4.0
+        with:
+          context: .
+          platforms: linux/amd64
+          load: true
+          provenance: false
+          sbom: false
+          tags: ${{ env.LOCAL_IMAGE }}
+
+      - name: Save image artifact
+        run: |
+          set -euo pipefail
+          docker save "$LOCAL_IMAGE" -o image.tar
+          sha256sum image.tar > image.tar.sha256
+          docker image inspect "$LOCAL_IMAGE" --format '{{.Id}}' > image.id
+          cat image.tar.sha256 image.id
+
+      - name: SBOM (Syft CLI, CycloneDX)
+        run: syft -q docker-archive:image.tar -o cyclonedx-json=reports/sbom.cdx.json
+
+      - name: Validate SBOM
+        id: sbom
+        # CycloneDX hợp lệ, có component, và có dependency Go của ứng dụng
+        run: |
+          jq -e '.bomFormat == "CycloneDX"
+                 and ((.components | length) > 0)
+                 and any(.components[]; (.purl // "") | startswith("pkg:golang/"))' reports/sbom.cdx.json
+
+      - name: Vulnerability scan (một lần, JSON; lỗi công cụ/DB = fail)
+        id: trivy
+        run: |
+          set -euo pipefail
+          trivy image --input image.tar --scanners vuln \
+            --format json --output reports/trivy.json --exit-code 0
+          trivy convert --format sarif --output reports/trivy.sarif reports/trivy.json
+          trivy convert --format table --output reports/trivy.txt reports/trivy.json
+          trivy version -f json > reports/trivy-version.json
+
+      - name: Upload security reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
+        with:
+          name: security-reports-${{ github.run_id }}-${{ github.run_attempt }}
+          path: reports/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: GATE – no CRITICAL
+        id: gate
+        run: |
+          CRIT=$(jq '[.Results[]?.Vulnerabilities[]? | select(.Severity=="CRITICAL")] | length' reports/trivy.json)
+          echo "Critical vulnerabilities: $CRIT"
+          test "$CRIT" -eq 0
+
+      - name: Job summary (chỉ trình bày, không đổi kết quả gate)
+        if: always()
+        env:
+          R_TEST: ${{ steps.test.outcome }}
+          R_LEAKS: ${{ steps.gitleaks.outcome }}
+          R_BUILD: ${{ steps.build.outcome }}
+          R_SBOM: ${{ steps.sbom.outcome }}
+          R_SCAN: ${{ steps.trivy.outcome }}
+          R_GATE: ${{ steps.gate.outcome }}
+        run: |
+          comps="chưa chạy"; crit="chưa chạy"; high="chưa chạy"; leaks="chưa chạy"; db="?"
+          [ -s reports/sbom.cdx.json ] && comps=$(jq '.components | length' reports/sbom.cdx.json)
+          [ -s reports/gitleaks.json ] && leaks=$(jq 'length' reports/gitleaks.json)
+          if [ -s reports/trivy.json ]; then
+            crit=$(jq '[.Results[]?.Vulnerabilities[]? | select(.Severity=="CRITICAL")] | length' reports/trivy.json)
+            high=$(jq '[.Results[]?.Vulnerabilities[]? | select(.Severity=="HIGH")] | length' reports/trivy.json)
+          fi
+          [ -s reports/trivy-version.json ] && db=$(jq -r '.VulnerabilityDB.UpdatedAt' reports/trivy-version.json)
+          {
+            echo "### Supply-chain checks – \`${GITHUB_SHA::12}\` (run ${GITHUB_RUN_ID}/${GITHUB_RUN_ATTEMPT})"
+            echo "| Kiểm tra | Kết quả |"
+            echo "|---|---|"
+            echo "| Unit test | ${R_TEST:-skipped} |"
+            echo "| Gitleaks | ${R_LEAKS:-skipped} (findings: $leaks) |"
+            echo "| Build | ${R_BUILD:-skipped} |"
+            echo "| SBOM | ${R_SBOM:-skipped} (components: $comps) |"
+            echo "| Trivy scan | ${R_SCAN:-skipped} (DB: $db) |"
+            echo "| Gate CRITICAL | ${R_GATE:-skipped} (Critical: $crit, High: $high) |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Verification metadata
+        run: |
+          jq -n --arg commit "$GITHUB_SHA" --arg run "$GITHUB_RUN_ID" --arg attempt "$GITHUB_RUN_ATTEMPT" \
+                --arg image_id "$(cat image.id)" --arg tar_sha "$(cut -d' ' -f1 image.tar.sha256)" \
+                --arg sbom_sha "$(sha256sum reports/sbom.cdx.json | cut -d' ' -f1)" \
+                --arg vuln_sha "$(sha256sum reports/trivy.json | cut -d' ' -f1)" \
+                --arg trivy "$(trivy --version | sed -n 1p)" \
+                --arg db "$(jq -r '.VulnerabilityDB.UpdatedAt' reports/trivy-version.json)" \
+                '{commit_sha:$commit, workflow_run_id:$run, run_attempt:$attempt, local_image_id:$image_id,
+                  image_tar_sha256:$tar_sha, sbom_sha256:$sbom_sha, vulnerability_report_sha256:$vuln_sha,
+                  scanner_version:$trivy, vulnerability_db_updated_at:$db, critical_count:0, gate_result:"pass"}' \
+            > verification.json
+          cat verification.json
+
+      - name: Upload approved image (chỉ push vào main, mọi gate đạt)
+        # PR không bao giờ publish → không lưu image tar của PR chưa duyệt.
+        # `if` không chứa hàm trạng thái nên ngầm có success(): gate fail thì bước này bị bỏ qua.
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
+        with:
+          name: approved-image-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            image.tar
+            image.tar.sha256
+            verification.json
+          retention-days: 2
+          if-no-files-found: error
+
+  policy-test:                       # required check; không có quyền AWS
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    # Không đọc vars.ECR_IMAGE: scripts/policy-test.sh dùng giá trị giả cố định (mục 11.4)
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install Kyverno CLI (pinned version + SHA-256)
+        run: |
+          set -euo pipefail
+          f="kyverno-cli_${KYVERNO_CLI_VERSION}_linux_x86_64.tar.gz"
+          cd "$RUNNER_TEMP"
+          curl -fsSL --retry 3 -O "https://github.com/kyverno/kyverno/releases/download/${KYVERNO_CLI_VERSION}/$f"
+          echo "${KYVERNO_CLI_SHA256}  $f" | sha256sum -c -
+          tar -xzf "$f" kyverno
+          sudo install -m 0755 kyverno /usr/local/bin/kyverno
+      - name: Render policy + resource & run offline tests
+        run: bash scripts/policy-test.sh   # đúng lệnh chạy ở máy local
