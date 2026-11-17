@@ -109,7 +109,9 @@ kubectl -n kyverno get deploy -o jsonpath='{range .items[*]}{.metadata.name}{"  
 
 | Thành phần | Phiên bản / digest | Nguồn | Ngày kiểm tra |
 |---|---|---|---|
-| Kubernetes (kind node image, kèm digest) | | | |
+| Kubernetes (kind node image) | `kindest/node:v1.35.8@sha256:07b2536e30b803ed61d1677a79df6115f798ce64c80f9e22f6ed45afd09323c0` | Release notes kind v0.33.0 (image dựng sẵn cho bản này); Kyverno v1.19.2 chạy conformance trên K8s v1.33.7/v1.34.3/v1.35.1 (`.github/workflows/tests-conformance.yaml` tại tag) | 17/11/2026 |
+| Kyverno chart (cài thật) | 3.9.2 qua OCI `oci://ghcr.io/kyverno/charts/kyverno`; manifest digest `sha256:83054f30148c3cfc001087c1f5772eda7c7224e9b74b7f0e70c39c9cafe009d1`; file `.tgz` SHA-256 `3d561086a5c457f038ad5ec01f2b8a279738c44eae0e8506e271e4599e627ae9` | `helm show chart`: `appVersion: v1.19.2`. Không dùng `kyverno.github.io` (timeout từ mạng lab) | 17/11/2026 |
+| Kyverno image đang chạy | admission `reg.kyverno.io/kyverno/kyverno@sha256:c8c4dd09e720d2cd7fd24ca73ac28e46651001372f988e0cba3f2f612f04b955`; background `…@sha256:c46e124f21ef8a6bb4b48de57106808b1007edcd5ddd4ff7df5d23b9efa60ce2`; cleanup `…@sha256:d7340aa7c9315080c3dafa7b765d090ced37353e89e5cd7a3f9ac69e8fb532b2`; reports `…@sha256:5fb6d3e738050dbce84f60ecabaede7665fbe0578d07c1e8c912443b035e79c3` (cả 4 tag `v1.19.2`) | `kubectl get pods -o jsonpath='{..imageID}'` trên cụm kind | 17/11/2026 |
 | `kyverno-notation-aws` (release/commit, image digest) | | | |
 | Trivy DB (thời điểm, mỗi lần scan làm bằng chứng) | | | |
 | eksctl (nếu dùng EKS) | | | |

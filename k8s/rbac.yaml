@@ -1,0 +1,41 @@
+# Quyền tối thiểu cho deployer (kế hoạch mục 10.2), dùng chung cho kind và EKS.
+# KHÔNG cấp: secrets, pods/exec, pods/attach, pods/portforward, pods/ephemeralcontainers, tạo namespace,
+# policy Kyverno, TrustPolicy/TrustStore, webhook. Kiểm tra bằng scripts/check-rbac.sh (TC10).
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: app-deployer
+  namespace: app
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+  - apiGroups: ["apps"]
+    resources: ["replicasets"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+  - apiGroups: [""]
+    resources: ["pods", "pods/log", "events"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["events.k8s.io"]
+    resources: ["events"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["services/proxy"]          # chỉ để smoke test /healthz từ job deploy
+    verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: app-deployer
+  namespace: app
+subjects:
+  - kind: Group
+    name: devsecops-deployers
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: app-deployer
+  apiGroup: rbac.authorization.k8s.io

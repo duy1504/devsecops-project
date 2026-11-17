@@ -1,0 +1,42 @@
+# Render: envsubst '${APP_IMAGE_REF}' (scripts/deploy.sh). APP_IMAGE_REF = <ECR_IMAGE>@sha256:<digest> lấy từ release.json.
+# Kế hoạch mục 10.3.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: podinfo
+  namespace: app
+  labels: { app: podinfo }
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: podinfo }
+  template:
+    metadata:
+      labels: { app: podinfo }
+    spec:
+      automountServiceAccountToken: false
+      # kind: pull secret đến từ ServiceAccount `default` (scripts/refresh-lab-credentials.sh); EKS: node role pull ECR
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532                            # UID số – khớp USER trong Dockerfile
+        runAsGroup: 65532
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: podinfo
+          image: "${APP_IMAGE_REF}"
+          ports: [{ name: http, containerPort: 9898 }]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: ["ALL"] }
+          resources:
+            requests: { cpu: 50m, memory: 64Mi }
+            limits:   { cpu: 200m, memory: 128Mi }
+          livenessProbe:  { httpGet: { path: /healthz, port: 9898 } }
+          readinessProbe: { httpGet: { path: /readyz,  port: 9898 } }
+          volumeMounts:
+            - { name: tmp,  mountPath: /tmp }
+            - { name: data, mountPath: /data }      # --data-path mặc định của podinfo (/store)
+      volumes:
+        - { name: tmp,  emptyDir: {} }
+        - { name: data, emptyDir: {} }

@@ -1,0 +1,64 @@
+# Pod mẫu cho test offline Policy 1 (kế hoạch mục 11.4). ${ECR_IMAGE} là giá trị giả cố định khi test.
+# Digest chỉ cần đúng định dạng 64 hex; không cần tồn tại trên registry (test offline không pull).
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tc-ok
+  namespace: app
+spec:
+  containers:
+    - name: app
+      image: ${ECR_IMAGE}@sha256:d1b703d2d522e6013cb60627898788aac45f39d1acb33eabdb525770da92ceda
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tc-wrong-account
+  namespace: app
+spec:
+  containers:
+    - name: app
+      image: 999999999999.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:d1b703d2d522e6013cb60627898788aac45f39d1acb33eabdb525770da92ceda
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tc-tag-only
+  namespace: app
+spec:
+  containers:
+    - name: app
+      image: ${ECR_IMAGE}:v1
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tc-bad-init
+  namespace: app
+spec:
+  initContainers:
+    - name: init
+      image: docker.io/library/busybox@sha256:881e40db6132f2dfd58f59a344e6a115da5caa15a7aa192b4ba7f706a058634e
+  containers:
+    - name: app
+      image: ${ECR_IMAGE}@sha256:d1b703d2d522e6013cb60627898788aac45f39d1acb33eabdb525770da92ceda
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tc-bad-digest
+  namespace: app
+spec:
+  containers:
+    - name: app
+      image: ${ECR_IMAGE}@sha256:abc
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tc-similar-repo
+  namespace: app
+spec:
+  containers:
+    - name: app
+      image: ${ECR_IMAGE}-evil@sha256:d1b703d2d522e6013cb60627898788aac45f39d1acb33eabdb525770da92ceda

@@ -1,0 +1,16 @@
+# TC08 — container chính hợp lệ (đúng repo + digest), init container từ Docker Hub → Pod phải bị từ chối.
+# Render: envsubst '${ECR_IMAGE} ${APP_DIGEST}'. APP_DIGEST = sha256:<64 hex> của image hợp lệ.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tc08-bad-init
+  namespace: demo
+  labels: { tc: tc08 }
+spec:
+  initContainers:
+    - name: init
+      image: docker.io/library/busybox@sha256:881e40db6132f2dfd58f59a344e6a115da5caa15a7aa192b4ba7f706a058634e
+      command: ["true"]
+  containers:
+    - name: app
+      image: ${ECR_IMAGE}@${APP_DIGEST}

@@ -1,0 +1,12 @@
+# Đối chứng: đúng repo + digest → Policy 1 phải CHO QUA (chạy bằng --dry-run=server khi image chưa có trên ECR).
+# Render: envsubst '${ECR_IMAGE} ${APP_DIGEST}'.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: control-allowed
+  namespace: demo
+  labels: { tc: control }
+spec:
+  containers:
+    - name: app
+      image: ${ECR_IMAGE}@${APP_DIGEST}

@@ -1,0 +1,35 @@
+# Policy 1 — chỉ cho phép image thuộc đúng ECR repository (account + region + repo) VÀ tham chiếu bằng digest.
+# Kế hoạch mục 11.2. Render: envsubst '${ECR_IMAGE}' (scripts/policy-test.sh, scripts/deploy-policies.sh).
+# Siết hơn mẫu kế hoạch: phần sau "@sha256:" phải đúng 64 ký tự hex (chặn "podinfo@sha256:abc").
+# Ephemeral containers: chặn bằng RBAC (k8s/rbac.yaml), chưa đưa vào policy.
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: allowed-image
+spec:
+  validationActions: [Deny]
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["pods"]
+    namespaceSelector:
+      matchExpressions:
+        - key: kubernetes.io/metadata.name
+          operator: In
+          values: ["app", "demo"]
+  variables:
+    - name: prefix
+      expression: "'${ECR_IMAGE}@sha256:'"
+    - name: images
+      expression: >-
+        object.spec.containers.map(c, c.image) +
+        (has(object.spec.initContainers) ? object.spec.initContainers.map(c, c.image) : [])
+  validations:
+    - expression: >-
+        variables.images.all(i,
+          i.startsWith(variables.prefix) &&
+          i.substring(size(variables.prefix)).matches('^[a-f0-9]{64}$'))
+      message: "Image phải thuộc ${ECR_IMAGE} và được tham chiếu bằng sha256 digest (64 ký tự hex)."

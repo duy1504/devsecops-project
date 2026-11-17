@@ -3,8 +3,8 @@
 Đọc file này đầu mỗi phiên. Cập nhật khi xong một giai đoạn hoặc có thay đổi quan trọng (quy tắc trong `CLAUDE.md`).
 
 **Cập nhật lần cuối:** 17/11/2026
-**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · 🔄 Chuẩn bị AWS **chờ người dùng** (account đã tạo, chưa đăng nhập CLI) · chưa tạo tài nguyên AWS nào
-**Giai đoạn kế tiếp:** trong lúc AWS chưa dùng được: kind + Kyverno + Policy 1 + RBAC/manifest (mục 10–11); khi có AWS: đăng nhập (mục 4) → spike (mục 6)
+**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · 🔄 Chuẩn bị AWS **chờ người dùng** (account đã tạo, chưa đăng nhập CLI) · chưa tạo tài nguyên AWS nào
+**Giai đoạn kế tiếp:** trong lúc AWS chưa dùng được: job `verify` + `policy-test` (mục 9); khi có AWS: đăng nhập (mục 4) → spike (mục 6)
 
 ## ⏸ Điểm dừng (17/11/2026) — làm tiếp từ đây
 
@@ -14,7 +14,7 @@
 3. Trong WSL: `aws configure sso` (region mặc định `ap-southeast-1`, profile gợi ý `devsecops`) → `aws sts get-caller-identity --profile devsecops`.
 4. Báo lại **tên profile** cho Claude.
 
-**Đổi thứ tự (người dùng đồng ý 17/11/2026):** account AWS tạm chưa dùng được → làm trước phần không phụ thuộc AWS, theo thứ tự: ~~(1) kiểm tra tương thích `kyverno-notation-aws` ↔ Kyverno 1.19.2~~ ✅ xong 17/11 (tự build, gate 0 Critical/0 High, `go test` đạt; chưa chạy trên cụm) → ~~(2) podinfo + Dockerfile + test~~ ✅ → ~~(3) scan local (Gitleaks, `image.tar`, Syft, Trivy)~~ ✅ xong 17/11 → **(5) tiếp theo:** kind + Kyverno + Policy 1 + RBAC/manifest → (4) job `verify` + `policy-test`. **Chưa làm** Policy 2, `publish`, OIDC, `wait-signature.sh` cho tới khi spike đạt.
+**Đổi thứ tự (người dùng đồng ý 17/11/2026):** account AWS tạm chưa dùng được → làm trước phần không phụ thuộc AWS, theo thứ tự: ~~(1) kiểm tra tương thích `kyverno-notation-aws` ↔ Kyverno 1.19.2~~ ✅ xong 17/11 (tự build, gate 0 Critical/0 High, `go test` đạt; chưa chạy trên cụm) → ~~(2) podinfo + Dockerfile + test~~ ✅ → ~~(3) scan local (Gitleaks, `image.tar`, Syft, Trivy)~~ ✅ xong 17/11 → ~~(5) kind + Kyverno + Policy 1 + RBAC/manifest~~ ✅ xong 17/11 → **(4) tiếp theo:** job `verify` + `policy-test`. **Chưa làm** Policy 2, `publish`, OIDC, `wait-signature.sh` cho tới khi spike đạt.
 
 Khi AWS dùng được, Claude làm: kiểm tra region hỗ trợ ECR Managed Signing → đặt biến mục 4.3 → spike mục 6.1 bước 1–3 (repo `podinfo` **chưa** bật signing rule → `D_unsigned` → `D_wrongsigner` ký bằng profile B). Chứng chỉ gốc AWS Signer đã tải và ghi fingerprint trong `docs/versions.md` (dùng ở bước 4).
 
@@ -64,8 +64,8 @@ Làm ngay sau phần chuẩn bị. Chưa qua tiêu chí 6.2 thì chưa làm pipe
 - [x] Giai đoạn 1 — podinfo, Dockerfile, test, scan local (mục 7). Làm trước spike vì AWS chưa dùng được (17/11/2026). podinfo 6.17.0 `fd3a834` → `app/` (`scripts/vendor-podinfo.sh`, nguồn gốc `docs/upstream.md`); `go test` đạt; image distroless `USER 65532:65532`, 50,6 MB (`image.tar` 12 MB); `/healthz` `/readyz` `/` HTTP 200, `/version` = 6.17.0/`fd3a834`, tiến trình chạy UID 65532; SBOM CycloneDX 1.7 (1032 component); Trivy (DB 16/11): **0 Critical**, HIGH=2 (`go-jose/v4` 4.1.5, `x/net` 0.61.0 — đều có bản vá, giữ nguyên upstream làm số liệu ban đầu), MEDIUM=1, UNKNOWN=4; Gitleaks sạch với `.gitleaks.toml` (3 dương tính giả upstream allowlist cấp rule, đã kiểm chứng không che secret khác). Bằng chứng: `reports/podinfo/` (không commit).
 - [ ] Giai đoạn 2 — hoàn thiện AWS/IAM: lifecycle, ma trận quyền, OIDC, `wait-signature.sh` (mục 8).
 - [ ] Giai đoạn 3 — pipeline: `verify`, `policy-test`, `publish`, branch protection (mục 9).
-- [ ] Giai đoạn 4 — triển khai: namespace, pull secret, RBAC, manifest, `deploy.sh` (mục 10).
-- [ ] Giai đoạn 5 — Policy 1 + Policy 2 hoàn chỉnh, test offline (mục 11).
+- [ ] Giai đoạn 4 — triển khai: namespace, pull secret, RBAC, manifest, `deploy.sh` (mục 10). **Đã xong 17/11:** `scripts/cluster-up.sh` (kind v1.35.8 + Kyverno chart 3.9.2 qua OCI, kiểm SHA-256), `k8s/namespaces.yaml`, `k8s/rbac.yaml` (`scripts/check-rbac.sh`: 14/14 đúng), `k8s/deployment.template.yaml` + `service.yaml` (thử với image local ở namespace tạm: 2/2 Running, UID 65532, roFS, `/healthz` 200, ghi `/data` 202). **Còn:** pull secret ECR (`refresh-lab-credentials.sh`), `deploy.sh` (cần `release.json`).
+- [ ] Giai đoạn 5 — Policy 1 + Policy 2 hoàn chỉnh, test offline (mục 11). **Policy 1 xong 17/11:** `policies/allowed-image.template.yaml` (CEL, siết thêm 64 hex sau `@sha256:`), test offline 6/6 (`scripts/policy-test.sh`, đã thử đảo kỳ vọng → fail đúng); trên cụm (`scripts/test-policy1-cluster.sh`, ECR_IMAGE giả `111122223333`): TC05/TC07/TC08 bị từ chối, đối chứng + namespace ngoài phạm vi cho qua, Deployment vi phạm bị từ chối ngay khi apply (autogen). **Còn:** chạy lại với ECR_IMAGE thật; Policy 2 (sau spike).
 - [ ] Giai đoạn 6 — TC01–TC05 bắt buộc, TC06–TC10 nếu kịp; đo đạc, thu bằng chứng (mục 12).
 - [ ] Báo cáo, slide, video dự phòng, README dựng lại (mục 15–16); thu dọn AWS (mục 17); checklist (mục 18).
 
@@ -73,7 +73,8 @@ Làm ngay sau phần chuẩn bị. Chưa qua tiêu chí 6.2 thì chưa làm pipe
 
 Các điểm kế hoạch ghi là "mẫu, cần đối chiếu":
 
-- `apiVersion` của `ValidatingPolicy` trên bản cài; schema `kyverno-test.yaml` cho `ValidatingPolicy`.
+- ~~`apiVersion` của `ValidatingPolicy` trên bản cài; schema `kyverno-test.yaml` cho `ValidatingPolicy`~~ ✅ 17/11: `policies.kyverno.io/v1`; `results[]` cần `isValidatingPolicy: true`.
+- Ghi nhận hành vi thật (cho báo cáo, 17/11): webhook `vpol.validate.kyverno.svc-fail` (failurePolicy Fail); bằng chứng deny = stderr + exit code + event `PolicyViolation … fail (blocked)` gắn trên `ValidatingPolicy/allowed-image` ở namespace `default` (không nằm ở namespace của Pod); log admission mức `--v=2` mặc định **không** ghi từng lần deny; Deployment vi phạm bị chặn ngay (autogen), không có `FailedCreate`.
 - Schema output của `describe-image-signing-status`.
 - Dạng claim `sub` OIDC thực tế của repo.
 - Release `kyverno-notation-aws` tương thích Kyverno 1.19.2; gỡ phần attestation minh họa trong mẫu policy.
@@ -90,3 +91,4 @@ Các điểm kế hoạch ghi là "mẫu, cần đối chiếu":
 <!-- Mẫu một dòng nhật ký: | dd/mm/yyyy | Giai đoạn · việc đã xong · bằng chứng (đường dẫn) · vấn đề còn mở | -->
 | 17/11/2026 | AWS tạm chưa dùng được → người dùng đồng ý làm trước phần không phụ thuộc AWS. Đánh giá `kyverno-notation-aws`: release `v1.1` có 6 Critical/80 High (Trivy, DB 16/11), repo sắp archive. Người dùng chọn **tự build từ `main@58b210b`**: `scripts/build-notation-ext.sh` (builder Go 1.26.10 + runtime ghim digest, vá `x/net`/`go-jose`) → 0 Critical/0 High, `go test` đạt; bằng chứng `reports/notation-ext/` (không commit). Chi tiết `docs/versions.md` mục 2b. |
 | 17/11/2026 | Giai đoạn 1 xong (trước spike): podinfo 6.17.0 vào `app/`, `Dockerfile` (builder Go 1.27.4 + distroless ghim digest, UID 65532), `.dockerignore`, `.gitleaks.toml` (rule `DEMO_SECRET_`, allowlist cấp rule cho 3 dương tính giả upstream — allowlist toàn cục bị loại vì bỏ qua cả file). Sửa `.gitignore`: `*token*` đã chặn nhầm 7 file nguồn podinfo → thêm ngoại lệ `!app/**/*token*`. Số liệu ban đầu: 0 Critical, 2 High. |
+| 17/11/2026 | Giai đoạn 4–5 phần không cần AWS: cụm kind `devsecops` (K8s v1.35.8) + Kyverno 1.19.2 (chart 3.9.2 qua OCI ghcr.io vì `kyverno.github.io` timeout; kiểm SHA-256 chart). Policy 1 CEL: test offline 6/6, trên cụm TC05/TC07/TC08 deny + đối chứng allow (ECR_IMAGE giả, chưa có AWS). RBAC deployer 14/14. Manifest chạy được với image local. Bằng chứng `reports/admission/20261117T042150Z/` (không commit). |

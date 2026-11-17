@@ -1,0 +1,17 @@
+apiVersion: cli.kyverno.io/v1alpha1
+kind: Test
+metadata:
+  name: allowed-image
+policies: [allowed-image.yaml]
+resources: [resources.yaml]
+results:
+  - policy: allowed-image
+    isValidatingPolicy: true
+    kind: Pod
+    resources: [tc-ok]
+    result: pass
+  - policy: allowed-image
+    isValidatingPolicy: true
+    kind: Pod
+    resources: [tc-wrong-account, tc-tag-only, tc-bad-init, tc-bad-digest, tc-similar-repo]
+    result: fail

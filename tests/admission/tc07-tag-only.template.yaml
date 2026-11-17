@@ -1,0 +1,11 @@
+# TC07 — đúng repository nhưng dùng tag thay vì digest → Policy 1 phải từ chối. Render: envsubst '${ECR_IMAGE}'.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tc07-tag-only
+  namespace: demo
+  labels: { tc: tc07 }
+spec:
+  containers:
+    - name: app
+      image: ${ECR_IMAGE}:latest
