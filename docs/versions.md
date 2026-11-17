@@ -52,6 +52,37 @@ Hệ quả cho đồ án:
 - Giữ nguyên quyết định ghim **Kyverno 1.19.2 / chart 3.9.2** (17/11/2026: vẫn là bản vá mới nhất của nhánh 1.19). Nâng lên 1.20 là thay đổi công cụ → phải hỏi người dùng và thử lại tương thích extension.
 - Từ 1.18, Kyverno theo mô hình hỗ trợ N-1 ("main + 1"): bản minor hiện tại và bản ngay trước nhận bản vá cộng đồng, chỉ cho CVE critical/high và lỗi nghiêm trọng ([thông báo 1.18](https://kyverno.io/blog/2026/04/24/announcing-kyverno-release-1.18/), mục "Updated Support Policy"). Khi 1.20.0 phát hành, 1.19 vẫn được vá cho tới khi 1.21 ra rồi mới hết hỗ trợ → ghi vào phần "Giới hạn" của báo cáo.
 
+### 2b. `kyverno-notation-aws` — đánh giá ngày 17/11/2026
+
+**Đã chốt (người dùng chọn 17/11/2026): tự build từ `main`** bằng `scripts/build-notation-ext.sh`.
+
+| Bản dùng cho đồ án | Giá trị |
+|---|---|
+| Upstream commit | `58b210b446590eb079b1c84245cacd4a434e8a36` |
+| Builder | `golang:1.26.10-alpine3.24@sha256:87c65a688975c0b1d4585d204874c45ca78354670e3a5f11368c5a492303d696` |
+| Runtime | `gcr.io/distroless/static:nonroot@sha256:aafe993665bf6200db38a02c11a9351e782a84b6a45e7f33b6695638c88e3931` |
+| Vá cục bộ | `golang.org/x/net` 0.58.0 → 0.62.0, `go-jose/v4` 4.1.4 → 4.1.6 (kéo theo `x/crypto` 0.58.0, `x/sys` 0.49.0, `x/text` 0.43.0, `x/term` 0.47.0, `x/sync` 0.24.0, `x/mod` 0.41.0); runtime ghim digest. Diff đầy đủ: `reports/notation-ext/local.patch` |
+| Kiểm tra | `go vet ./...` + `go test ./...` đạt (17/11/2026) |
+| Image | `local/kyverno-notation-aws:58b210b-p1`, image ID `sha256:6835bbfd7b4947f6f7c7335f3a15af5b215d5737e19de466cd1bd1d1b75b2480` (build có thể không tái lập từng byte; ghi lại ID mỗi lần build) |
+| Trivy 0.76.2, DB 16/11/2026 | **CRITICAL=0, HIGH=0**, MEDIUM=2, UNKNOWN=2 — gate đạt |
+
+Chi tiết đánh giá:
+
+Nguồn: clone `github.com/nirmata/kyverno-notation-aws` (HEAD `main` = `58b210b446590eb079b1c84245cacd4a434e8a36`, 06/11/2026), GitHub Releases, PR #488/#493/#496.
+
+| Điểm | Kết quả |
+|---|---|
+| Release chính thức mới nhất | **`v1.1`** (06/01/2025); trước đó `v1` (11/2023). Các bản `v1.2.0`–`v1.2.2` **đã bị gỡ** (PR #496, 21/09/2026) |
+| Trạng thái repo | Chưa archive (`archived: false`, push gần nhất 14/11/2026) nhưng PR #496 ghi rõ đang chuẩn bị **archive**, khuyên dùng "successor repository" — **chưa tìm thấy tên repo kế nhiệm** (không có trong org `nirmata`) |
+| Image `v1.1` | `ghcr.io/nirmata/kyverno-notation-aws@sha256:881e40db6132f2dfd58f59a344e6a115da5caa15a7aa192b4ba7f706a058634e`; Trivy 0.76.2, DB 16/11/2026: **CRITICAL=6, HIGH=80, MEDIUM=81, LOW=11, UNKNOWN=6** (CVE duy nhất). Build bằng Go 1.22.3, thư viện Kyverno v1.12.1 (theo #488) |
+| Nhánh `main` | Đã vá CVE (Go 1.26.8, `kyverno v1.19.1`, `kyverno-notation-verifier v1.1.0`, build AWS Signer plugin từ source) nhưng **không có artifact phát hành** → muốn dùng phải tự build |
+| Tự build `main@58b210b` (Dockerfile gốc, `linux/amd64`) | Image ID `sha256:8dfa24b108a820fb0e3d12aab6fcb5d7ccd0a5aeddab371705a80ff96a6438f4`; Trivy 0.76.2, DB 16/11/2026: **CRITICAL=0, HIGH=6**, MEDIUM=14, LOW=1, UNKNOWN=2. Cả 6 HIGH đều có bản vá: stdlib Go 1.26.8 → 1.26.10 (CVE-2026-111943, -78667, -78669, -97031; đổi được qua build-arg `BUILDER_IMAGE`), `golang.org/x/net` 0.58.0 → 0.62.0 (CVE-2026-78661, -78669), `go-jose/v4` 4.1.4 → 4.1.6 (CVE-2026-116587) |
+| 6 CRITICAL của `v1.1` | CVE-2024-24790, CVE-2025-68121 (stdlib 1.22.3); CVE-2024-41110 (docker 25.0.5); CVE-2026-22039, GHSA-gg4x-fgg2-h9w9 (kyverno 1.12.1); CVE-2026-33186 (grpc 1.62.1) |
+| Giao diện với Kyverno | `ClusterPolicy` + `context.apiCall` (đọc Secret TLS, POST tới service). Kyverno 1.19.2 vẫn có `ClusterPolicy` → về lý thuyết tương thích; **chưa chạy thử trên cụm** |
+| Yêu cầu ghi trong README | Kyverno ≥ 1.11.0 |
+
+Ghi chú mạng: tải Trivy DB từ `mirror.gcr.io` (mặc định) bị ngắt kết nối; `--db-repository ghcr.io/aquasecurity/trivy-db:2` tải được.
+
 ## 3. Lệnh kiểm tra lại
 
 ```bash

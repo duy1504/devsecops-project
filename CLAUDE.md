@@ -12,6 +12,7 @@ Bộ nhớ dự án, nạp tự động mỗi phiên. Chỉ giữ thông tin c�
 6. `KE_HOACH_DO_AN_FINAL.md` là **tài liệu gốc**: chỉ tham chiếu, chỉ sửa khi người dùng yêu cầu. Phiên bản và hash ghi vào `docs/versions.md`.
 7. Trả lời bằng **tiếng Việt**. Lệnh nhiều dòng trong kế hoạch là **Bash trên WSL2 Ubuntu**, không dán vào PowerShell (`C:\Teo\DevOps` = `/mnt/c/Teo/DevOps`).
 8. Không ghi token, access key, kubeconfig hay secret thật vào file/commit. Số liệu trong báo cáo chỉ lấy từ thực nghiệm thật.
+9. **GitHub trên máy này:** chạy fetch/push trong PowerShell tại `C:\Teo\DevOps`. Repo đã cấu hình `credential.https://github.com.helper` dùng Git Credential Manager của Git for Windows; Git MSYS2 cũng dùng được. Nếu cần gọi trực tiếp: `& 'C:\Program Files\Git\cmd\git.exe' push origin main`. Không chạy Git remote của repo này bằng Git Linux trong WSL vì helper đang dùng đường dẫn Windows. Khi lỗi xác thực, kiểm tra `git push --dry-run origin main` trong môi trường có quyền mạng trước khi nhờ người dùng push; không đọc/in token. Đã kiểm tra dry-run thành công ngày 17/11/2026; đây không phải push thật.
 
 ## Tài liệu
 
@@ -46,7 +47,7 @@ Hai bản nháp `KE_HOACH_DO_AN.md`, `KE_HOACH_DO_AN_DEVSECOPS.md` (nhắc ở �
 | Secret / SBOM / CVE | Gitleaks / Syft CLI / Trivy |
 | Registry, ký | ECR private repo `podinfo` (tag IMMUTABLE), region đề xuất `ap-southeast-1` (cần xác nhận hỗ trợ Managed Signing); AWS Signer platform `Notation-OCI-SHA384-ECDSA` |
 | Kubernetes | kind cho phát triển và demo chính; EKS chỉ là mở rộng |
-| Admission | Kyverno 1.19.x (hiện ghim v1.19.2 / chart 3.9.2, nguồn chuẩn là `docs/versions.md`) + `kyverno-notation-aws`; phương án lùi B (Kyverno native) → C (Ratify + Gatekeeper) |
+| Admission | Kyverno 1.19.x (hiện ghim v1.19.2 / chart 3.9.2, nguồn chuẩn là `docs/versions.md`) + `kyverno-notation-aws` **tự build từ source** (`scripts/build-notation-ext.sh`, commit ghim, gate 0 Critical; release `v1.1` có 6 Critical, repo sắp archive); phương án lùi B (Kyverno native) → C (Ratify + Gatekeeper) |
 | Image | Một kiến trúc `linux/amd64` |
 | Triển khai | `scripts/deploy.sh` trên máy có cụm; job `deploy` chỉ dùng khi có EKS |
 | Namespace | `app` (workload), `demo` (ca kiểm thử) |
@@ -76,3 +77,4 @@ Mở rộng: TC06 sai người ký · TC07 tag thay digest · TC08 init containe
 - Managed Signing ký mọi image push vào repo khớp filter; "chỉ image đạt mới được ký" dựa vào pipeline và quyền push.
 - Kyverno hỗ trợ N-1 (từ 1.18): 1.19 còn được vá CVE critical/high khi 1.20 ra, hết hỗ trợ khi 1.21 ra.
 - Admission không gỡ Pod đã chạy; chữ ký image không ký SBOM.
+- `kyverno-notation-aws` không có bản phát hành sạch CVE và upstream sắp archive → đồ án tự build từ `main` (ghim commit, có bản vá cục bộ).

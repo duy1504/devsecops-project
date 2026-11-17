@@ -4,7 +4,7 @@
 
 **Cập nhật lần cuối:** 17/11/2026
 **Trạng thái:** ✅ Lập kế hoạch hoàn thành · 🔄 Chuẩn bị môi trường **đang làm** (repo GitHub, WSL/Docker, công cụ đã xong; AWS account đã tạo nhưng chưa đăng nhập CLI) · chưa có code ứng dụng, chưa tạo tài nguyên AWS nào
-**Giai đoạn kế tiếp:** hoàn tất đăng nhập AWS (mục 4) → spike đường găng (mục 6)
+**Giai đoạn kế tiếp:** trong lúc AWS chưa dùng được: podinfo + Dockerfile (mục 7); khi có AWS: đăng nhập (mục 4) → spike (mục 6)
 
 ## ⏸ Điểm dừng (17/11/2026) — làm tiếp từ đây
 
@@ -14,7 +14,9 @@
 3. Trong WSL: `aws configure sso` (region mặc định `ap-southeast-1`, profile gợi ý `devsecops`) → `aws sts get-caller-identity --profile devsecops`.
 4. Báo lại **tên profile** cho Claude.
 
-Sau đó Claude làm: kiểm tra region hỗ trợ ECR Managed Signing → đặt biến mục 4.3 → spike mục 6.1 bước 1–3 (repo `podinfo` **chưa** bật signing rule → `D_unsigned` → `D_wrongsigner` ký bằng profile B). Chứng chỉ gốc AWS Signer đã tải và ghi fingerprint trong `docs/versions.md` (dùng ở bước 4).
+**Đổi thứ tự (người dùng đồng ý 17/11/2026):** account AWS tạm chưa dùng được → làm trước phần không phụ thuộc AWS, theo thứ tự: ~~(1) kiểm tra tương thích `kyverno-notation-aws` ↔ Kyverno 1.19.2~~ ✅ xong 17/11 (tự build, gate 0 Critical/0 High, `go test` đạt; chưa chạy trên cụm) → **(2) tiếp theo:** podinfo + Dockerfile + test → (3) scan local (Gitleaks, `image.tar`, Syft, Trivy) → (5) kind + Kyverno + Policy 1 + RBAC/manifest → (4) job `verify` + `policy-test`. **Chưa làm** Policy 2, `publish`, OIDC, `wait-signature.sh` cho tới khi spike đạt.
+
+Khi AWS dùng được, Claude làm: kiểm tra region hỗ trợ ECR Managed Signing → đặt biến mục 4.3 → spike mục 6.1 bước 1–3 (repo `podinfo` **chưa** bật signing rule → `D_unsigned` → `D_wrongsigner` ký bằng profile B). Chứng chỉ gốc AWS Signer đã tải và ghi fingerprint trong `docs/versions.md` (dùng ở bước 4).
 
 ## Đã hoàn thành
 
@@ -30,6 +32,7 @@ Sau đó Claude làm: kiểm tra region hỗ trợ ECR Managed Signing → đặ
 - Làm **cá nhân**.
 - Repo code: đặt ngay trong `C:\Teo\DevOps`.
 - AWS: dùng **account lab riêng** (signing configuration ở cấp registry, dễ thu dọn).
+- **Extension `kyverno-notation-aws`: tự build từ source** (người dùng chọn 17/11/2026). Lý do: release chính thức mới nhất `v1.1` có 6 CVE Critical, repo sắp archive; nhánh `main` đã vá nhưng không phát hành. Build bằng `scripts/build-notation-ext.sh`: ghim commit `58b210b`, builder `golang:1.26.10-alpine3.24` và runtime distroless theo digest, vá thêm `x/net` 0.62.0 + `go-jose/v4` 4.1.6, gate 0 Critical. Ghi vào phần "Giới hạn" của báo cáo: dùng bản không phát hành chính thức, upstream sắp ngừng bảo trì.
 
 ## Việc tiếp theo (đúng thứ tự kế hoạch)
 
@@ -82,5 +85,7 @@ Các điểm kế hoạch ghi là "mẫu, cần đối chiếu":
 |---|---|
 | 04/11/2026 | Hoàn thành kế hoạch cuối; xác minh phiên bản Kyverno/Syft; tạo `CLAUDE.md`, `PROGRESS.md`. Chưa triển khai. |
 | 17/11/2026 | Chốt 4 quyết định: lịch tuần tự, kind, cá nhân, repo trong `C:\Teo\DevOps`, AWS account lab riêng. Kiểm tra Kyverno: v1.20.0 đã ra, vẫn còn CRD `ClusterPolicy`; giữ ghim 1.19.2. Repo git nối GitHub, đã push. AWS account (Paid plan) đã tạo. Cài 11 công cụ trong WSL bằng `scripts/install-tools.sh` (commit `1fd35f4`). Tạm dừng: chờ người dùng bật MFA/Budgets/SSO và chạy `aws configure sso`. |
+| 17/11/2026 | Sửa xác thực GitHub cho agent: cấu hình helper riêng repo trỏ Git Credential Manager của Git for Windows. Git MSYS2 chạy `git push --dry-run origin main` thành công, dự kiến đẩy `1fd35f4..29ef59e`; chưa push thật. Ghi cách dùng PowerShell và giới hạn helper Windows trong `CLAUDE.md`. |
 
 <!-- Mẫu một dòng nhật ký: | dd/mm/yyyy | Giai đoạn · việc đã xong · bằng chứng (đường dẫn) · vấn đề còn mở | -->
+| 17/11/2026 | AWS tạm chưa dùng được → người dùng đồng ý làm trước phần không phụ thuộc AWS. Đánh giá `kyverno-notation-aws`: release `v1.1` có 6 Critical/80 High (Trivy, DB 16/11), repo sắp archive. Người dùng chọn **tự build từ `main@58b210b`**: `scripts/build-notation-ext.sh` (builder Go 1.26.10 + runtime ghim digest, vá `x/net`/`go-jose`) → 0 Critical/0 High, `go test` đạt; bằng chứng `reports/notation-ext/` (không commit). Chi tiết `docs/versions.md` mục 2b. |
