@@ -3,10 +3,18 @@
 Đọc file này đầu mỗi phiên. Cập nhật khi xong một giai đoạn hoặc có thay đổi quan trọng (quy tắc trong `CLAUDE.md`).
 
 **Cập nhật lần cuối:** 17/11/2026
-**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · 🔄 Chuẩn bị AWS **chờ người dùng** (account đã tạo, chưa đăng nhập CLI) · chưa tạo tài nguyên AWS nào
-**Giai đoạn kế tiếp:** người dùng `gh auth login` → Claude mở PR `ci/sarif-upload`, xác nhận 2 check chạy trên `pull_request` → người dùng bật branch protection (bắt PR, 0 approval, required `verify` + `policy-test`, không bypass; từ đây mọi thay đổi qua PR) → thử TC02/TC03 qua PR; khi có AWS: đăng nhập (mục 4) → spike (mục 6)
+**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ⏸ branch protection **chưa bật** (người dùng tạm hoãn) · 🔄 Chuẩn bị AWS **chờ người dùng** · chưa tạo tài nguyên AWS nào
+**Giai đoạn kế tiếp:** người dùng bật branch protection → Claude kiểm qua API, merge PR #1, thử push thẳng `main` (phải bị từ chối) → thử TC02/TC03 qua PR; khi có AWS: đăng nhập (mục 4) → spike (mục 6)
 
-## ⏸ Điểm dừng (17/11/2026) — làm tiếp từ đây
+## ⏸ Điểm dừng (17/11/2026, chiều) — làm tiếp từ đây
+
+**Trạng thái repo/máy lúc dừng:**
+- Repo GitHub **public**; `gh` 2.104.0 đã cài và người dùng đã `gh auth login` (đường dẫn `%LOCALAPPDATA%\Programs\gh\bin\gh.exe`; trong Bash gọi `"$LOCALAPPDATA/Programs/gh/bin/gh.exe"`).
+- **PR #1** `ci/sarif-upload` → `main` (thêm lại upload SARIF + cập nhật tài liệu): mở, 3 check xanh (`verify`, `policy-test`, `Trivy` của Code Scanning), **chưa merge**. Bản `PROGRESS.md` mới nhất nằm trên nhánh này; `main` (`9840b23`) còn bản cũ hơn.
+- **Branch protection chưa bật** — người dùng tạm hoãn. Cấu hình đã thống nhất: classic rule cho `main`, bắt PR, 0 approval, required `verify` + `policy-test` (không thêm `Trivy`), up to date, không bypass, cấm force push/xóa. Từ khi bật: mọi thay đổi (kể cả `PROGRESS.md`) phải qua PR.
+- Lịch sử commit đã viết lại (bỏ đồng tác giả Claude). Nhánh sao lưu **chỉ ở local**: `backup/main-before-rewrite`, `backup/sarif-before-rewrite` — xóa khi người dùng xác nhận ổn. Từ nay commit/PR không ghi công Claude.
+- Cụm kind `devsecops` còn đang chạy (Kyverno 1.19.2 + Policy 1 với ECR_IMAGE giả). Giải phóng RAM: `kind delete cluster --name devsecops`; dựng lại: `bash scripts/cluster-up.sh` rồi `ECR_IMAGE=... bash scripts/apply-policies.sh`.
+- Chưa làm (không cần AWS): fixture TC03 `demo/Dockerfile.vulnerable`, kịch bản TC02 (nhánh demo `DEMO_SECRET_`, không merge).
 
 Đang chờ **người dùng** làm trên AWS (Claude không xử lý credential):
 1. Xác nhận: MFA cho root, AWS Budgets (~10 USD), user riêng dùng hằng ngày (không dùng root).
@@ -96,3 +104,4 @@ Các điểm kế hoạch ghi là "mẫu, cần đối chiếu":
 | 17/11/2026 | Run CI đầu tiên xanh (run 44024593626/2, commit `e66dca7` — SHA lúc chạy `7aa3cba`): verify + policy-test đạt, Critical 0 / High 2, SBOM 1032 component. Branch protection chưa bật: repo private trên GitHub Free không hỗ trợ — chờ người dùng chọn cách. |
 | 17/11/2026 | Repo chuyển public (người dùng). Cài GitHub CLI 2.104.0 trên Windows (zip chính thức, kiểm SHA-256). Nhánh `ci/sarif-upload`: thêm lại upload SARIF (codeql-action v4.39.3 ghim SHA). Chờ người dùng `gh auth login` để mở PR. |
 | 17/11/2026 | **Viết lại lịch sử commit** (người dùng yêu cầu bỏ Claude khỏi đồng tác giả): xóa trailer `Co-Authored-By: Claude` ở cả 10 commit bằng `git filter-branch --msg-filter`, nội dung file không đổi (diff rỗng so với bản sao lưu), force push `main` + `ci/sarif-upload` có `--force-with-lease`, trước khi bật branch protection. Mã commit đổi (cũ → mới): 88cda11→b5be5d5, dd33de8→d4ae7c1, 1fd35f4→590e8f6, 29ef59e→e2387fd, 115c9d0→2d69b17, 349667c→2518828, a7b9573→ed2dc0a, 7aa3cba→e66dca7, 7911581→9840b23, 1e47c84→dbe546f; đã thay trong file này. Run 44024593626 vẫn gắn với SHA cũ `7aa3cba` trên tab Actions. Từ nay commit/PR không ghi công Claude. |
+| 17/11/2026 | Tạm dừng theo yêu cầu người dùng. PR #1 xanh lại sau khi viết lại lịch sử (verify 1m25s, policy-test 15s, Trivy Code Scanning), `main` run 44032306665 xanh. Branch protection chưa bật. Trạng thái chi tiết ở mục "Điểm dừng". |
