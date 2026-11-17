@@ -113,7 +113,7 @@ kubectl -n kyverno get deploy -o jsonpath='{range .items[*]}{.metadata.name}{"  
 | `kyverno-notation-aws` (release/commit, image digest) | | | |
 | Trivy DB (thời điểm, mỗi lần scan làm bằng chứng) | | | |
 | eksctl (nếu dùng EKS) | | | |
-| Base image `golang:<GO_VERSION>-alpine@sha256:…` | | | |
-| Base image `gcr.io/distroless/static-debian12:nonroot@sha256:…` | | | |
-| podinfo (tag/commit upstream) | | | |
+| Base image builder | `golang:1.27.4-alpine@sha256:70bd7ddea8b6cbe5d6943cde279d6b67feb10cc924fb9100d1d8757c1575b280` (index) | `docker buildx imagetools inspect`; podinfo 6.17.0 yêu cầu `go 1.27.0` | 17/11/2026 |
+| Base image runtime | `gcr.io/distroless/static-debian12:nonroot@sha256:afa5c872c891853ca7fcf1f12c3edb23f7eeef36189728842dd51042ff57f7ab` (index) | `docker buildx imagetools inspect` | 17/11/2026 |
+| podinfo | tag `6.17.0`, commit `fd3a834ed8d14b80ea334cf8a2fddd4597924da6` | GitHub, chi tiết `docs/upstream.md` | 17/11/2026 |
 | GitHub Actions dùng trong workflow (commit SHA) | | | |

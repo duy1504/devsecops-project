@@ -1,0 +1,36 @@
+# Cấu hình Gitleaks của đồ án (kế hoạch mục 5, 9). Dùng chung cho local và CI.
+title = "devsecops-project"
+
+# Giữ toàn bộ rule mặc định của Gitleaks
+[extend]
+useDefault = true
+
+# Secret giả cho kiểm thử TC02: DEMO_SECRET_ + 32 hex. Chuỗi này chỉ xuất hiện trên nhánh demo, không merge vào main.
+[[rules]]
+id = "demo-secret"
+description = "Secret giả dùng cho ca kiểm thử TC02"
+regex = '''DEMO_SECRET_[0-9a-f]{32}'''
+keywords = ["DEMO_SECRET_"]
+
+# Dương tính giả trong mã podinfo upstream (kiểm tra 17/11/2026, podinfo 6.17.0):
+# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 = base64 của {"alg":"HS256","typ":"JWT"} — header JWT công khai,
+# podinfo dùng làm giá trị mặc định của cờ demo --jwt-secret và trong token mẫu của test.
+# Allowlist đặt ở CẤP RULE (bổ sung vào rule mặc định cùng id), điều kiện AND: chỉ bỏ qua khi đúng file VÀ
+# khớp đúng chuỗi. Không dùng allowlist toàn cục: thử nghiệm cho thấy `paths` toàn cục bỏ qua cả file.
+[[rules]]
+id = "generic-api-key"
+[[rules.allowlists]]
+description = "podinfo upstream: header JWT công khai làm giá trị mặc định / test"
+condition = "AND"
+paths = ['''^app/cmd/podinfo/main\.go$''', '''^app/pkg/api/grpc/token_test\.go$''']
+regexTarget = "secret"
+regexes = ['''^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9$''']
+
+[[rules]]
+id = "jwt"
+[[rules.allowlists]]
+description = "podinfo upstream: JWT mẫu trong test token không hợp lệ"
+condition = "AND"
+paths = ['''^app/pkg/api/http/token_test\.go$''']
+regexTarget = "secret"
+regexes = ['''^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\.''']

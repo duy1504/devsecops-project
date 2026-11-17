@@ -1,0 +1,24 @@
+# Chỉ cần app/ cho build. Không loại nhầm source hay go.sum.
+.git
+.github
+.claude
+.env
+.env.*
+*.pem
+*.key
+*.tar
+*.tar.sha256
+image.id
+reports/
+release/
+policies/rendered/
+docs/
+policies/
+infra/
+k8s/
+tests/
+demo/
+scripts/
+*.md
+!app/**/*.md
+Dự kiến.txt
