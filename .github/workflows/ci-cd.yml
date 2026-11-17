@@ -68,9 +68,12 @@ jobs:
 
       - name: Secret scan (Gitleaks, toàn lịch sử)
         id: gitleaks
+        # --log-opts=HEAD: quét TOÀN BỘ lịch sử đi tới được từ commit đang kiểm tra (với PR là merge ref).
+        # Không quét mọi ref: checkout fetch-depth 0 tải cả nhánh khác, mặc định gitleaks sẽ bắt secret của
+        # nhánh không liên quan và làm fail mọi PR (đã gặp 18/11/2026: run TC03 fail vì commit của nhánh TC02).
         run: |
           mkdir -p reports
-          gitleaks git . --config .gitleaks.toml --redact --no-banner \
+          gitleaks git . --config .gitleaks.toml --redact --no-banner --log-opts=HEAD \
             --report-format json --report-path reports/gitleaks.json
 
       - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069  # v4.4.1
