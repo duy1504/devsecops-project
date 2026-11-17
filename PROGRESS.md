@@ -4,20 +4,23 @@
 
 **Cập nhật lần cuối:** 18/11/2026
 **Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ✅ branch protection `main` (18/11) · ✅ TC02 + TC03 trên CI (18/11) · ✅ `docs/test-results.md` + `docs/evidence/` (18/11) · 🔄 Chuẩn bị AWS **chờ người dùng** · chưa tạo tài nguyên AWS nào
-**Giai đoạn kế tiếp:** **chờ AWS**: đăng nhập (mục 4) → spike (mục 6). Phần không cần AWS còn lại là tùy chọn (viết phần lý thuyết báo cáo, `docs/architecture.md`).
+**Giai đoạn kế tiếp:** **chờ AWS** — người dùng bật MFA/Budgets, `aws configure sso`, báo tên profile → Claude kiểm region hỗ trợ Managed Signing, đặt biến mục 4.3 → spike mục 6 (tạo fixture `D_unsigned`, `D_wrongsigner` **trước** khi bật signing rule).
 
-## ⏸ Điểm dừng — làm tiếp từ đây
+## ⏸ Điểm dừng (18/11/2026, tối) — làm tiếp từ đây
 
-**Trạng thái repo/máy (18/11/2026):**
-- Repo GitHub **public**; `gh` 2.104.0 đã đăng nhập (`%LOCALAPPDATA%\Programs\gh\bin\gh.exe`; trong Bash gọi `"$LOCALAPPDATA/Programs/gh/bin/gh.exe"`).
-- **Branch protection `main` đã bật** (người dùng, 18/11), đã kiểm qua API: bắt PR, 0 approval, required `verify` + `policy-test`, strict up to date, `enforce_admins` = true, cấm force push/xóa. Secret scanning + push protection bật. Push thẳng `main` bị từ chối (GH006, exit 1). Bằng chứng `reports/github/20261117T170531Z/`. **Mọi thay đổi (kể cả `PROGRESS.md`) phải qua PR.**
-- PR #1 đã merge (`a3a3b5c`); PR #2 (fixture TC03 + `demo/commands.md`) đã merge (`9d1e3bd`).
-- **TC02 đạt (18/11, PR #4, run 44134429165):** Gitleaks `leaks found: 1`, rule `demo-secret`, file `demo/leak.env.example` dòng 1, commit `ce1c904`, giá trị REDACTED; bước Gitleaks exit 1, build/scan sau đó bị skip; PR `BLOCKED`. Push protection GitHub không chặn chuỗi `DEMO_SECRET_` (đúng thiết kế). Đã đóng PR, xóa nhánh. Bằng chứng `reports/tc02/20261117T171512Z/`.
-- **TC03 lần 1 không hợp lệ (PR #3, run 44134407592):** fail ở Gitleaks chứ không ở gate — do checkout `fetch-depth: 0` tải mọi nhánh và `gitleaks git` mặc định quét mọi ref, nên bắt commit `ce1c904` của nhánh TC02. Kiểm local: mặc định 1 finding trên nhánh TC03 sạch; `--log-opts=HEAD` → 0 trên TC03, vẫn 1 trên TC02. Sửa bằng PR #5 (merge `f63af9f`); đã đóng PR #3. **Ghi vào báo cáo** như một lỗi thiết kế pipeline phát hiện nhờ thực nghiệm.
-- **TC03 đạt (18/11, PR #6, run 44135534522):** Gitleaks sạch, build/SBOM/scan chạy đủ, bước `GATE – no CRITICAL` in `Critical vulnerabilities: 4` → exit 1; Trivy 0.76.2, DB `2026-11-17T13:00:16Z`, OS alpine 3.14.0 (EOSL); CVE-2021-36159 apk-tools 2.12.5-r1→2.12.6-r0, CVE-2021-3711 libcrypto1.1/libssl1.1 1.1.1k-r0→1.1.1l-r0, CVE-2022-37434 zlib 1.2.11-r3→1.2.12-r2; PR `BLOCKED`; run **không** có artifact `approved-image-*`. Check `Trivy` của Code Scanning vẫn "pass" (không phải gate — đúng lý do không đưa vào required checks). Đã đóng PR, xóa nhánh. Bằng chứng `reports/tc03/20261117T172037Z/`.
-- Nhánh sao lưu **chỉ ở local**: `backup/main-before-rewrite`, `backup/sarif-before-rewrite` — xóa khi người dùng xác nhận ổn. Commit/PR không ghi công Claude.
-- Cụm kind `devsecops` (Kyverno 1.19.2 + Policy 1 với ECR_IMAGE giả): dựng lại bằng `bash scripts/cluster-up.sh` rồi `ECR_IMAGE=... bash scripts/apply-policies.sh` nếu máy đã khởi động lại. Docker Desktop phải chạy trước (WSL báo "docker could not be found" khi Docker Desktop tắt).
-- TC03: fixture `demo/Dockerfile.vulnerable` (runtime `alpine:3.14.0` ghim digest) — local gate exit 1 với 4 Critical. TC02/TC03: lệnh trong `demo/commands.md`.
+**Đã xong toàn bộ phần không cần AWS bắt buộc.** Kết quả kiểm thử tổng hợp ở `docs/test-results.md`, bằng chứng chọn lọc ở `docs/evidence/` (bản đầy đủ ở `reports/`, không commit).
+
+**Trạng thái repo/máy lúc dừng:**
+- `main` = `6b697b0` (PR #8). Không có PR đang mở, không còn nhánh demo/feature nào trên GitHub. Local đang ở `main`, sạch.
+- Repo **public**; `gh` 2.104.0 đã đăng nhập (`%LOCALAPPDATA%\Programs\gh\bin\gh.exe`; trong Bash gọi `"$LOCALAPPDATA/Programs/gh/bin/gh.exe"`).
+- **Branch protection `main`** (bật 18/11, kiểm qua API): bắt PR, 0 approval, required `verify` + `policy-test`, strict, `enforce_admins`, cấm force push/xóa; secret scanning + push protection bật. **Mọi thay đổi (kể cả `PROGRESS.md`) phải qua PR**: tạo nhánh → commit (tác giả `Duy Phan`, không ghi công Claude) → `gh pr create` → chờ 2 check → `gh pr merge --merge --delete-branch`.
+- Ca đã có bằng chứng: TC02 (PR #4), TC03 (PR #6), TC10 (kind), branch protection; TC05/TC07/TC08 đạt logic trên kind với `ECR_IMAGE` giả → chạy lại khi có ECR. Chi tiết trong `docs/test-results.md`.
+- Lỗi tìm ra nhờ thực nghiệm (đưa vào báo cáo): Gitleaks quét lây sang nhánh khác → sửa `--log-opts=HEAD` (PR #5); allowlist Gitleaks toàn cục bỏ qua cả file; `.gitignore` `*token*` chặn nhầm mã podinfo; extension bản phát hành có 6 Critical.
+- Nhánh sao lưu **chỉ ở local**: `backup/main-before-rewrite`, `backup/sarif-before-rewrite` — chờ người dùng xác nhận rồi xóa.
+- Cụm kind `devsecops` (Kyverno 1.19.2 + Policy 1 với ECR_IMAGE giả) vẫn tồn tại. Docker Desktop phải chạy trước (WSL báo "docker could not be found" khi Docker Desktop tắt); cụm tự lên lại khi Docker chạy. Dựng mới: `bash scripts/cluster-up.sh` rồi `ECR_IMAGE=... bash scripts/apply-policies.sh`.
+- Lệnh demo TC02/TC03/Policy 1: `demo/commands.md`. Fixture TC03 cần kiểm lại trước buổi bảo vệ (DB Trivy thay đổi).
+
+**Việc tùy chọn (không cần AWS), chờ người dùng chọn:** `docs/architecture.md` (quyết định + lý do, mục 3.4/5 kế hoạch); phác thảo chương lý thuyết báo cáo (mục 15); xóa nhánh `backup/*`.
 
 Đang chờ **người dùng** làm trên AWS (Claude không xử lý credential):
 1. Xác nhận: MFA cho root, AWS Budgets (~10 USD), user riêng dùng hằng ngày (không dùng root).
@@ -110,5 +113,6 @@ Các điểm kế hoạch ghi là "mẫu, cần đối chiếu":
 | 18/11/2026 | TC02 đạt trên CI (PR #4): Gitleaks chặn secret giả, PR BLOCKED; đóng PR, xóa nhánh. TC03 lần 1 (PR #3) không hợp lệ vì Gitleaks quét lây sang nhánh TC02 → sửa `--log-opts=HEAD` trong `ci-cd.yml` (nhánh `fix/gitleaks-scope`). Xóa nhánh đã merge trên remote. |
 | 18/11/2026 | Merge PR #5 (Gitleaks `--log-opts=HEAD`). TC03 đạt trên CI (PR #6): gate Trivy fail với 4 Critical, exit 1, PR BLOCKED, không có artifact approved-image; đóng PR, xóa nhánh. Hai ca CI bắt buộc (TC02, TC03) đã có bằng chứng thật. |
 | 18/11/2026 | Viết `docs/test-results.md` (kết luận từng ca TC01–TC10 theo trường mục 12.4, chỉ số mục 12.5) và chép bằng chứng chọn lọc vào `docs/evidence/` (90 file, 280 KB; Gitleaks quét sạch). Chạy lại Policy 1 trên kind 3 lượt (6/6 mỗi lượt, kiểm deny đúng do `allowed-image`, đo độ trễ). `check-rbac.sh` thêm 4 yêu cầu thật bằng impersonation → 4/4 Forbidden. Thêm `scripts/ci-metrics.sh`: 13 run verify thành công, job tb 117,6 s. |
+| 18/11/2026 | Merge PR #8 (`docs/test-results.md`, `docs/evidence/`, script đo). Dừng phiên theo yêu cầu người dùng: phần không cần AWS bắt buộc đã xong; chờ AWS để làm spike. |
 
 <!-- Mẫu một dòng nhật ký: | dd/mm/yyyy | Giai đoạn · việc đã xong · bằng chứng (đường dẫn) · vấn đề còn mở | -->
