@@ -2,19 +2,19 @@
 
 Đọc file này đầu mỗi phiên. Cập nhật khi xong một giai đoạn hoặc có thay đổi quan trọng (quy tắc trong `CLAUDE.md`).
 
-**Cập nhật lần cuối:** 17/11/2026
-**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ⏸ branch protection **chưa bật** (người dùng tạm hoãn) · 🔄 Chuẩn bị AWS **chờ người dùng** · chưa tạo tài nguyên AWS nào
-**Giai đoạn kế tiếp:** người dùng bật branch protection → Claude kiểm qua API, merge PR #1, thử push thẳng `main` (phải bị từ chối) → thử TC02/TC03 qua PR; khi có AWS: đăng nhập (mục 4) → spike (mục 6)
+**Cập nhật lần cuối:** 18/11/2026
+**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ✅ branch protection `main` (18/11) · 🔄 TC02/TC03 trên CI · 🔄 Chuẩn bị AWS **chờ người dùng** · chưa tạo tài nguyên AWS nào
+**Giai đoạn kế tiếp:** chạy TC02, TC03 qua PR demo (`demo/commands.md`) và thu bằng chứng; khi có AWS: đăng nhập (mục 4) → spike (mục 6)
 
-## ⏸ Điểm dừng (17/11/2026, chiều) — làm tiếp từ đây
+## ⏸ Điểm dừng — làm tiếp từ đây
 
-**Trạng thái repo/máy lúc dừng:**
-- Repo GitHub **public**; `gh` 2.104.0 đã cài và người dùng đã `gh auth login` (đường dẫn `%LOCALAPPDATA%\Programs\gh\bin\gh.exe`; trong Bash gọi `"$LOCALAPPDATA/Programs/gh/bin/gh.exe"`).
-- **PR #1** `ci/sarif-upload` → `main` (thêm lại upload SARIF + cập nhật tài liệu): mở, 3 check xanh (`verify`, `policy-test`, `Trivy` của Code Scanning), **chưa merge**. Bản `PROGRESS.md` mới nhất nằm trên nhánh này; `main` (`9840b23`) còn bản cũ hơn.
-- **Branch protection chưa bật** — người dùng tạm hoãn. Cấu hình đã thống nhất: classic rule cho `main`, bắt PR, 0 approval, required `verify` + `policy-test` (không thêm `Trivy`), up to date, không bypass, cấm force push/xóa. Từ khi bật: mọi thay đổi (kể cả `PROGRESS.md`) phải qua PR.
-- Lịch sử commit đã viết lại (bỏ đồng tác giả Claude). Nhánh sao lưu **chỉ ở local**: `backup/main-before-rewrite`, `backup/sarif-before-rewrite` — xóa khi người dùng xác nhận ổn. Từ nay commit/PR không ghi công Claude.
-- Cụm kind `devsecops` còn đang chạy (Kyverno 1.19.2 + Policy 1 với ECR_IMAGE giả). Giải phóng RAM: `kind delete cluster --name devsecops`; dựng lại: `bash scripts/cluster-up.sh` rồi `ECR_IMAGE=... bash scripts/apply-policies.sh`.
-- Chưa làm (không cần AWS): fixture TC03 `demo/Dockerfile.vulnerable`, kịch bản TC02 (nhánh demo `DEMO_SECRET_`, không merge).
+**Trạng thái repo/máy (18/11/2026):**
+- Repo GitHub **public**; `gh` 2.104.0 đã đăng nhập (`%LOCALAPPDATA%\Programs\gh\bin\gh.exe`; trong Bash gọi `"$LOCALAPPDATA/Programs/gh/bin/gh.exe"`).
+- **Branch protection `main` đã bật** (người dùng, 18/11), đã kiểm qua API: bắt PR, 0 approval, required `verify` + `policy-test`, strict up to date, `enforce_admins` = true, cấm force push/xóa. Secret scanning + push protection bật. Push thẳng `main` bị từ chối (GH006, exit 1). Bằng chứng `reports/github/20261117T170531Z/`. **Mọi thay đổi (kể cả `PROGRESS.md`) phải qua PR.**
+- PR #1 đã merge (`a3a3b5c`).
+- Nhánh sao lưu **chỉ ở local**: `backup/main-before-rewrite`, `backup/sarif-before-rewrite` — xóa khi người dùng xác nhận ổn. Commit/PR không ghi công Claude.
+- Cụm kind `devsecops` (Kyverno 1.19.2 + Policy 1 với ECR_IMAGE giả): dựng lại bằng `bash scripts/cluster-up.sh` rồi `ECR_IMAGE=... bash scripts/apply-policies.sh` nếu máy đã khởi động lại. Docker Desktop phải chạy trước (WSL báo "docker could not be found" khi Docker Desktop tắt).
+- TC03: fixture `demo/Dockerfile.vulnerable` (runtime `alpine:3.14.0` ghim digest) — local gate exit 1 với 4 Critical. TC02/TC03: lệnh trong `demo/commands.md`.
 
 Đang chờ **người dùng** làm trên AWS (Claude không xử lý credential):
 1. Xác nhận: MFA cho root, AWS Budgets (~10 USD), user riêng dùng hằng ngày (không dùng root).
@@ -30,7 +30,7 @@ Khi AWS dùng được, Claude làm: kiểm tra region hỗ trợ ECR Managed Si
 
 - [x] Đề cương `Dự kiến.txt`.
 - [x] Kế hoạch chi tiết `KE_HOACH_DO_AN_FINAL.md`: đã rà soát, sửa lỗi và chốt.
-- [x] `docs/versions.md`: xác minh ngày 04/11/2026 — Kyverno v1.19.2 / chart 3.9.2, Kyverno CLI v1.19.2 và Syft v1.56.0 (kèm SHA-256); đang theo dõi `v1.20.0-rc.1`.
+- [x] `docs/versions.md`: xác minh ngày 04/11/2026 — Kyverno v1.19.2 / chart 3.9.2, Kyverno CLI v1.19.2 và Syft v1.56.0 (kèm SHA-256); kiểm lại 17/11: `v1.20.0` đã phát hành, vẫn giữ ghim 1.19.2.
 - [x] Thiết lập bộ nhớ dự án: `CLAUDE.md`, `PROGRESS.md`.
 
 ## Quyết định đã chốt (17/11/2026)
@@ -95,8 +95,6 @@ Các điểm kế hoạch ghi là "mẫu, cần đối chiếu":
 | 04/11/2026 | Hoàn thành kế hoạch cuối; xác minh phiên bản Kyverno/Syft; tạo `CLAUDE.md`, `PROGRESS.md`. Chưa triển khai. |
 | 17/11/2026 | Chốt 4 quyết định: lịch tuần tự, kind, cá nhân, repo trong `C:\Teo\DevOps`, AWS account lab riêng. Kiểm tra Kyverno: v1.20.0 đã ra, vẫn còn CRD `ClusterPolicy`; giữ ghim 1.19.2. Repo git nối GitHub, đã push. AWS account (Paid plan) đã tạo. Cài 11 công cụ trong WSL bằng `scripts/install-tools.sh` (commit `590e8f6`). Tạm dừng: chờ người dùng bật MFA/Budgets/SSO và chạy `aws configure sso`. |
 | 17/11/2026 | Sửa xác thực GitHub cho agent: cấu hình helper riêng repo trỏ Git Credential Manager của Git for Windows. Git MSYS2 chạy `git push --dry-run origin main` thành công, dự kiến đẩy `590e8f6..e2387fd`; chưa push thật. Ghi cách dùng PowerShell và giới hạn helper Windows trong `CLAUDE.md`. |
-
-<!-- Mẫu một dòng nhật ký: | dd/mm/yyyy | Giai đoạn · việc đã xong · bằng chứng (đường dẫn) · vấn đề còn mở | -->
 | 17/11/2026 | AWS tạm chưa dùng được → người dùng đồng ý làm trước phần không phụ thuộc AWS. Đánh giá `kyverno-notation-aws`: release `v1.1` có 6 Critical/80 High (Trivy, DB 16/11), repo sắp archive. Người dùng chọn **tự build từ `main@58b210b`**: `scripts/build-notation-ext.sh` (builder Go 1.26.10 + runtime ghim digest, vá `x/net`/`go-jose`) → 0 Critical/0 High, `go test` đạt; bằng chứng `reports/notation-ext/` (không commit). Chi tiết `docs/versions.md` mục 2b. |
 | 17/11/2026 | Giai đoạn 1 xong (trước spike): podinfo 6.17.0 vào `app/`, `Dockerfile` (builder Go 1.27.4 + distroless ghim digest, UID 65532), `.dockerignore`, `.gitleaks.toml` (rule `DEMO_SECRET_`, allowlist cấp rule cho 3 dương tính giả upstream — allowlist toàn cục bị loại vì bỏ qua cả file). Sửa `.gitignore`: `*token*` đã chặn nhầm 7 file nguồn podinfo → thêm ngoại lệ `!app/**/*token*`. Số liệu ban đầu: 0 Critical, 2 High. |
 | 17/11/2026 | Giai đoạn 4–5 phần không cần AWS: cụm kind `devsecops` (K8s v1.35.8) + Kyverno 1.19.2 (chart 3.9.2 qua OCI ghcr.io vì `kyverno.github.io` timeout; kiểm SHA-256 chart). Policy 1 CEL: test offline 6/6, trên cụm TC05/TC07/TC08 deny + đối chứng allow (ECR_IMAGE giả, chưa có AWS). RBAC deployer 14/14. Manifest chạy được với image local. Bằng chứng `reports/admission/20261117T042150Z/` (không commit). |
@@ -105,3 +103,6 @@ Các điểm kế hoạch ghi là "mẫu, cần đối chiếu":
 | 17/11/2026 | Repo chuyển public (người dùng). Cài GitHub CLI 2.104.0 trên Windows (zip chính thức, kiểm SHA-256). Nhánh `ci/sarif-upload`: thêm lại upload SARIF (codeql-action v4.39.3 ghim SHA). Chờ người dùng `gh auth login` để mở PR. |
 | 17/11/2026 | **Viết lại lịch sử commit** (người dùng yêu cầu bỏ Claude khỏi đồng tác giả): xóa trailer `Co-Authored-By: Claude` ở cả 10 commit bằng `git filter-branch --msg-filter`, nội dung file không đổi (diff rỗng so với bản sao lưu), force push `main` + `ci/sarif-upload` có `--force-with-lease`, trước khi bật branch protection. Mã commit đổi (cũ → mới): 88cda11→b5be5d5, dd33de8→d4ae7c1, 1fd35f4→590e8f6, 29ef59e→e2387fd, 115c9d0→2d69b17, 349667c→2518828, a7b9573→ed2dc0a, 7aa3cba→e66dca7, 7911581→9840b23, 1e47c84→dbe546f; đã thay trong file này. Run 44024593626 vẫn gắn với SHA cũ `7aa3cba` trên tab Actions. Từ nay commit/PR không ghi công Claude. |
 | 17/11/2026 | Tạm dừng theo yêu cầu người dùng. PR #1 xanh lại sau khi viết lại lịch sử (verify 1m25s, policy-test 15s, Trivy Code Scanning), `main` run 44032306665 xanh. Branch protection chưa bật. Trạng thái chi tiết ở mục "Điểm dừng". |
+| 18/11/2026 | Người dùng bật branch protection `main`; kiểm qua API khớp cấu hình thống nhất (enforce_admins, required `verify` + `policy-test`, strict). Merge PR #1 (`a3a3b5c`). Push thẳng `main` bị từ chối GH006 — bằng chứng `reports/github/20261117T170531Z/`. TC03: chọn base từ scan thật (alpine 3.14.0: 4 Critical; 3.16.0: 1; debian 11.0-slim: 22) → `demo/Dockerfile.vulnerable`, gate local exit 1. Viết `demo/commands.md` cho TC02/TC03. Sửa 2 lỗi trình bày trong file này (ghi chú rc.1 cũ, bảng nhật ký bị tách). |
+
+<!-- Mẫu một dòng nhật ký: | dd/mm/yyyy | Giai đoạn · việc đã xong · bằng chứng (đường dẫn) · vấn đề còn mở | -->
