@@ -1,0 +1,23 @@
+[
+ {
+  "RuleID": "demo-secret",
+  "Description": "Secret giả dùng cho ca kiểm thử TC02",
+  "StartLine": 1,
+  "EndLine": 1,
+  "StartColumn": 12,
+  "EndColumn": 55,
+  "Match": "REDACTED",
+  "Secret": "REDACTED",
+  "File": "demo/leak.env.example",
+  "SymlinkFile": "",
+  "Commit": "ce1c90424922c99ab3375eea1fa7ab091d2d3809",
+  "Link": "https://github.com/duy1504/devsecops-project/blob/ce1c90424922c99ab3375eea1fa7ab091d2d3809/demo/leak.env.example#L1",
+  "Entropy": 4.2007027,
+  "Author": "Duy Phan",
+  "Email": "duyphanvan2006@gmail.com",
+  "Date": "2026-11-17T17:12:26Z",
+  "Message": "demo TC02: thêm secret giả (không merge)",
+  "Tags": [],
+  "Fingerprint": "ce1c90424922c99ab3375eea1fa7ab091d2d3809:demo/leak.env.example:demo-secret:1"
+ }
+]

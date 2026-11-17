@@ -1,0 +1,6 @@
+ca,mong_doi,thuc_te,exit,ms
+tc05-wrong-source,deny,deny,1,206
+tc07-tag-only,deny,deny,1,193
+tc08-bad-init,deny,deny,1,269
+control-allowed,allow,allow,0,193
+out-of-scope-ns,allow,allow,0,155

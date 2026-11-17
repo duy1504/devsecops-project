@@ -1,0 +1,25 @@
+kết quả mong đợi  quyền
+yes  OK   patch deployments -n app
+no   OK   get secrets -n app
+no   OK   create pods/exec -n app
+no   OK   create pods/attach -n app
+no   OK   create pods/portforward -n app
+no   OK   patch pods/ephemeralcontainers -n app
+no   OK   create pods -n app (tạo Pod trực tiếp)
+no   OK   update clusterpolicies.kyverno.io
+no   OK   update validatingpolicies.policies.kyverno.io
+no   OK   delete validatingpolicies.policies.kyverno.io
+no   OK   create namespaces
+no   OK   patch deployments -n demo
+no   OK   patch deployments -n kube-system
+no   OK   update validatingwebhookconfigurations
+
+yêu cầu thật (mong đợi Forbidden)
+OK   exit=1 đọc Secret trong app
+     Error from server (Forbidden): secrets is forbidden: User "deployer" cannot list resource "secrets" in API group "" in the namespace "app"
+OK   exit=1 xóa policy allowed-image
+     Error from server (Forbidden): validatingpolicies.policies.kyverno.io "allowed-image" is forbidden: User "deployer" cannot delete resource "validatingpolicies" in API group "polici
+OK   exit=1 tạo namespace mới
+     Error from server (Forbidden): namespaces is forbidden: User "deployer" cannot create resource "namespaces" in API group "" at the cluster scope
+OK   exit=1 tạo Pod trực tiếp trong app
+     Error from server (Forbidden): pods is forbidden: User "deployer" cannot create resource "pods" in API group "" in the namespace "app"

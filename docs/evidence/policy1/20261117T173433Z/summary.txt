@@ -1,0 +1,8 @@
+ECR_IMAGE=111122223333.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo  APP_DIGEST=sha256:d1b703d2d522e6013cb60627898788aac45f39d1acb33eabdb525770da92ceda  (20261117T173433Z)
+CA                           MONG ĐỢI KQ     CHI TIẾT
+tc05-wrong-source            deny     OK     exit=1 317ms Error from server: error when creating "reports/admission/20261117T173433Z/rendered/tc05-wrong-source.yaml": admission webhook "vpol.validate.kyverno.svc-fail" 
+tc07-tag-only                deny     OK     exit=1 252ms Error from server: error when creating "reports/admission/20261117T173433Z/rendered/tc07-tag-only.yaml": admission webhook "vpol.validate.kyverno.svc-fail" deni
+tc08-bad-init                deny     OK     exit=1 209ms Error from server: error when creating "reports/admission/20261117T173433Z/rendered/tc08-bad-init.yaml": admission webhook "vpol.validate.kyverno.svc-fail" deni
+control-allowed              allow    OK     exit=0 253ms 
+out-of-scope-ns              allow    OK     exit=0 185ms 
+deployment-vi-pham           deny     OK     apply exit=1; FailedCreate=0; pods=0

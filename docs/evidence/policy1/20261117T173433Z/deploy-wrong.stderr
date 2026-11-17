@@ -1,0 +1,1 @@
+error: failed to create deployment: admission webhook "vpol.validate.kyverno.svc-fail" denied the request: Policy allowed-image failed: Image phải thuộc 111122223333.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo và được tham chiếu bằng sha256 digest (64 ký tự hex).

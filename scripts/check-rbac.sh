@@ -25,4 +25,21 @@ check no  "create namespaces"                          create namespaces
 check no  "patch deployments -n demo"                  patch deployments -n demo
 check no  "patch deployments -n kube-system"           patch deployments -n kube-system
 check no  "update validatingwebhookconfigurations"     update validatingwebhookconfigurations
+
+# Yêu cầu THẬT bằng impersonation (kế hoạch mục 12.3): phải bị API server trả Forbidden.
+# Dùng --dry-run=server cho thao tác ghi: RBAC được kiểm trước bước dry-run nên Forbidden vẫn là thật,
+# và nếu lỡ được phép thì cũng không thay đổi cụm. Impersonation chạy từ kubeconfig quản trị của kind.
+echo
+echo "yêu cầu thật (mong đợi Forbidden)"
+real() {  # real <mô tả> <kubectl args...>
+  local desc=$1; shift
+  local err; err=$(kubectl "$@" "${D[@]}" 2>&1 >/dev/null); local rc=$?
+  local ok=SAI; { [ $rc -ne 0 ] && echo "$err" | grep -q 'Forbidden\|forbidden'; } && ok=OK
+  printf '%-4s exit=%s %s\n     %s\n' "$ok" "$rc" "$desc" "$(echo "$err" | head -1 | cut -c1-180)"
+  [ "$ok" = OK ] || fail=1
+}
+real "đọc Secret trong app"                 -n app get secrets
+real "xóa policy allowed-image"             delete validatingpolicy allowed-image --dry-run=server
+real "tạo namespace mới"                    create namespace rbac-test --dry-run=server
+real "tạo Pod trực tiếp trong app"          -n app run rbac-test --image=busybox --restart=Never --dry-run=server
 exit $fail
