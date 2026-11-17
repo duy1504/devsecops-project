@@ -3,15 +3,17 @@
 Đọc file này đầu mỗi phiên. Cập nhật khi xong một giai đoạn hoặc có thay đổi quan trọng (quy tắc trong `CLAUDE.md`).
 
 **Cập nhật lần cuối:** 18/11/2026
-**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ✅ branch protection `main` (18/11) · 🔄 TC02/TC03 trên CI · 🔄 Chuẩn bị AWS **chờ người dùng** · chưa tạo tài nguyên AWS nào
-**Giai đoạn kế tiếp:** chạy TC02, TC03 qua PR demo (`demo/commands.md`) và thu bằng chứng; khi có AWS: đăng nhập (mục 4) → spike (mục 6)
+**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ✅ branch protection `main` (18/11) · ✅ TC02 trên CI (18/11) · 🔄 TC03 chạy lại sau khi sửa phạm vi Gitleaks · 🔄 Chuẩn bị AWS **chờ người dùng** · chưa tạo tài nguyên AWS nào
+**Giai đoạn kế tiếp:** merge PR sửa phạm vi Gitleaks (`--log-opts=HEAD`) → chạy lại TC03 qua PR demo (`demo/commands.md`) và thu bằng chứng; khi có AWS: đăng nhập (mục 4) → spike (mục 6)
 
 ## ⏸ Điểm dừng — làm tiếp từ đây
 
 **Trạng thái repo/máy (18/11/2026):**
 - Repo GitHub **public**; `gh` 2.104.0 đã đăng nhập (`%LOCALAPPDATA%\Programs\gh\bin\gh.exe`; trong Bash gọi `"$LOCALAPPDATA/Programs/gh/bin/gh.exe"`).
 - **Branch protection `main` đã bật** (người dùng, 18/11), đã kiểm qua API: bắt PR, 0 approval, required `verify` + `policy-test`, strict up to date, `enforce_admins` = true, cấm force push/xóa. Secret scanning + push protection bật. Push thẳng `main` bị từ chối (GH006, exit 1). Bằng chứng `reports/github/20261117T170531Z/`. **Mọi thay đổi (kể cả `PROGRESS.md`) phải qua PR.**
-- PR #1 đã merge (`a3a3b5c`).
+- PR #1 đã merge (`a3a3b5c`); PR #2 (fixture TC03 + `demo/commands.md`) đã merge (`9d1e3bd`).
+- **TC02 đạt (18/11, PR #4, run 44134429165):** Gitleaks `leaks found: 1`, rule `demo-secret`, file `demo/leak.env.example` dòng 1, commit `ce1c904`, giá trị REDACTED; bước Gitleaks exit 1, build/scan sau đó bị skip; PR `BLOCKED`. Push protection GitHub không chặn chuỗi `DEMO_SECRET_` (đúng thiết kế). Đã đóng PR, xóa nhánh. Bằng chứng `reports/tc02/20261117T171512Z/`.
+- **TC03 lần 1 không hợp lệ (PR #3, run 44134407592):** fail ở Gitleaks chứ không ở gate — do checkout `fetch-depth: 0` tải mọi nhánh và `gitleaks git` mặc định quét mọi ref, nên bắt commit `ce1c904` của nhánh TC02. Kiểm local: mặc định 1 finding trên nhánh TC03 sạch; `--log-opts=HEAD` → 0 trên TC03, vẫn 1 trên TC02. Sửa workflow qua PR nhánh `fix/gitleaks-scope`; đã đóng PR #3. **Ghi vào báo cáo** như một lỗi thiết kế pipeline phát hiện nhờ thực nghiệm.
 - Nhánh sao lưu **chỉ ở local**: `backup/main-before-rewrite`, `backup/sarif-before-rewrite` — xóa khi người dùng xác nhận ổn. Commit/PR không ghi công Claude.
 - Cụm kind `devsecops` (Kyverno 1.19.2 + Policy 1 với ECR_IMAGE giả): dựng lại bằng `bash scripts/cluster-up.sh` rồi `ECR_IMAGE=... bash scripts/apply-policies.sh` nếu máy đã khởi động lại. Docker Desktop phải chạy trước (WSL báo "docker could not be found" khi Docker Desktop tắt).
 - TC03: fixture `demo/Dockerfile.vulnerable` (runtime `alpine:3.14.0` ghim digest) — local gate exit 1 với 4 Critical. TC02/TC03: lệnh trong `demo/commands.md`.
@@ -104,5 +106,6 @@ Các điểm kế hoạch ghi là "mẫu, cần đối chiếu":
 | 17/11/2026 | **Viết lại lịch sử commit** (người dùng yêu cầu bỏ Claude khỏi đồng tác giả): xóa trailer `Co-Authored-By: Claude` ở cả 10 commit bằng `git filter-branch --msg-filter`, nội dung file không đổi (diff rỗng so với bản sao lưu), force push `main` + `ci/sarif-upload` có `--force-with-lease`, trước khi bật branch protection. Mã commit đổi (cũ → mới): 88cda11→b5be5d5, dd33de8→d4ae7c1, 1fd35f4→590e8f6, 29ef59e→e2387fd, 115c9d0→2d69b17, 349667c→2518828, a7b9573→ed2dc0a, 7aa3cba→e66dca7, 7911581→9840b23, 1e47c84→dbe546f; đã thay trong file này. Run 44024593626 vẫn gắn với SHA cũ `7aa3cba` trên tab Actions. Từ nay commit/PR không ghi công Claude. |
 | 17/11/2026 | Tạm dừng theo yêu cầu người dùng. PR #1 xanh lại sau khi viết lại lịch sử (verify 1m25s, policy-test 15s, Trivy Code Scanning), `main` run 44032306665 xanh. Branch protection chưa bật. Trạng thái chi tiết ở mục "Điểm dừng". |
 | 18/11/2026 | Người dùng bật branch protection `main`; kiểm qua API khớp cấu hình thống nhất (enforce_admins, required `verify` + `policy-test`, strict). Merge PR #1 (`a3a3b5c`). Push thẳng `main` bị từ chối GH006 — bằng chứng `reports/github/20261117T170531Z/`. TC03: chọn base từ scan thật (alpine 3.14.0: 4 Critical; 3.16.0: 1; debian 11.0-slim: 22) → `demo/Dockerfile.vulnerable`, gate local exit 1. Viết `demo/commands.md` cho TC02/TC03. Sửa 2 lỗi trình bày trong file này (ghi chú rc.1 cũ, bảng nhật ký bị tách). |
+| 18/11/2026 | TC02 đạt trên CI (PR #4): Gitleaks chặn secret giả, PR BLOCKED; đóng PR, xóa nhánh. TC03 lần 1 (PR #3) không hợp lệ vì Gitleaks quét lây sang nhánh TC02 → sửa `--log-opts=HEAD` trong `ci-cd.yml` (nhánh `fix/gitleaks-scope`). Xóa nhánh đã merge trên remote. |
 
 <!-- Mẫu một dòng nhật ký: | dd/mm/yyyy | Giai đoạn · việc đã xong · bằng chứng (đường dẫn) · vấn đề còn mở | -->
