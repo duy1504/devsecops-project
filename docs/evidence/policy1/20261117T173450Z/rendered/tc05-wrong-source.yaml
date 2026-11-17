@@ -1,0 +1,12 @@
+# TC05 — image từ nguồn không được phép: podinfo UPSTREAM (ghcr.io), đúng phiên bản 6.17.0, tham chiếu bằng digest thật.
+# Chỉ sai nguồn → Policy 1 phải từ chối. Namespace demo.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tc05-wrong-source
+  namespace: demo
+  labels: { tc: tc05 }
+spec:
+  containers:
+    - name: app
+      image: ghcr.io/stefanprodan/podinfo@sha256:fa2f27c1a8561097e5144bfc0853eba6054d743b68b03de4cad4675616ddefb0

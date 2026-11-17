@@ -1,0 +1,5 @@
+TIME    NS        KIND               POLICY          MSG
+<nil>   default   ValidatingPolicy   allowed-image   Pod demo/tc05-wrong-source: fail (blocked); Image phải thuộc 111122223333.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo và được tham chiếu bằng sha256 digest (64 ký tự hex).
+<nil>   default   ValidatingPolicy   allowed-image   Pod demo/tc07-tag-only: fail (blocked); Image phải thuộc 111122223333.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo và được tham chiếu bằng sha256 digest (64 ký tự hex).
+<nil>   default   ValidatingPolicy   allowed-image   Pod demo/tc08-bad-init: fail (blocked); Image phải thuộc 111122223333.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo và được tham chiếu bằng sha256 digest (64 ký tự hex).
+<nil>   default   ValidatingPolicy   allowed-image   Deployment demo/tc-deploy-wrong: fail (blocked); Image phải thuộc 111122223333.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo và được tham chiếu bằng sha256 digest (64 ký tự hex).

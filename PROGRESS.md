@@ -3,8 +3,8 @@
 Đọc file này đầu mỗi phiên. Cập nhật khi xong một giai đoạn hoặc có thay đổi quan trọng (quy tắc trong `CLAUDE.md`).
 
 **Cập nhật lần cuối:** 18/11/2026
-**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ✅ branch protection `main` (18/11) · ✅ TC02 + TC03 trên CI (18/11) · 🔄 Chuẩn bị AWS **chờ người dùng** · chưa tạo tài nguyên AWS nào
-**Giai đoạn kế tiếp:** phần không cần AWS gần hết — còn lại tùy chọn: Policy 1/RBAC chạy lại khi có ECR thật, viết `docs/test-results.md`; **chủ yếu chờ AWS**: đăng nhập (mục 4) → spike (mục 6)
+**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ✅ branch protection `main` (18/11) · ✅ TC02 + TC03 trên CI (18/11) · ✅ `docs/test-results.md` + `docs/evidence/` (18/11) · 🔄 Chuẩn bị AWS **chờ người dùng** · chưa tạo tài nguyên AWS nào
+**Giai đoạn kế tiếp:** **chờ AWS**: đăng nhập (mục 4) → spike (mục 6). Phần không cần AWS còn lại là tùy chọn (viết phần lý thuyết báo cáo, `docs/architecture.md`).
 
 ## ⏸ Điểm dừng — làm tiếp từ đây
 
@@ -109,5 +109,6 @@ Các điểm kế hoạch ghi là "mẫu, cần đối chiếu":
 | 18/11/2026 | Người dùng bật branch protection `main`; kiểm qua API khớp cấu hình thống nhất (enforce_admins, required `verify` + `policy-test`, strict). Merge PR #1 (`a3a3b5c`). Push thẳng `main` bị từ chối GH006 — bằng chứng `reports/github/20261117T170531Z/`. TC03: chọn base từ scan thật (alpine 3.14.0: 4 Critical; 3.16.0: 1; debian 11.0-slim: 22) → `demo/Dockerfile.vulnerable`, gate local exit 1. Viết `demo/commands.md` cho TC02/TC03. Sửa 2 lỗi trình bày trong file này (ghi chú rc.1 cũ, bảng nhật ký bị tách). |
 | 18/11/2026 | TC02 đạt trên CI (PR #4): Gitleaks chặn secret giả, PR BLOCKED; đóng PR, xóa nhánh. TC03 lần 1 (PR #3) không hợp lệ vì Gitleaks quét lây sang nhánh TC02 → sửa `--log-opts=HEAD` trong `ci-cd.yml` (nhánh `fix/gitleaks-scope`). Xóa nhánh đã merge trên remote. |
 | 18/11/2026 | Merge PR #5 (Gitleaks `--log-opts=HEAD`). TC03 đạt trên CI (PR #6): gate Trivy fail với 4 Critical, exit 1, PR BLOCKED, không có artifact approved-image; đóng PR, xóa nhánh. Hai ca CI bắt buộc (TC02, TC03) đã có bằng chứng thật. |
+| 18/11/2026 | Viết `docs/test-results.md` (kết luận từng ca TC01–TC10 theo trường mục 12.4, chỉ số mục 12.5) và chép bằng chứng chọn lọc vào `docs/evidence/` (90 file, 280 KB; Gitleaks quét sạch). Chạy lại Policy 1 trên kind 3 lượt (6/6 mỗi lượt, kiểm deny đúng do `allowed-image`, đo độ trễ). `check-rbac.sh` thêm 4 yêu cầu thật bằng impersonation → 4/4 Forbidden. Thêm `scripts/ci-metrics.sh`: 13 run verify thành công, job tb 117,6 s. |
 
 <!-- Mẫu một dòng nhật ký: | dd/mm/yyyy | Giai đoạn · việc đã xong · bằng chứng (đường dẫn) · vấn đề còn mở | -->

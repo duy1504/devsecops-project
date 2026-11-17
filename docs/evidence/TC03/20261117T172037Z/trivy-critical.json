@@ -1,0 +1,44 @@
+{
+  "ArtifactName": "image.tar",
+  "CreatedAt": "2026-11-17T17:19:46.020039464Z",
+  "OS": {
+    "Family": "alpine",
+    "Name": "3.14.0",
+    "EOSL": true
+  },
+  "ImageID": "sha256:e44587286871f5db2487b279d09f9498faebf206b3ac6dbe406fcde66127e158",
+  "Critical": [
+    {
+      "VulnerabilityID": "CVE-2021-36159",
+      "PkgName": "apk-tools",
+      "InstalledVersion": "2.12.5-r1",
+      "FixedVersion": "2.12.6-r0",
+      "Severity": "CRITICAL",
+      "Title": "libfetch: an out of boundary read while libfetch uses strtol to parse the relevant numbers into address bytes leads to information leak or crash"
+    },
+    {
+      "VulnerabilityID": "CVE-2021-3711",
+      "PkgName": "libcrypto1.1",
+      "InstalledVersion": "1.1.1k-r0",
+      "FixedVersion": "1.1.1l-r0",
+      "Severity": "CRITICAL",
+      "Title": "openssl: SM2 Decryption Buffer Overflow"
+    },
+    {
+      "VulnerabilityID": "CVE-2021-3711",
+      "PkgName": "libssl1.1",
+      "InstalledVersion": "1.1.1k-r0",
+      "FixedVersion": "1.1.1l-r0",
+      "Severity": "CRITICAL",
+      "Title": "openssl: SM2 Decryption Buffer Overflow"
+    },
+    {
+      "VulnerabilityID": "CVE-2022-37434",
+      "PkgName": "zlib",
+      "InstalledVersion": "1.2.11-r3",
+      "FixedVersion": "1.2.12-r2",
+      "Severity": "CRITICAL",
+      "Title": "zlib: heap-based buffer over-read and overflow in inflate() in inflate.c via a large gzip header extra field"
+    }
+  ]
+}

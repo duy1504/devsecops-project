@@ -1,0 +1,22 @@
+verify	Secret scan (Gitleaks, toàn lịch sử)	﻿2026-11-17T17:13:05.3855670Z ##[group]Run mkdir -p reports
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.3855951Z ^[[36;1mmkdir -p reports^[[0m
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.3856226Z ^[[36;1mgitleaks git . --config .gitleaks.toml --redact --no-banner \^[[0m
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.3856568Z ^[[36;1m  --report-format json --report-path reports/gitleaks.json^[[0m
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.3882863Z shell: /usr/bin/bash -e {0}
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.3883102Z env:
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.3883276Z   LOCAL_IMAGE: podinfo:ci
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.3883460Z   GO_VERSION: 1.27.4
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.3883633Z   GITLEAKS_VERSION: 8.30.1
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.3883936Z   GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.3884251Z   SYFT_VERSION: 1.56.0
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.3884515Z   SYFT_SHA256: 1c2493cfcf52d3367d6cb25780d9190c111c2219c34c820574c43e8bae15c528
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.3884810Z   TRIVY_VERSION: 0.76.2
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.3885082Z   TRIVY_SHA256: bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.3885387Z   KYVERNO_CLI_VERSION: v1.19.2
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.3885737Z   KYVERNO_CLI_SHA256: 357eaf1df8bc24ddd5a73979fadeaae6a032e8710f11af264229756e4956bf4a
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.3886194Z   GOTOOLCHAIN: local
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.3886364Z ##[endgroup]
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.9075785Z ^[[90m5:13PM^[[0m ^[[32mINF^[[0m ^[[1m15 commits scanned.^[[0m
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.9076856Z ^[[90m5:13PM^[[0m ^[[32mINF^[[0m ^[[1mscanned ~2170803 bytes (2.17 MB) in 293ms^[[0m
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.9077555Z ^[[90m5:13PM^[[0m ^[[33mWRN^[[0m ^[[1mleaks found: 1^[[0m
+verify	Secret scan (Gitleaks, toàn lịch sử)	2026-11-17T17:13:05.9112491Z ##[error]Process completed with exit code 1.

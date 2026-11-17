@@ -17,13 +17,19 @@ summary() { printf '%-28s %-8s %-6s %s\n' "$1" "$2" "$3" "$4" | tee -a "$OUT/sum
 run() {  # run <id> <mong đợi: deny|allow> <kubectl args...>
   local id=$1 want=$2; shift 2
   local start; start=$(date -u +%FT%TZ)
+  local t0; t0=$(date +%s%N)
   kubectl "$@" > "$OUT/$id.stdout" 2> "$OUT/$id.stderr"; local rc=$?
+  local ms=$(( ($(date +%s%N) - t0) / 1000000 ))   # thời gian kubectl end-to-end (gồm khởi động client)
   echo "$rc" > "$OUT/$id.exit"
   local got=allow; [ $rc -ne 0 ] && got=deny
   local ok=OK; [ "$got" = "$want" ] || { ok=SAI; fail=1; }
-  summary "$id" "$want" "$ok" "exit=$rc $(head -c 160 "$OUT/$id.stderr" | tr '\n' ' ')"
+  # Chặn đúng nguyên nhân: deny phải đến từ policy allowed-image, không phải lỗi khác
+  if [ "$want" = deny ] && [ "$got" = deny ] && ! grep -q 'Policy allowed-image failed' "$OUT/$id.stderr"; then ok=SAI; fail=1; fi
+  summary "$id" "$want" "$ok" "exit=$rc ${ms}ms $(head -c 160 "$OUT/$id.stderr" | tr '\n' ' ')"
   echo "$start" > "$OUT/$id.time"
+  echo "$id,$want,$got,$rc,$ms" >> "$OUT/latency.csv"
 }
+echo "ca,mong_doi,thuc_te,exit,ms" > "$OUT/latency.csv"
 echo "ECR_IMAGE=$ECR_IMAGE  APP_DIGEST=$APP_DIGEST  ($TS)" | tee "$OUT/summary.txt"
 printf '%-28s %-8s %-6s %s\n' "CA" "MONG ĐỢI" "KQ" "CHI TIẾT" | tee -a "$OUT/summary.txt"
 

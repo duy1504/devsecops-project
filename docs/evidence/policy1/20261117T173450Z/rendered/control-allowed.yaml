@@ -1,0 +1,12 @@
+# Đối chứng: đúng repo + digest → Policy 1 phải CHO QUA (chạy bằng --dry-run=server khi image chưa có trên ECR).
+# Render: envsubst '111122223333.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo sha256:d1b703d2d522e6013cb60627898788aac45f39d1acb33eabdb525770da92ceda'.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: control-allowed
+  namespace: demo
+  labels: { tc: control }
+spec:
+  containers:
+    - name: app
+      image: 111122223333.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:d1b703d2d522e6013cb60627898788aac45f39d1acb33eabdb525770da92ceda

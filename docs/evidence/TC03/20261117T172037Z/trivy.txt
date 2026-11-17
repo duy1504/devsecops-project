@@ -1,0 +1,216 @@
+
+For OSS Maintainers: VEX Notice
+--------------------------------
+If you're an OSS maintainer and Trivy has detected vulnerabilities in your project that you believe are not actually exploitable, consider issuing a VEX (Vulnerability Exploitability eXchange) statement.
+VEX allows you to communicate the actual status of vulnerabilities in your project, improving security transparency and reducing false positives for your users.
+Learn more and start using VEX: https://trivy.dev/docs/v0.76/guide/supply-chain/vex/repo#publishing-vex-documents
+
+To disable this notice, set the TRIVY_DISABLE_VEX_NOTICE environment variable.
+
+
+image.tar (alpine 3.14.0)
+=========================
+Total: 48 (UNKNOWN: 0, LOW: 0, MEDIUM: 10, HIGH: 34, CRITICAL: 4)
+
+┌──────────────┬────────────────┬──────────┬────────┬───────────────────┬───────────────┬──────────────────────────────────────────────────────────────┐
+│   Library    │ Vulnerability  │ Severity │ Status │ Installed Version │ Fixed Version │                            Title                             │
+├──────────────┼────────────────┼──────────┼────────┼───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ apk-tools    │ CVE-2021-36159 │ CRITICAL │ fixed  │ 2.12.5-r1         │ 2.12.6-r0     │ libfetch: an out of boundary read while libfetch uses strtol │
+│              │                │          │        │                   │               │ to parse...                                                  │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-36159                   │
+├──────────────┼────────────────┼──────────┤        ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ busybox      │ CVE-2021-42378 │ HIGH     │        │ 1.33.1-r2         │ 1.33.1-r6     │ busybox: use-after-free in awk applet leads to denial of     │
+│              │                │          │        │                   │               │ service and possibly...                                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42378                   │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42379 │          │        │                   │               │ busybox: use-after-free in awk applet leads to denial of     │
+│              │                │          │        │                   │               │ service and possibly...                                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42379                   │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42380 │          │        │                   │               │ busybox: use-after-free in awk applet leads to denial of     │
+│              │                │          │        │                   │               │ service and possibly...                                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42380                   │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42381 │          │        │                   │               │ busybox: use-after-free in awk applet leads to denial of     │
+│              │                │          │        │                   │               │ service and possibly...                                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42381                   │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42382 │          │        │                   │               │ busybox: use-after-free in awk applet leads to denial of     │
+│              │                │          │        │                   │               │ service and possibly...                                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42382                   │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42383 │          │        │                   │               │ busybox: use-after-free in awk applet leads to denial of     │
+│              │                │          │        │                   │               │ service and possibly...                                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42383                   │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42384 │          │        │                   │               │ busybox: use-after-free in awk applet leads to denial of     │
+│              │                │          │        │                   │               │ service and possibly...                                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42384                   │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42385 │          │        │                   │               │ busybox: use-after-free in awk applet leads to denial of     │
+│              │                │          │        │                   │               │ service and possibly...                                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42385                   │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42386 │          │        │                   │               │ busybox: use-after-free in awk applet leads to denial of     │
+│              │                │          │        │                   │               │ service and possibly...                                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42386                   │
+│              ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2022-28391 │          │        │                   │ 1.33.1-r7     │ busybox: remote attackers may execute arbitrary code if      │
+│              │                │          │        │                   │               │ netstat is used                                              │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2022-28391                   │
+│              ├────────────────┼──────────┤        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42374 │ MEDIUM   │        │                   │ 1.33.1-r4     │ busybox: out-of-bounds read in unlzma applet leads to        │
+│              │                │          │        │                   │               │ information leak and denial...                               │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42374                   │
+│              ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42375 │          │        │                   │ 1.33.1-r5     │ busybox: incorrect handling of a special element in ash      │
+│              │                │          │        │                   │               │ applet leads to...                                           │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42375                   │
+├──────────────┼────────────────┼──────────┤        ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ libcrypto1.1 │ CVE-2021-3711  │ CRITICAL │        │ 1.1.1k-r0         │ 1.1.1l-r0     │ openssl: SM2 Decryption Buffer Overflow                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-3711                    │
+│              ├────────────────┼──────────┤        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-3712  │ HIGH     │        │                   │               │ openssl: Read buffer overruns processing ASN.1 strings       │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-3712                    │
+│              ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2022-0778  │          │        │                   │ 1.1.1n-r0     │ openssl: Infinite loop in BN_mod_sqrt() reachable when       │
+│              │                │          │        │                   │               │ parsing certificates                                         │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2022-0778                    │
+│              ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2022-4450  │          │        │                   │ 1.1.1t-r0     │ openssl: double free after calling PEM_read_bio_ex           │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2022-4450                    │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2023-0215  │          │        │                   │               │ openssl: use-after-free following BIO_new_NDEF               │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2023-0215                    │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2023-0286  │          │        │                   │               │ openssl: X.400 address type confusion in X.509 GeneralName   │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2023-0286                    │
+│              ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2023-0464  │          │        │                   │ 1.1.1t-r1     │ openssl: Denial of service by excessive resource usage in    │
+│              │                │          │        │                   │               │ verifying X509 policy...                                     │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2023-0464                    │
+│              ├────────────────┼──────────┤        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2022-2097  │ MEDIUM   │        │                   │ 1.1.1q-r0     │ openssl: AES OCB fails to encrypt some bytes                 │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2022-2097                    │
+│              ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2022-4304  │          │        │                   │ 1.1.1t-r0     │ openssl: timing attack in RSA Decryption implementation      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2022-4304                    │
+│              ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2023-0465  │          │        │                   │ 1.1.1t-r2     │ openssl: Invalid certificate policies in leaf certificates   │
+│              │                │          │        │                   │               │ are silently ignored                                         │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2023-0465                    │
+├──────────────┼────────────────┼──────────┤        ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ libretls     │ CVE-2022-0778  │ HIGH     │        │ 3.3.3-r0          │ 3.3.3p1-r3    │ openssl: Infinite loop in BN_mod_sqrt() reachable when       │
+│              │                │          │        │                   │               │ parsing certificates                                         │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2022-0778                    │
+├──────────────┼────────────────┼──────────┤        ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ libssl1.1    │ CVE-2021-3711  │ CRITICAL │        │ 1.1.1k-r0         │ 1.1.1l-r0     │ openssl: SM2 Decryption Buffer Overflow                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-3711                    │
+│              ├────────────────┼──────────┤        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-3712  │ HIGH     │        │                   │               │ openssl: Read buffer overruns processing ASN.1 strings       │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-3712                    │
+│              ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2022-0778  │          │        │                   │ 1.1.1n-r0     │ openssl: Infinite loop in BN_mod_sqrt() reachable when       │
+│              │                │          │        │                   │               │ parsing certificates                                         │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2022-0778                    │
+│              ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2022-4450  │          │        │                   │ 1.1.1t-r0     │ openssl: double free after calling PEM_read_bio_ex           │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2022-4450                    │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2023-0215  │          │        │                   │               │ openssl: use-after-free following BIO_new_NDEF               │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2023-0215                    │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2023-0286  │          │        │                   │               │ openssl: X.400 address type confusion in X.509 GeneralName   │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2023-0286                    │
+│              ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2023-0464  │          │        │                   │ 1.1.1t-r1     │ openssl: Denial of service by excessive resource usage in    │
+│              │                │          │        │                   │               │ verifying X509 policy...                                     │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2023-0464                    │
+│              ├────────────────┼──────────┤        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2022-2097  │ MEDIUM   │        │                   │ 1.1.1q-r0     │ openssl: AES OCB fails to encrypt some bytes                 │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2022-2097                    │
+│              ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2022-4304  │          │        │                   │ 1.1.1t-r0     │ openssl: timing attack in RSA Decryption implementation      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2022-4304                    │
+│              ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2023-0465  │          │        │                   │ 1.1.1t-r2     │ openssl: Invalid certificate policies in leaf certificates   │
+│              │                │          │        │                   │               │ are silently ignored                                         │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2023-0465                    │
+├──────────────┼────────────────┼──────────┤        ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ ssl_client   │ CVE-2021-42378 │ HIGH     │        │ 1.33.1-r2         │ 1.33.1-r6     │ busybox: use-after-free in awk applet leads to denial of     │
+│              │                │          │        │                   │               │ service and possibly...                                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42378                   │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42379 │          │        │                   │               │ busybox: use-after-free in awk applet leads to denial of     │
+│              │                │          │        │                   │               │ service and possibly...                                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42379                   │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42380 │          │        │                   │               │ busybox: use-after-free in awk applet leads to denial of     │
+│              │                │          │        │                   │               │ service and possibly...                                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42380                   │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42381 │          │        │                   │               │ busybox: use-after-free in awk applet leads to denial of     │
+│              │                │          │        │                   │               │ service and possibly...                                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42381                   │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42382 │          │        │                   │               │ busybox: use-after-free in awk applet leads to denial of     │
+│              │                │          │        │                   │               │ service and possibly...                                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42382                   │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42383 │          │        │                   │               │ busybox: use-after-free in awk applet leads to denial of     │
+│              │                │          │        │                   │               │ service and possibly...                                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42383                   │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42384 │          │        │                   │               │ busybox: use-after-free in awk applet leads to denial of     │
+│              │                │          │        │                   │               │ service and possibly...                                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42384                   │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42385 │          │        │                   │               │ busybox: use-after-free in awk applet leads to denial of     │
+│              │                │          │        │                   │               │ service and possibly...                                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42385                   │
+│              ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42386 │          │        │                   │               │ busybox: use-after-free in awk applet leads to denial of     │
+│              │                │          │        │                   │               │ service and possibly...                                      │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42386                   │
+│              ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2022-28391 │          │        │                   │ 1.33.1-r7     │ busybox: remote attackers may execute arbitrary code if      │
+│              │                │          │        │                   │               │ netstat is used                                              │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2022-28391                   │
+│              ├────────────────┼──────────┤        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42374 │ MEDIUM   │        │                   │ 1.33.1-r4     │ busybox: out-of-bounds read in unlzma applet leads to        │
+│              │                │          │        │                   │               │ information leak and denial...                               │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42374                   │
+│              ├────────────────┤          │        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2021-42375 │          │        │                   │ 1.33.1-r5     │ busybox: incorrect handling of a special element in ash      │
+│              │                │          │        │                   │               │ applet leads to...                                           │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2021-42375                   │
+├──────────────┼────────────────┼──────────┤        ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ zlib         │ CVE-2022-37434 │ CRITICAL │        │ 1.2.11-r3         │ 1.2.12-r2     │ zlib: heap-based buffer over-read and overflow in inflate()  │
+│              │                │          │        │                   │               │ in inflate.c via a...                                        │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2022-37434                   │
+│              ├────────────────┼──────────┤        │                   ├───────────────┼──────────────────────────────────────────────────────────────┤
+│              │ CVE-2018-25032 │ HIGH     │        │                   │ 1.2.12-r0     │ zlib: A flaw found in zlib when compressing (not             │
+│              │                │          │        │                   │               │ decompressing) certain inputs...                             │
+│              │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2018-25032                   │
+└──────────────┴────────────────┴──────────┴────────┴───────────────────┴───────────────┴──────────────────────────────────────────────────────────────┘
+
+home/app/podinfo (gobinary)
+===========================
+Total: 3 (UNKNOWN: 0, LOW: 0, MEDIUM: 1, HIGH: 2, CRITICAL: 0)
+
+┌───────────────────────────────┬─────────────────┬──────────┬────────┬───────────────────┬───────────────┬────────────────────────────────────────────────────────────┐
+│            Library            │  Vulnerability  │ Severity │ Status │ Installed Version │ Fixed Version │                           Title                            │
+├───────────────────────────────┼─────────────────┼──────────┼────────┼───────────────────┼───────────────┼────────────────────────────────────────────────────────────┤
+│ github.com/go-jose/go-jose/v4 │ CVE-2026-116587 │ HIGH     │ fixed  │ v4.1.5            │ 4.1.6         │ github.com/go-jose/go-jose: go-jose: Denial of Service via │
+│                               │                 │          │        │                   │               │ crafted RSA parameters in JWKs                             │
+│                               │                 │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2026-116587                │
+├───────────────────────────────┼─────────────────┤          │        ├───────────────────┼───────────────┼────────────────────────────────────────────────────────────┤
+│ golang.org/x/net              │ CVE-2026-78661  │          │        │ v0.61.0           │ 0.62.0        │ golang.org/x/net/html: golang.org/x/net/html: Denial of    │
+│                               │                 │          │        │                   │               │ Service via crafted HTML input                             │
+│                               │                 │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2026-78661                 │
+│                               ├─────────────────┼──────────┤        │                   │               ├────────────────────────────────────────────────────────────┤
+│                               │ CVE-2026-97045  │ MEDIUM   │        │                   │               │ golang.org/x/net/html: golang.org/x/net/html: Cross-Site   │
+│                               │                 │          │        │                   │               │ Scripting via improper namespace handling during HTML      │
+│                               │                 │          │        │                   │               │ rendering                                                  │
+│                               │                 │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2026-97045                 │
+└───────────────────────────────┴─────────────────┴──────────┴────────┴───────────────────┴───────────────┴────────────────────────────────────────────────────────────┘
