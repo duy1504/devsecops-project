@@ -1,0 +1,10 @@
+{
+    "name": "podinfo_signing_profile",
+    "status": "Active",
+    "platform": "Notation-OCI-SHA384-ECDSA",
+    "validity": {
+        "value": 12,
+        "type": "MONTHS"
+    },
+    "profileVersion": "gwTPmh8tPO"
+}

@@ -1,0 +1,15 @@
+{
+  "ArtifactName": "local/podinfo-fixture:signed-baseline",
+  "CreatedAt": "2026-11-20T17:41:58.097701908+07:00",
+  "Trivy": {
+    "Version": "0.76.2"
+  },
+  "Metadata": {
+    "ImageID": "sha256:59c79d672187539c33b7da543c70360fd55a0963eaa780da44e3cad3db6d0035",
+    "OS": {
+      "Family": "debian",
+      "Name": "12.15"
+    }
+  },
+  "CRITICAL": 0
+}

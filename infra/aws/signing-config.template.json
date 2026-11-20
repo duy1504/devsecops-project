@@ -1,0 +1,10 @@
+{
+  "rules": [
+    {
+      "signingProfileArn": "${SIGNING_PROFILE_ARN}",
+      "repositoryFilters": [
+        { "filter": "${ECR_REPOSITORY}", "filterType": "WILDCARD_MATCH" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+subject=C = US, O = AWS, OU = Cryptography, ST = WA, CN = AWS Signer Code Signing Root CA G1
+issuer=C = US, O = AWS, OU = Cryptography, ST = WA, CN = AWS Signer Code Signing Root CA G1
+notBefore=Oct 27 21:33:22 2022 GMT
+notAfter=Oct 27 22:33:22 2122 GMT
+sha256 fingerprint=90:A8:7D:05:43:C3:F0:94:DB:FF:95:89:B6:64:9A:FF:E2:F3:D6:E0:F3:08:79:9B:E2:25:84:61:C6:86:47:3F

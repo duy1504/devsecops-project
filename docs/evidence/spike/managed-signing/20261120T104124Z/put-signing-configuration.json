@@ -1,0 +1,15 @@
+{
+    "signingConfiguration": {
+        "rules": [
+            {
+                "signingProfileArn": "arn:aws:signer:ap-southeast-1:<ACCOUNT_ID>:/signing-profiles/podinfo_signing_profile",
+                "repositoryFilters": [
+                    {
+                        "filter": "podinfo",
+                        "filterType": "WILDCARD_MATCH"
+                    }
+                ]
+            }
+        ]
+    }
+}
