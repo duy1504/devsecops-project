@@ -1,0 +1,20 @@
+{
+  "mediaType": "application/vnd.oci.image.manifest.v1+json",
+  "Signatures": [
+    {
+      "mediaType": "application/jose+json",
+      "digest": "sha256:999690e056b7094296c0d1b1c71eba0474be60254035fed62a9031843c2b2cd5",
+      "signatureAlgorithm": "ECDSA-SHA-384",
+      "signedAttributes": {
+        "com.amazonaws.signer.signingJob": "arn:aws:signer:ap-southeast-1:<ACCOUNT_ID>:/signing-jobs/32400180-0a9f-4ccc-8d05-5d1631d12812",
+        "com.amazonaws.signer.signingProfileVersion": "arn:aws:signer:ap-southeast-1:<ACCOUNT_ID>:/signing-profiles/podinfo_wrong_signer/uG2yIHkItJ",
+        "expiry": "2027-11-20T10:13:14Z",
+        "io.cncf.notary.verificationPlugin": "com.amazonaws.signer.notation.plugin",
+        "signingScheme": "notary.x509.signingAuthority",
+        "signingTime": "2026-11-20T10:13:14Z"
+      },
+      "unsignedAttributes": {},
+      "certificateCount": 4
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+D_unsigned     sha256:85b97e849174ed1d56fed8629ecb7cdb2bfd2a10bd9fe9f3110a6e97068cdf6f  chữ ký: 0 (mong đợi 0)
+D_wrongsigner  sha256:6452d1877aeb082b63b02e742fd04a30496f2acf9e2b135eccf2f8b776782e75  chữ ký: 1 (mong đợi 1), của profile B: yes
+KẾT QUẢ: ĐẠT

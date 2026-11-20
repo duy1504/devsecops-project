@@ -1,0 +1,10 @@
+{
+    "name": "podinfo_wrong_signer",
+    "status": "Active",
+    "platform": "Notation-OCI-SHA384-ECDSA",
+    "validity": {
+        "value": 12,
+        "type": "MONTHS"
+    },
+    "profileVersion": "uG2yIHkItJ"
+}
