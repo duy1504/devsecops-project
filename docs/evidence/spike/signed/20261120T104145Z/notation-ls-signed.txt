@@ -1,0 +1,3 @@
+<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:59c79d672187539c33b7da543c70360fd55a0963eaa780da44e3cad3db6d0035
+└── application/vnd.cncf.notary.signature
+    └── sha256:02a4e72ffe9ff1ca236f4f6697927ff0189ce576588fe25f0aa3100066893aef

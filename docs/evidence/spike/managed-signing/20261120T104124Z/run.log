@@ -1,0 +1,5 @@
+[10:41:27] Đã tạo profile chính podinfo_signing_profile
+[10:41:32] Đã bật Managed Signing: rule duy nhất, filter 'podinfo', profile podinfo_signing_profile
+[10:41:36] Fixture unsigned: 0 chữ ký (mong đợi 0) OK
+[10:41:37] Fixture wrong-signer: 1 chữ ký (mong đợi 1) OK
+KẾT QUẢ: ĐẠT

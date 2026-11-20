@@ -1,0 +1,7 @@
+level=info msg=Allowed to access the referrers API, fallback if not supported
+level=info msg=Reference sha256:59c79d672187539c33b7da543c70360fd55a0963eaa780da44e3cad3db6d0035 resolved to manifest descriptor: {MediaType:application/vnd.oci.image.manifest.v1+json Digest:sha256:59c79d672187539c33b7da543c70360fd55a0963eaa780da44e3cad3db6d0035 Size:3125 URLs:[] Annotations:map[] Data:[] Platform:<nil> ArtifactType:}
+level=info msg=Checking whether signature verification should be skipped or not
+level=info msg=Trust policy configuration: &{Name:podinfo-aws-signer RegistryScopes:[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo] SignatureVerification:{VerificationLevel:strict Override:map[] VerifyTimestamp:} TrustStores:[signingAuthority:aws-signer-ts] TrustedIdentities:[arn:aws:signer:ap-southeast-1:<ACCOUNT_ID>:/signing-profiles/podinfo_signing_profile]}
+level=info msg=Check over. The signature verification level is not set to 'skip' in the trust policy.
+level=info msg=Processing signature with manifest mediaType: application/vnd.oci.image.manifest.v1+json and digest: sha256:02a4e72ffe9ff1ca236f4f6697927ff0189ce576588fe25f0aa3100066893aef
+level=info msg=Trust policy configuration: &{Name:podinfo-aws-signer RegistryScopes:[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo] SignatureVerification:{VerificationLevel:strict Override:map[] VerifyTimestamp:} TrustStores:[signingAuthority:aws-signer-ts] TrustedIdentities:[arn:aws:signer:ap-southeast-1:<ACCOUNT_ID>:/signing-profiles/podinfo_signing_profile]}

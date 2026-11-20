@@ -1,0 +1,13 @@
+{
+    "repositoryName": "podinfo",
+    "imageId": {
+        "imageDigest": "sha256:59c79d672187539c33b7da543c70360fd55a0963eaa780da44e3cad3db6d0035"
+    },
+    "registryId": "<ACCOUNT_ID>",
+    "signingStatuses": [
+        {
+            "signingProfileArn": "arn:aws:signer:ap-southeast-1:<ACCOUNT_ID>:/signing-profiles/podinfo_signing_profile",
+            "status": "COMPLETE"
+        }
+    ]
+}

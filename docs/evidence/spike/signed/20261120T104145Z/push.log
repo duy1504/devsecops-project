@@ -1,0 +1,38 @@
+The push refers to repository [<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo]
+bf7a4185f015: Waiting
+a5789fc40e82: Waiting
+990a9c434e5e: Waiting
+39dc083afc39: Waiting
+bf7a4185f015: Waiting
+a5789fc40e82: Waiting
+990a9c434e5e: Waiting
+39dc083afc39: Waiting
+39dc083afc39: Waiting
+bf7a4185f015: Waiting
+a5789fc40e82: Waiting
+990a9c434e5e: Waiting
+3214acf345c0: Waiting
+bf7a4185f015: Layer already exists
+a5789fc40e82: Waiting
+990a9c434e5e: Layer already exists
+39dc083afc39: Layer already exists
+2780920e5dbf: Waiting
+7c12895b777b: Waiting
+2780920e5dbf: Layer already exists
+7c12895b777b: Layer already exists
+96ed2737ae31: Waiting
+a5789fc40e82: Layer already exists
+dcaa5a89b0cc: Waiting
+3214acf345c0: Layer already exists
+b839dfae01f6: Waiting
+52630fc75a18: Layer already exists
+dd64bf2dd177: Waiting
+f3ed1ff2c3fe: Layer already exists
+dcaa5a89b0cc: Layer already exists
+86e2e3437bc0: Waiting
+b839dfae01f6: Layer already exists
+9c2fb5f87a1a: Layer already exists
+dd64bf2dd177: Layer already exists
+96ed2737ae31: Layer already exists
+86e2e3437bc0: Layer already exists
+signed-baseline: digest: sha256:59c79d672187539c33b7da543c70360fd55a0963eaa780da44e3cad3db6d0035 size: 3125

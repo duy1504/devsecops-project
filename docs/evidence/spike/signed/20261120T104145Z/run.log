@@ -1,0 +1,17 @@
+[10:41:50] Build signed-baseline (nhãn demo.fixture=signed-baseline)
+[10:41:58] Trivy: 0 CRITICAL
+[10:42:00] Đã push signed-baseline
+[10:42:01] D_signed = sha256:59c79d672187539c33b7da543c70360fd55a0963eaa780da44e3cad3db6d0035
+Signed by expected profile after ~0s
+[10:42:02] Thời gian từ lúc push xong tới COMPLETE: 4s (gồm chu kỳ poll 5s)
+[10:42:05] Chữ ký thuộc profile chính podinfo_signing_profile
+[10:42:05] Notation verify: signed phải pass, 2 fixture phải fail
+[10:42:07] Root AWS Signer khớp fingerprint đã ghim
+[10:42:07] Trust policy: chỉ tin podinfo_signing_profile
+unsigned                         mong đợi=fail thực tế=fail exit=1   OK | Error: signature verification failed: no signature is associated with "<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:85b97e849174ed1d56fed8629ecb7cdb2bfd2a10bd9fe9f3110a6e97068cdf6f" 
+wrong-signer                     mong đợi=fail thực tế=fail exit=1   OK | Error: signature verification failed for all the signatures associated with <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:6452d1877aeb082b63b02e742fd04a30496f2acf9e2b135eccf2f8b776782e75 failed with reason "Signature publisher doesn't match any trusted identities." 
+signed                           mong đợi=pass thực tế=pass exit=0   OK | Successfully verified signature 
+control-wrong-signer-trusted-b   mong đợi=pass thực tế=pass exit=0   OK | Successfully verified signature 
+[10:42:15] Đã khôi phục trust policy chính
+KẾT QUẢ: ĐẠT
+Bằng chứng: reports/spike/verify-20261120T104206Z
