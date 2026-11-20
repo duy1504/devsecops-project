@@ -3,8 +3,8 @@
 Đọc file này đầu mỗi phiên. Cập nhật khi xong một giai đoạn hoặc có thay đổi quan trọng (quy tắc trong `CLAUDE.md`).
 
 **Cập nhật lần cuối:** 20/11/2026
-**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ✅ branch protection `main` (18/11) · ✅ TC02 + TC03 trên CI (18/11) · ✅ `docs/test-results.md` + `docs/evidence/` (18/11) · ✅ `docs/architecture.md` + nháp Chương 2 (20/11) · ✅ AWS sẵn sàng (SSO profile `devsecops`, 20/11) · ✅ Spike bước 1–3: repo ECR `podinfo` + fixture `D_unsigned`, `D_wrongsigner` (20/11) · ⛔ **chưa bật** Managed Signing
-**Giai đoạn kế tiếp:** spike bước 4 (`notation verify` thất bại với 2 fixture) → bước 5 tạo profile chính + bật Managed Signing (**hỏi người dùng trước**) → `D_signed` → `COMPLETE`.
+**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ✅ branch protection `main` (18/11) · ✅ TC02 + TC03 trên CI (18/11) · ✅ `docs/test-results.md` + `docs/evidence/` (18/11) · ✅ `docs/architecture.md` + nháp Chương 2 (20/11) · ✅ AWS sẵn sàng (SSO profile `devsecops`, 20/11) · ✅ Spike bước 1–4: repo ECR `podinfo`, fixture `D_unsigned`/`D_wrongsigner`, `notation verify` từ chối cả hai (20/11) · ⛔ **chưa bật** Managed Signing
+**Giai đoạn kế tiếp:** bước 5 tạo profile chính + bật Managed Signing (**hỏi người dùng trước**) → `D_signed` → `COMPLETE` → `D_SIGNED=... bash scripts/notation-verify.sh` phải pass.
 
 ## ⏸ Điểm dừng (18/11/2026, tối) — làm tiếp từ đây
 
@@ -38,7 +38,7 @@
 
 **Đổi thứ tự (người dùng đồng ý 17/11/2026):** account AWS tạm chưa dùng được → làm trước phần không phụ thuộc AWS, theo thứ tự: ~~(1) kiểm tra tương thích `kyverno-notation-aws` ↔ Kyverno 1.19.2~~ ✅ xong 17/11 (tự build, gate 0 Critical/0 High, `go test` đạt; chưa chạy trên cụm) → ~~(2) podinfo + Dockerfile + test~~ ✅ → ~~(3) scan local (Gitleaks, `image.tar`, Syft, Trivy)~~ ✅ xong 17/11 → ~~(5) kind + Kyverno + Policy 1 + RBAC/manifest~~ ✅ xong 17/11 → (4) job `verify` + `policy-test`: `.github/workflows/ci-cd.yml` ✅ run đầu xanh 17/11 (run 44024593626, attempt 2). **Chưa làm** Policy 2, `publish`, OIDC, `wait-signature.sh` cho tới khi spike đạt.
 
-Tiếp theo: spike bước 4 dùng chứng chỉ gốc AWS Signer (fingerprint đã ghi trong `docs/versions.md`) và trust policy Notation chỉ tin profile chính.
+- **Spike bước 4 xong:** `scripts/notation-verify.sh` — root AWS Signer tải lại, khớp fingerprint đã ghim → trust store `aws-signer-ts`; trust policy `strict`, đúng repo, chỉ tin `podinfo_signing_profile`. `D_unsigned` → exit 1 "no signature is associated"; `D_wrongsigner` → exit 1, plugin báo "Signature publisher doesn't match any trusted identities."; đối chứng (tạm tin profile B) → `D_wrongsigner` pass, rồi khôi phục policy chính. Bằng chứng `docs/evidence/spike/verify-fixtures/20261120T102136Z/`. Trust policy Notation nằm ở `~/.config/notation` trong WSL.
 
 ## Đã hoàn thành
 
@@ -75,7 +75,7 @@ Làm ngay sau phần chuẩn bị. Chưa qua tiêu chí 6.2 thì chưa làm pipe
 
 - [x] Bước 1–2: repo ECR `podinfo` (chưa bật signing rule) → fixture `D_unsigned` (20/11).
 - [x] Bước 3: profile B → fixture `D_wrongsigner` ký tay — **trước** khi bật signing rule (20/11).
-- [ ] Bước 4: `notation verify` thất bại với cả hai fixture.
+- [x] Bước 4: `notation verify` thất bại với cả hai fixture, đúng lý do; đối chứng tin profile B thì pass (20/11).
 - [ ] Bước 5–7: profile chính + bật Managed Signing → `D_signed` → `COMPLETE` → `notation verify` thành công.
 - [ ] Bước 8–9: kind + Kyverno 1.19.2 + extension; signed được chấp nhận, unsigned và wrong-signer bị từ chối; thử fail-closed.
 - [ ] Bước 10: lưu log, chốt bộ phiên bản vào mục 4 của `docs/versions.md`.
@@ -124,5 +124,6 @@ Các điểm kế hoạch ghi là "mẫu, cần đối chiếu":
 | 18/11/2026 | Merge PR #8 (`docs/test-results.md`, `docs/evidence/`, script đo). Dừng phiên theo yêu cầu người dùng: phần không cần AWS bắt buộc đã xong; chờ AWS để làm spike. |
 | 20/11/2026 | AWS account chưa hoàn tất đăng ký (trang "Complete your account setup") → chưa dùng được. Trong lúc chờ: viết `docs/architecture.md` (13 quyết định có lý do, trạng thái triển khai thật) và nháp `docs/report/chuong-2-co-so-ly-thuyet.md`. |
 | 20/11/2026 | AWS dùng được: Paid plan, MFA root, Budget 15 USD, IAM Identity Center + user SSO `duy-admin`, profile WSL `devsecops`. Kiểm tra chỉ đọc: `ap-southeast-1` có Managed Signing + Signer Notation. Spike bước 1–3: repo `podinfo` (IMMUTABLE, KMS), `D_unsigned` (0 chữ ký), `D_wrongsigner` (1 chữ ký profile B), Trivy 0 Critical; bằng chứng `docs/evidence/spike/fixtures/`. Chưa bật Managed Signing. |
+| 20/11/2026 | Spike bước 4: `scripts/notation-verify.sh` (root AWS Signer ghim fingerprint, trust policy strict chỉ tin profile chính). `D_unsigned` và `D_wrongsigner` bị từ chối đúng lý do; đối chứng tin profile B → pass. Bằng chứng `docs/evidence/spike/verify-fixtures/`. |
 
 <!-- Mẫu một dòng nhật ký: | dd/mm/yyyy | Giai đoạn · việc đã xong · bằng chứng (đường dẫn) · vấn đề còn mở | -->

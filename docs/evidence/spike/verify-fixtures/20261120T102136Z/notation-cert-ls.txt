@@ -1,0 +1,2 @@
+STORE TYPE         STORE NAME      CERTIFICATE                     
+signingAuthority   aws-signer-ts   aws-signer-notation-root.cert   
