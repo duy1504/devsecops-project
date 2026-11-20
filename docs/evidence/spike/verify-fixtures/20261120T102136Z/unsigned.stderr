@@ -1,0 +1,6 @@
+level=info msg=Allowed to access the referrers API, fallback if not supported
+level=info msg=Reference sha256:85b97e849174ed1d56fed8629ecb7cdb2bfd2a10bd9fe9f3110a6e97068cdf6f resolved to manifest descriptor: {MediaType:application/vnd.oci.image.manifest.v1+json Digest:sha256:85b97e849174ed1d56fed8629ecb7cdb2bfd2a10bd9fe9f3110a6e97068cdf6f Size:3125 URLs:[] Annotations:map[] Data:[] Platform:<nil> ArtifactType:}
+level=info msg=Checking whether signature verification should be skipped or not
+level=info msg=Trust policy configuration: &{Name:podinfo-aws-signer RegistryScopes:[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo] SignatureVerification:{VerificationLevel:strict Override:map[] VerifyTimestamp:} TrustStores:[signingAuthority:aws-signer-ts] TrustedIdentities:[arn:aws:signer:ap-southeast-1:<ACCOUNT_ID>:/signing-profiles/podinfo_signing_profile]}
+level=info msg=Check over. The signature verification level is not set to 'skip' in the trust policy.
+Error: signature verification failed: no signature is associated with "<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:85b97e849174ed1d56fed8629ecb7cdb2bfd2a10bd9fe9f3110a6e97068cdf6f", make sure the artifact was signed successfully
