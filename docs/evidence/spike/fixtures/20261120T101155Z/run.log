@@ -1,0 +1,12 @@
+[10:11:56] Registry chưa có signing configuration – đúng điều kiện tạo fixture
+[10:11:58] docker login ECR: OK
+[10:11:58] Build unsigned-baseline (nhãn demo.fixture=unsigned-baseline)
+[10:12:05] Trivy gate 0 CRITICAL cho unsigned-baseline
+[10:12:37] Trivy unsigned-baseline: 0 CRITICAL
+[10:12:46] Đã push unsigned-baseline → sha256:85b97e849174ed1d56fed8629ecb7cdb2bfd2a10bd9fe9f3110a6e97068cdf6f
+[10:12:47] Build wrong-signer-baseline (nhãn demo.fixture=wrong-signer-baseline)
+[10:13:00] Trivy gate 0 CRITICAL cho wrong-signer-baseline
+[10:13:01] Trivy wrong-signer-baseline: 0 CRITICAL
+[10:13:06] Đã push wrong-signer-baseline → sha256:6452d1877aeb082b63b02e742fd04a30496f2acf9e2b135eccf2f8b776782e75
+[10:13:10] Đã tạo profile B podinfo_wrong_signer
+[10:13:13] Ký tay D_wrongsigner bằng profile B (chỉ để tạo fixture TC06)

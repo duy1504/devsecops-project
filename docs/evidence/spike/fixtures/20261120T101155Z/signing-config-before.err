@@ -1,0 +1,2 @@
+
+aws: [ERROR]: An error occurred (SigningConfigurationNotFoundException) when calling the GetSigningConfiguration operation: The signing configuration does not exist in the registry with id '<ACCOUNT_ID>'

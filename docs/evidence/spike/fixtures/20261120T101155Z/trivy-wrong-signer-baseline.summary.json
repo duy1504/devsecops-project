@@ -1,0 +1,18 @@
+{
+  "ArtifactName": "local/podinfo-fixture:wrong-signer-baseline",
+  "CreatedAt": "2026-11-20T17:13:01.773660622+07:00",
+  "Trivy": {
+    "Version": "0.76.2"
+  },
+  "Metadata": {
+    "ImageID": "sha256:6452d1877aeb082b63b02e742fd04a30496f2acf9e2b135eccf2f8b776782e75",
+    "OS": {
+      "Family": "debian",
+      "Name": "12.15"
+    },
+    "RepoDigests": [
+      "local/podinfo-fixture@sha256:6452d1877aeb082b63b02e742fd04a30496f2acf9e2b135eccf2f8b776782e75"
+    ]
+  },
+  "CRITICAL": 0
+}

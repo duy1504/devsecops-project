@@ -3,8 +3,8 @@
 Đọc file này đầu mỗi phiên. Cập nhật khi xong một giai đoạn hoặc có thay đổi quan trọng (quy tắc trong `CLAUDE.md`).
 
 **Cập nhật lần cuối:** 20/11/2026
-**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ✅ branch protection `main` (18/11) · ✅ TC02 + TC03 trên CI (18/11) · ✅ `docs/test-results.md` + `docs/evidence/` (18/11) · ✅ `docs/architecture.md` + nháp Chương 2 (20/11) · 🔄 Chuẩn bị AWS **chờ người dùng** · chưa tạo tài nguyên AWS nào
-**Giai đoạn kế tiếp:** **chờ AWS** — người dùng bật MFA/Budgets, `aws configure sso`, báo tên profile → Claude kiểm region hỗ trợ Managed Signing, đặt biến mục 4.3 → spike mục 6 (tạo fixture `D_unsigned`, `D_wrongsigner` **trước** khi bật signing rule).
+**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ✅ branch protection `main` (18/11) · ✅ TC02 + TC03 trên CI (18/11) · ✅ `docs/test-results.md` + `docs/evidence/` (18/11) · ✅ `docs/architecture.md` + nháp Chương 2 (20/11) · ✅ AWS sẵn sàng (SSO profile `devsecops`, 20/11) · ✅ Spike bước 1–3: repo ECR `podinfo` + fixture `D_unsigned`, `D_wrongsigner` (20/11) · ⛔ **chưa bật** Managed Signing
+**Giai đoạn kế tiếp:** spike bước 4 (`notation verify` thất bại với 2 fixture) → bước 5 tạo profile chính + bật Managed Signing (**hỏi người dùng trước**) → `D_signed` → `COMPLETE`.
 
 ## ⏸ Điểm dừng (18/11/2026, tối) — làm tiếp từ đây
 
@@ -20,21 +20,25 @@
 - Cụm kind `devsecops` (Kyverno 1.19.2 + Policy 1 với ECR_IMAGE giả) vẫn tồn tại. Docker Desktop phải chạy trước (WSL báo "docker could not be found" khi Docker Desktop tắt); cụm tự lên lại khi Docker chạy. Dựng mới: `bash scripts/cluster-up.sh` rồi `ECR_IMAGE=... bash scripts/apply-policies.sh`.
 - Lệnh demo TC02/TC03/Policy 1: `demo/commands.md`. Fixture TC03 cần kiểm lại trước buổi bảo vệ (DB Trivy thay đổi).
 
-**AWS (20/11):** account báo "Complete your account setup" — chưa đăng ký xong hoặc đang ở Free plan → chưa dùng được dịch vụ. Người dùng cần hoàn tất đăng ký (thanh toán, xác minh danh tính, support plan Basic), chuyển Paid plan nếu đang Free, chờ tối đa 24 giờ kích hoạt.
+**AWS (20/11, chiều) — đã dùng được:**
+- Account **PAID/ACTIVE** (credit 0 USD), Budget `devsecops-lab` 15 USD, MFA root. IAM Identity Center + AWS Organizations; user SSO `duy-admin`, permission set `AdministratorAccess` (8 giờ).
+- WSL: profile **`devsecops`** (SSO, region `ap-southeast-1`). Hết hạn → `aws sso login --profile devsecops` (WSL không tự mở trình duyệt, mở link bằng tay). `~/.aws` là symlink tới `C:\Users\ZenBook\.aws`.
+- Biến mục 4.3: `source scripts/aws-env.sh` (lấy account ID từ STS, **không ghi account ID vào repo**).
+- Kiểm tra chỉ đọc: `ap-southeast-1` có ECR Managed Signing (`get-signing-configuration` → `SigningConfigurationNotFoundException`) và nền tảng Signer `Notation-OCI-SHA384-ECDSA`.
+- **Spike bước 1–3 xong:** `scripts/aws-create-repo.sh` (repo `podinfo`, IMMUTABLE, KMS) và `scripts/create-fixtures.sh` (từ chối chạy nếu registry đã có signing configuration). Kết quả:
+  - `D_unsigned` = `sha256:85b97e849174ed1d56fed8629ecb7cdb2bfd2a10bd9fe9f3110a6e97068cdf6f` (tag `unsigned-baseline`) — 0 chữ ký.
+  - `D_wrongsigner` = `sha256:6452d1877aeb082b63b02e742fd04a30496f2acf9e2b135eccf2f8b776782e75` (tag `wrong-signer-baseline`) — đúng 1 chữ ký, `signingProfileVersion` = `podinfo_wrong_signer/uG2yIHkItJ`, hạn 20/11/2027.
+  - Cả hai: manifest OCI đơn (`application/vnd.oci.image.manifest.v1+json`), Trivy 0 Critical. Bằng chứng: `docs/evidence/spike/fixtures/20261120T101155Z/` (đã che account ID).
+  - **Không push lại, không gắn thêm tag cho hai fixture.** Giá trị local: `reports/spike/fixtures.env`.
+- Sự cố: `docker login` ECR lỗi `The stub received bad data` (token ECR quá dài cho Windows Credential Manager) → script dùng `DOCKER_CONFIG` tạm, xóa khi xong. Docker Desktop khởi động lỗi `Wsl/Service/CreateInstance/0x80072746` → tắt Docker Desktop, `wsl --shutdown`, mở lại.
 
 **Đã viết trong lúc chờ AWS (20/11):** `docs/architecture.md` (luồng, ranh giới tin cậy, 13 quyết định kèm lý do và trạng thái, truy vết, giới hạn); `docs/report/chuong-2-co-so-ly-thuyet.md` (bản nháp Chương 2 theo mục 15, cần đối chiếu trích dẫn trước khi nộp).
 
 **Việc tùy chọn còn lại (không cần AWS):** nháp Chương 1, 3 của báo cáo; xóa nhánh `backup/*` (chờ người dùng xác nhận).
 
-Đang chờ **người dùng** làm trên AWS (Claude không xử lý credential):
-1. Xác nhận: MFA cho root, AWS Budgets (~10 USD), user riêng dùng hằng ngày (không dùng root).
-2. Bật IAM Identity Center → tạo user, gán permission set `AdministratorAccess` vào account lab.
-3. Trong WSL: `aws configure sso` (region mặc định `ap-southeast-1`, profile gợi ý `devsecops`) → `aws sts get-caller-identity --profile devsecops`.
-4. Báo lại **tên profile** cho Claude.
-
 **Đổi thứ tự (người dùng đồng ý 17/11/2026):** account AWS tạm chưa dùng được → làm trước phần không phụ thuộc AWS, theo thứ tự: ~~(1) kiểm tra tương thích `kyverno-notation-aws` ↔ Kyverno 1.19.2~~ ✅ xong 17/11 (tự build, gate 0 Critical/0 High, `go test` đạt; chưa chạy trên cụm) → ~~(2) podinfo + Dockerfile + test~~ ✅ → ~~(3) scan local (Gitleaks, `image.tar`, Syft, Trivy)~~ ✅ xong 17/11 → ~~(5) kind + Kyverno + Policy 1 + RBAC/manifest~~ ✅ xong 17/11 → (4) job `verify` + `policy-test`: `.github/workflows/ci-cd.yml` ✅ run đầu xanh 17/11 (run 44024593626, attempt 2). **Chưa làm** Policy 2, `publish`, OIDC, `wait-signature.sh` cho tới khi spike đạt.
 
-Khi AWS dùng được, Claude làm: kiểm tra region hỗ trợ ECR Managed Signing → đặt biến mục 4.3 → spike mục 6.1 bước 1–3 (repo `podinfo` **chưa** bật signing rule → `D_unsigned` → `D_wrongsigner` ký bằng profile B). Chứng chỉ gốc AWS Signer đã tải và ghi fingerprint trong `docs/versions.md` (dùng ở bước 4).
+Tiếp theo: spike bước 4 dùng chứng chỉ gốc AWS Signer (fingerprint đã ghi trong `docs/versions.md`) và trust policy Notation chỉ tin profile chính.
 
 ## Đã hoàn thành
 
@@ -59,18 +63,18 @@ Khi AWS dùng được, Claude làm: kiểm tra region hỗ trợ ECR Managed Si
 - [x] Kiểm tra lại Kyverno (17/11/2026): 1.19.2 vẫn là bản vá mới nhất của 1.19; **v1.20.0 đã ra nhưng chưa gỡ `ClusterPolicy`**; chưa có tag chart 3.10.x. Giữ ghim 1.19.2 / chart 3.9.2 (chi tiết trong `docs/versions.md`).
 - [x] GitHub repo `duy1504/devsecops-project`; `git init -b main` trong `C:\Teo\DevOps`, remote `origin` đã thêm; có `.gitignore`, `.gitattributes` (LF cho script). Commit đầu `b5be5d5` đã push lên `origin/main` (17/11/2026).
 - [x] WSL2 Ubuntu + Docker Desktop (engine 29.9.1) đang chạy (17/11/2026).
-- [x] AWS account lab đã tạo (Paid plan, 17/11/2026). Chưa xác nhận: MFA root, user/SSO riêng, AWS Budgets.
+- [x] AWS account lab (Paid plan). 20/11: MFA root, Budget 15 USD, SSO user `duy-admin` qua IAM Identity Center.
 - [x] Công cụ trong WSL: `scripts/install-tools.sh` (cài vào `~/.local`, không sudo, ghim phiên bản + SHA-256) chạy thành công 17/11/2026; bộ phiên bản ở mục 1b `docs/versions.md`. AWS CLI 2.40.4 có đủ lệnh Managed Signing.
-- [ ] Cấu hình AWS CLI trong WSL (`aws configure sso` hoặc credential ngắn hạn), `aws sts get-caller-identity` thành công.
-- [ ] Xác nhận region `ap-southeast-1` hỗ trợ ECR Managed Signing; AWS CLI có `put-signing-configuration`.
-- [ ] Đặt biến cấu hình ở mục 4.3 (cần AWS CLI đã đăng nhập).
+- [x] AWS CLI trong WSL: profile SSO `devsecops`, `aws sts get-caller-identity` thành công (20/11).
+- [x] `ap-southeast-1` hỗ trợ ECR Managed Signing + Signer `Notation-OCI-SHA384-ECDSA` (20/11, kiểm tra chỉ đọc).
+- [x] Biến mục 4.3: `scripts/aws-env.sh` (20/11).
 
 ### Giai đoạn 0 — Spike đường găng (mục 6)
 
 Làm ngay sau phần chuẩn bị. Chưa qua tiêu chí 6.2 thì chưa làm pipeline.
 
-- [ ] Bước 1–2: repo ECR `podinfo` (chưa bật signing rule) → fixture `D_unsigned`.
-- [ ] Bước 3: profile B → fixture `D_wrongsigner` ký tay — **trước** khi bật signing rule.
+- [x] Bước 1–2: repo ECR `podinfo` (chưa bật signing rule) → fixture `D_unsigned` (20/11).
+- [x] Bước 3: profile B → fixture `D_wrongsigner` ký tay — **trước** khi bật signing rule (20/11).
 - [ ] Bước 4: `notation verify` thất bại với cả hai fixture.
 - [ ] Bước 5–7: profile chính + bật Managed Signing → `D_signed` → `COMPLETE` → `notation verify` thành công.
 - [ ] Bước 8–9: kind + Kyverno 1.19.2 + extension; signed được chấp nhận, unsigned và wrong-signer bị từ chối; thử fail-closed.
@@ -119,5 +123,6 @@ Các điểm kế hoạch ghi là "mẫu, cần đối chiếu":
 | 18/11/2026 | Viết `docs/test-results.md` (kết luận từng ca TC01–TC10 theo trường mục 12.4, chỉ số mục 12.5) và chép bằng chứng chọn lọc vào `docs/evidence/` (90 file, 280 KB; Gitleaks quét sạch). Chạy lại Policy 1 trên kind 3 lượt (6/6 mỗi lượt, kiểm deny đúng do `allowed-image`, đo độ trễ). `check-rbac.sh` thêm 4 yêu cầu thật bằng impersonation → 4/4 Forbidden. Thêm `scripts/ci-metrics.sh`: 13 run verify thành công, job tb 117,6 s. |
 | 18/11/2026 | Merge PR #8 (`docs/test-results.md`, `docs/evidence/`, script đo). Dừng phiên theo yêu cầu người dùng: phần không cần AWS bắt buộc đã xong; chờ AWS để làm spike. |
 | 20/11/2026 | AWS account chưa hoàn tất đăng ký (trang "Complete your account setup") → chưa dùng được. Trong lúc chờ: viết `docs/architecture.md` (13 quyết định có lý do, trạng thái triển khai thật) và nháp `docs/report/chuong-2-co-so-ly-thuyet.md`. |
+| 20/11/2026 | AWS dùng được: Paid plan, MFA root, Budget 15 USD, IAM Identity Center + user SSO `duy-admin`, profile WSL `devsecops`. Kiểm tra chỉ đọc: `ap-southeast-1` có Managed Signing + Signer Notation. Spike bước 1–3: repo `podinfo` (IMMUTABLE, KMS), `D_unsigned` (0 chữ ký), `D_wrongsigner` (1 chữ ký profile B), Trivy 0 Critical; bằng chứng `docs/evidence/spike/fixtures/`. Chưa bật Managed Signing. |
 
 <!-- Mẫu một dòng nhật ký: | dd/mm/yyyy | Giai đoạn · việc đã xong · bằng chứng (đường dẫn) · vấn đề còn mở | -->

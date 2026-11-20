@@ -1,0 +1,18 @@
+[
+    {
+        "tags": [
+            "wrong-signer-baseline"
+        ],
+        "digest": "sha256:6452d1877aeb082b63b02e742fd04a30496f2acf9e2b135eccf2f8b776782e75",
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "bytes": 12303910
+    },
+    {
+        "tags": [
+            "unsigned-baseline"
+        ],
+        "digest": "sha256:85b97e849174ed1d56fed8629ecb7cdb2bfd2a10bd9fe9f3110a6e97068cdf6f",
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "bytes": 12303906
+    }
+]
