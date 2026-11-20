@@ -2,8 +2,8 @@
 
 Đọc file này đầu mỗi phiên. Cập nhật khi xong một giai đoạn hoặc có thay đổi quan trọng (quy tắc trong `CLAUDE.md`).
 
-**Cập nhật lần cuối:** 18/11/2026
-**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ✅ branch protection `main` (18/11) · ✅ TC02 + TC03 trên CI (18/11) · ✅ `docs/test-results.md` + `docs/evidence/` (18/11) · 🔄 Chuẩn bị AWS **chờ người dùng** · chưa tạo tài nguyên AWS nào
+**Cập nhật lần cuối:** 20/11/2026
+**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ✅ branch protection `main` (18/11) · ✅ TC02 + TC03 trên CI (18/11) · ✅ `docs/test-results.md` + `docs/evidence/` (18/11) · ✅ `docs/architecture.md` + nháp Chương 2 (20/11) · 🔄 Chuẩn bị AWS **chờ người dùng** · chưa tạo tài nguyên AWS nào
 **Giai đoạn kế tiếp:** **chờ AWS** — người dùng bật MFA/Budgets, `aws configure sso`, báo tên profile → Claude kiểm region hỗ trợ Managed Signing, đặt biến mục 4.3 → spike mục 6 (tạo fixture `D_unsigned`, `D_wrongsigner` **trước** khi bật signing rule).
 
 ## ⏸ Điểm dừng (18/11/2026, tối) — làm tiếp từ đây
@@ -20,7 +20,11 @@
 - Cụm kind `devsecops` (Kyverno 1.19.2 + Policy 1 với ECR_IMAGE giả) vẫn tồn tại. Docker Desktop phải chạy trước (WSL báo "docker could not be found" khi Docker Desktop tắt); cụm tự lên lại khi Docker chạy. Dựng mới: `bash scripts/cluster-up.sh` rồi `ECR_IMAGE=... bash scripts/apply-policies.sh`.
 - Lệnh demo TC02/TC03/Policy 1: `demo/commands.md`. Fixture TC03 cần kiểm lại trước buổi bảo vệ (DB Trivy thay đổi).
 
-**Việc tùy chọn (không cần AWS), chờ người dùng chọn:** `docs/architecture.md` (quyết định + lý do, mục 3.4/5 kế hoạch); phác thảo chương lý thuyết báo cáo (mục 15); xóa nhánh `backup/*`.
+**AWS (20/11):** account báo "Complete your account setup" — chưa đăng ký xong hoặc đang ở Free plan → chưa dùng được dịch vụ. Người dùng cần hoàn tất đăng ký (thanh toán, xác minh danh tính, support plan Basic), chuyển Paid plan nếu đang Free, chờ tối đa 24 giờ kích hoạt.
+
+**Đã viết trong lúc chờ AWS (20/11):** `docs/architecture.md` (luồng, ranh giới tin cậy, 13 quyết định kèm lý do và trạng thái, truy vết, giới hạn); `docs/report/chuong-2-co-so-ly-thuyet.md` (bản nháp Chương 2 theo mục 15, cần đối chiếu trích dẫn trước khi nộp).
+
+**Việc tùy chọn còn lại (không cần AWS):** nháp Chương 1, 3 của báo cáo; xóa nhánh `backup/*` (chờ người dùng xác nhận).
 
 Đang chờ **người dùng** làm trên AWS (Claude không xử lý credential):
 1. Xác nhận: MFA cho root, AWS Budgets (~10 USD), user riêng dùng hằng ngày (không dùng root).
@@ -114,5 +118,6 @@ Các điểm kế hoạch ghi là "mẫu, cần đối chiếu":
 | 18/11/2026 | Merge PR #5 (Gitleaks `--log-opts=HEAD`). TC03 đạt trên CI (PR #6): gate Trivy fail với 4 Critical, exit 1, PR BLOCKED, không có artifact approved-image; đóng PR, xóa nhánh. Hai ca CI bắt buộc (TC02, TC03) đã có bằng chứng thật. |
 | 18/11/2026 | Viết `docs/test-results.md` (kết luận từng ca TC01–TC10 theo trường mục 12.4, chỉ số mục 12.5) và chép bằng chứng chọn lọc vào `docs/evidence/` (90 file, 280 KB; Gitleaks quét sạch). Chạy lại Policy 1 trên kind 3 lượt (6/6 mỗi lượt, kiểm deny đúng do `allowed-image`, đo độ trễ). `check-rbac.sh` thêm 4 yêu cầu thật bằng impersonation → 4/4 Forbidden. Thêm `scripts/ci-metrics.sh`: 13 run verify thành công, job tb 117,6 s. |
 | 18/11/2026 | Merge PR #8 (`docs/test-results.md`, `docs/evidence/`, script đo). Dừng phiên theo yêu cầu người dùng: phần không cần AWS bắt buộc đã xong; chờ AWS để làm spike. |
+| 20/11/2026 | AWS account chưa hoàn tất đăng ký (trang "Complete your account setup") → chưa dùng được. Trong lúc chờ: viết `docs/architecture.md` (13 quyết định có lý do, trạng thái triển khai thật) và nháp `docs/report/chuong-2-co-so-ly-thuyet.md`. |
 
 <!-- Mẫu một dòng nhật ký: | dd/mm/yyyy | Giai đoạn · việc đã xong · bằng chứng (đường dẫn) · vấn đề còn mở | -->
