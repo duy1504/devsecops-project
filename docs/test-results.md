@@ -2,13 +2,13 @@
 
 Theo kế hoạch mục 12. Chỉ ghi số liệu từ lần chạy thật; bằng chứng chọn lọc nằm trong `docs/evidence/`. Thư mục bằng chứng đặt tên theo thời điểm **UTC**; giờ Việt Nam = UTC+7.
 
-**Cập nhật:** 26/11/2026. ECR, Managed Signing và Policy 2 đã chạy trên kind với AWS thật. **Chưa có:** job `publish` + OIDC, nên TC01 mới chứng minh nửa admission (image do spike push, chưa phải do pipeline).
+**Cập nhật:** 26/11/2026 (chiều). ECR, Managed Signing, Policy 2 và job `publish` (OIDC) đã chạy với AWS thật; **TC01 đạt trọn luồng** từ commit trên `main` tới Pod.
 
 ## 1. Tổng hợp
 
 | Ca | Tình huống | Lớp kiểm soát | Kết luận | Bằng chứng |
 |---|---|---|---|---|
-| TC01 | Luồng hợp lệ end-to-end | CI + admission | **Đạt phần admission**: image ký bởi Managed Signing được nhận, Pod `Running`. Phần CI → `publish` chưa có | `evidence/spike/policy2-kind/20261126T081955Z/` |
+| TC01 | Luồng hợp lệ end-to-end | CI + admission | **Đạt** (trọn luồng): run 45798939183 trên `main` → `publish` push + ký `COMPLETE` → `deploy.sh` → Policy 1 + Policy 2 nhận, 2 Pod `Running` đúng digest | `evidence/tc01-e2e/20261126T101455Z/` (phần admission riêng: `evidence/spike/policy2-kind/20261126T081955Z/`) |
 | TC02 | Secret giả trong mã | Gitleaks (CI) | **Đạt** | `evidence/TC02/20261117T171512Z/` |
 | TC03 | Image có CVE Critical | Trivy gate (CI) | **Đạt** | `evidence/TC03/20261117T172037Z/` |
 | TC04 | Image chưa ký | Admission (Policy 2) | **Đạt** | `evidence/spike/policy2-kind/20261126T081955Z/` |
@@ -82,6 +82,21 @@ Test offline (`scripts/policy-test.sh`, Kyverno CLI v1.19.2): 6/6 ca, chạy tro
 | Kết luận | **Đạt** cả 4 ca. Ghi chú: extension trả HTTP 406 khi xác minh thất bại nên Kyverno xếp là `error (blocked)` thay vì `fail`; kết quả chặn như nhau |
 
 Policy 2 dùng `imageReferences: ["*"]` nên cũng xác minh image ngoài ECR: với TC05 (ghcr.io) và TC08 (busybox) extension báo `has no applicable trust policy statement` → hai lớp cùng chặn.
+
+### TC01 — Trọn luồng: commit → CI → ECR + chữ ký → admission → Pod
+
+| Trường | Nội dung |
+|---|---|
+| Thời gian | Run 45798939183/1 (merge PR #16, commit `d1cd8dd72cd8`): `verify` 10:11:11–10:12:36, `policy-test` 10:11:11–10:11:22, `publish` 10:12:38–10:13:23 UTC; triển khai 10:15:01 UTC |
+| Môi trường | GitHub Actions `ubuntu-24.04`; role `devsecops-publisher` qua OIDC (trust `sub` = `…:ref:refs/heads/main`, dạng immutable subject); ECR `podinfo` + Managed Signing; kind như ca Policy 2 ở trên; `scripts/deploy.sh` chạy dưới danh tính deployer (impersonate group `devsecops-deployers`) |
+| Input | Commit trên `main`; artifact `approved-image-45798939183-1` (`image.tar` của job `verify`, image ID `sha256:242fd799…b48e`) |
+| Các bước & kết quả | `publish`: `sha256sum -c` + `verification.json` khớp commit/run/attempt + image ID khớp → push tag `sha-d1cd8dd72cd8-run-45798939183-1` → digest `sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3` (digest registry = digest push) → `wait-signature.sh`: `Signed by expected profile after ~5s` → `release.json`. Máy lab: `fetch-release.sh` (chỉ run push `main` thành công) → `deploy.sh`: kiểm `release.json`↔`run.json`, tag trên ECR, ký `COMPLETE` → dry-run server → apply → rollout 2/2 |
+| Bằng chứng admission | Extension: `"verified": true` cho đúng digest lúc 10:15:05; event `SuccessfulCreate` ×2, `Pulled` đúng digest; không có `FailedCreate` |
+| Runtime | 2 Pod: `spec.image` và `status.imageID` đều `…/podinfo@sha256:8d0b9dd6…`; `/healthz` `{"status":"OK"}`, `/version` = 6.17.0 / `fd3a834` (qua `services/proxy`, không port-forward) |
+| Truy vết | Pod → digest `8d0b9dd6…` → `release.json` (run 45798939183, commit `d1cd8dd`, `local_image_id`, `image_tar_sha256`, `sbom_sha256`, `vulnerability_report_sha256`) → artifact `security-reports-45798939183-1` (SBOM, Trivy) → commit nguồn |
+| Quyền tối thiểu | Publisher **không** có `signer:GetSigningProfile` mà ký vẫn `COMPLETE` → loại khỏi policy (mục 8.4) |
+| Lộ thông tin | Log job `publish` (repo public): 0 lần xuất hiện account ID, 63 dòng bị GitHub che `***`; `release.json` trong artifact đã thay bằng `<ACCOUNT_ID>`; Gitleaks quét `docs/evidence/` sạch |
+| Kết luận | **Đạt** |
 
 ### TC10 — RBAC deployer
 
@@ -164,3 +179,6 @@ So với Policy 1 (~200–300 ms), xác minh chữ ký thêm khoảng 1–2 s ch
 7. **Mẫu policy upstream cần quyền đọc Secret chứa private key.** Mẫu lấy `caBundle` bằng cách để Kyverno đọc Secret TLS của extension. Đồ án nhúng chứng chỉ CA công khai lúc render, nên Kyverno không cần thêm quyền.
 8. **`envsubst` thay cả biến trong chú thích.** Chú thích nhắc `${EXT_CA_BUNDLE}` bị thay bằng PEM, làm hỏng YAML. Đổi cách viết chú thích.
 9. **Ổ C: đầy khi build lại extension** (26/11): `Bus error` ở `docker run`; còn khoảng 7 GB sau build. Ổ đĩa ảo của Docker Desktop chỉ tăng, không tự co lại.
+10. **Claim `sub` OIDC khác mẫu trong tài liệu.** Repo bật *immutable subject claims* nên `sub` là `repo:duy1504@210903593/devsecops-project@1460578199:ref:refs/heads/main`, không phải `repo:<OWNER>/<REPO>:ref:…`. Trust policy viết theo mẫu sẽ luôn bị từ chối `AssumeRoleWithWebIdentity`. Kiểm bằng `gh api repos/<owner>/<repo>/actions/oidc/customization/sub` trước khi tạo role.
+11. **Repo public làm lộ account ID qua log và artifact.** GitHub Variables không được che trong log. Đặt account ID ở Secret (GitHub tự che mọi chuỗi chứa nó), ghép ARN trong job, và thay bằng `<ACCOUNT_ID>` trong `release.json` trước khi upload artifact.
+12. **Script kiểm lộ account ID chạy với biến rỗng.** Hai lần lấy account ID thất bại âm thầm (Git Bash tự đổi đường dẫn `/mnt/c/...`; WSL thiếu `~/.local/bin` trong `PATH`), `grep ""` khớp mọi dòng nên báo "có lộ" ở mọi file — báo động giả, nhưng cùng lỗi này ở một phép kiểm dạng "đếm = 0 thì đạt" hoặc ở bước `sed` che sẽ cho kết quả sai. Hai kết quả đó bị loại; script kiểm và job `publish` đều bắt buộc account ID khớp `^[0-9]{12}$` trước khi dùng.

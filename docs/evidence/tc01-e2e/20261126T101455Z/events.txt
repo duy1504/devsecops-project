@@ -1,0 +1,14 @@
+LAST SEEN   TYPE     REASON              OBJECT                          MESSAGE
+11s         Normal   ScalingReplicaSet   deployment/podinfo              Scaled up replica set podinfo-546898db97 from 0 to 2
+10s         Normal   SuccessfulCreate    replicaset/podinfo-546898db97   Created pod: podinfo-546898db97-mhh5p
+10s         Normal   Scheduled           pod/podinfo-546898db97-mhh5p    Successfully assigned app/podinfo-546898db97-mhh5p to devsecops-control-plane
+9s          Normal   Pulling             pod/podinfo-546898db97-djnlb    Pulling image "<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3"
+9s          Normal   Scheduled           pod/podinfo-546898db97-djnlb    Successfully assigned app/podinfo-546898db97-djnlb to devsecops-control-plane
+9s          Normal   SuccessfulCreate    replicaset/podinfo-546898db97   Created pod: podinfo-546898db97-djnlb
+9s          Normal   Pulling             pod/podinfo-546898db97-mhh5p    Pulling image "<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3"
+4s          Normal   Created             pod/podinfo-546898db97-djnlb    Container created
+4s          Normal   Created             pod/podinfo-546898db97-mhh5p    Container created
+4s          Normal   Started             pod/podinfo-546898db97-mhh5p    Container started
+4s          Normal   Pulled              pod/podinfo-546898db97-mhh5p    Successfully pulled image "<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3" in 3.765s (3.765s including waiting). Image size: 12307279 bytes.
+4s          Normal   Pulled              pod/podinfo-546898db97-djnlb    Successfully pulled image "<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3" in 273ms (3.113s including waiting). Image size: 12307279 bytes.
+3s          Normal   Started             pod/podinfo-546898db97-djnlb    Container started

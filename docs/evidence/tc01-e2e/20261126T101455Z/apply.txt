@@ -1,0 +1,2 @@
+service/podinfo created
+deployment.apps/podinfo created

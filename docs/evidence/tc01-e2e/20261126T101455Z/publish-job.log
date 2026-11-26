@@ -1,0 +1,574 @@
+publish	Set up job	﻿2026-11-26T10:12:38.5785430Z Current runner version: '2.338.2'
+publish	Set up job	2026-11-26T10:12:38.5812712Z ##[group]Runner Image Provisioner
+publish	Set up job	2026-11-26T10:12:38.5813654Z Hosted Compute Agent
+publish	Set up job	2026-11-26T10:12:38.5814222Z Version: 20261111.635
+publish	Set up job	2026-11-26T10:12:38.5814831Z Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+publish	Set up job	2026-11-26T10:12:38.5815680Z Build Date: 2026-11-11T01:49:01Z
+publish	Set up job	2026-11-26T10:12:38.5816395Z Worker ID: {7ca9d4bf-9a98-4bb5-b916-bc2d56001688}
+publish	Set up job	2026-11-26T10:12:38.5817149Z Region: us-east-1
+publish	Set up job	2026-11-26T10:12:38.5817682Z Cloud: AWS
+publish	Set up job	2026-11-26T10:12:38.5818168Z ##[endgroup]
+publish	Set up job	2026-11-26T10:12:38.5819693Z ##[group]Operating System
+publish	Set up job	2026-11-26T10:12:38.5820615Z Ubuntu
+publish	Set up job	2026-11-26T10:12:38.5821216Z 24.04.5
+publish	Set up job	2026-11-26T10:12:38.5821732Z LTS
+publish	Set up job	2026-11-26T10:12:38.5822254Z ##[endgroup]
+publish	Set up job	2026-11-26T10:12:38.5822832Z ##[group]Runner Image
+publish	Set up job	2026-11-26T10:12:38.5823455Z Image: ubuntu-24.04
+publish	Set up job	2026-11-26T10:12:38.5824103Z Version: 20261122.23.1
+publish	Set up job	2026-11-26T10:12:38.5825258Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261122.23/images/ubuntu/Ubuntu2404-Readme.md
+publish	Set up job	2026-11-26T10:12:38.5827227Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261122.23
+publish	Set up job	2026-11-26T10:12:38.5828277Z ##[endgroup]
+publish	Set up job	2026-11-26T10:12:38.5829424Z ##[group]GITHUB_TOKEN Permissions
+publish	Set up job	2026-11-26T10:12:38.5832207Z Contents: read
+publish	Set up job	2026-11-26T10:12:38.5832856Z Metadata: read
+publish	Set up job	2026-11-26T10:12:38.5833396Z ##[endgroup]
+publish	Set up job	2026-11-26T10:12:38.5835614Z Secret source: Actions
+publish	Set up job	2026-11-26T10:12:38.5836628Z Cache mode: write
+publish	Set up job	2026-11-26T10:12:38.5837543Z Prepare workflow directory
+publish	Set up job	2026-11-26T10:12:38.6337797Z Prepare all required actions
+publish	Set up job	2026-11-26T10:12:38.6391029Z Getting action download info
+publish	Set up job	2026-11-26T10:12:38.8468618Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+publish	Set up job	2026-11-26T10:12:40.2591627Z Download action repository 'actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333' (SHA:9000827ccba6bdab643e8b6fd33ac0654aef8333)
+publish	Set up job	2026-11-26T10:12:40.3912095Z Download action repository 'aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd' (SHA:e1253824e5c10ff9df46874f81ed3ec929e19cfd)
+publish	Set up job	2026-11-26T10:12:40.5011733Z Download action repository 'actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+publish	Set up job	2026-11-26T10:12:40.8037861Z Complete job name: publish
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-11-26T10:12:40.8716955Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8717909Z with:
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8718367Z   persist-credentials: false
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8718901Z   repository: duy1504/devsecops-project
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8723049Z   token: ***
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8723492Z   ssh-strict: true
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8723972Z   ssh-user: git
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8724410Z   clean: true
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8724826Z   sparse-checkout-cone-mode: true
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8725363Z   fetch-depth: 1
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8725777Z   fetch-tags: false
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8726228Z   show-progress: true
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8726717Z   lfs: false
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8727129Z   submodules: false
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8727584Z   set-safe-directory: true
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8728075Z   allow-unsafe-pr-checkout: false
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8728851Z env:
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8729332Z   LOCAL_IMAGE: podinfo:ci
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8729811Z   GO_VERSION: 1.27.4
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8730508Z   GITLEAKS_VERSION: 8.30.1
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8731368Z   GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8732211Z   SYFT_VERSION: 1.56.0
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8732923Z   SYFT_SHA256: 1c2493cfcf52d3367d6cb25780d9190c111c2219c34c820574c43e8bae15c528
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8733677Z   TRIVY_VERSION: 0.76.2
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8734360Z   TRIVY_SHA256: bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8735251Z   KYVERNO_CLI_VERSION: v1.19.2
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8736055Z   KYVERNO_CLI_SHA256: 357eaf1df8bc24ddd5a73979fadeaae6a032e8710f11af264229756e4956bf4a
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8737053Z   AWS_REGION: ap-southeast-1
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8737545Z   ECR_REPOSITORY: podinfo
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8738071Z   SIGNING_PROFILE_NAME: podinfo_signing_profile
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8738700Z   PUBLISH_ROLE_NAME: devsecops-publisher
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8739372Z   AWS_ACCOUNT_ID: ***
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:40.8739813Z ##[endgroup]
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.7465700Z Syncing repository: duy1504/devsecops-project
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.7467114Z ##[group]Getting Git version info
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.7467639Z Working directory is '/home/runner/work/devsecops-project/devsecops-project'
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.7468320Z [command]/usr/bin/git version
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9147711Z git version 2.56.1
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9162704Z ##[endgroup]
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9172959Z Temporarily overriding HOME='/home/runner/work/_temp/b3869dec-3adb-4eb7-a4f6-e1af20c0fb79' before making global git config changes
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9173816Z Adding repository directory to the temporary git global config as a safe directory
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9177188Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/devsecops-project/devsecops-project
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9229361Z Deleting the contents of '/home/runner/work/devsecops-project/devsecops-project'
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9232166Z ##[group]Determining repository object format
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9233218Z ##[endgroup]
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9233947Z ##[group]Initializing the repository
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9237476Z [command]/usr/bin/git init /home/runner/work/devsecops-project/devsecops-project
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9415989Z hint: Using 'master' as the name for the initial branch. This default branch name
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9416746Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9417267Z hint: to use in all of your new repositories, which will suppress this warning,
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9417691Z hint: call:
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9417932Z hint:
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9418260Z hint: 	git config --global init.defaultBranch <name>
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9418666Z hint:
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9419013Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9419507Z hint: 'development'. The just-created branch can be renamed via this command:
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9419866Z hint:
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9420124Z hint: 	git branch -m <name>
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9420642Z hint:
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9421094Z hint: Disable this message with "git config set advice.defaultBranchName false"
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9429839Z Initialized empty Git repository in /home/runner/work/devsecops-project/devsecops-project/.git/
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9436949Z [command]/usr/bin/git remote add origin https://github.com/duy1504/devsecops-project
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9496527Z ##[endgroup]
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9497341Z ##[group]Disabling automatic garbage collection
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9498309Z [command]/usr/bin/git config --local gc.auto 0
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9521421Z ##[endgroup]
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9521912Z ##[group]Setting up auth
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9522312Z Removing SSH command configuration
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9525840Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:43.9554621Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.2622930Z Removing HTTP extra header
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.2629531Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.2652327Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.2798021Z Removing includeIf entries pointing to credentials config files
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.2808437Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.2827154Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.2978719Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-39dd3c7a-b0ea-403c-a97d-62dc9469c396.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.3008335Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/devsecops-project/devsecops-project/.git.path /home/runner/work/_temp/git-credentials-39dd3c7a-b0ea-403c-a97d-62dc9469c396.config
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.3030871Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/devsecops-project/devsecops-project/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-39dd3c7a-b0ea-403c-a97d-62dc9469c396.config
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.3061829Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-39dd3c7a-b0ea-403c-a97d-62dc9469c396.config
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.3077317Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-39dd3c7a-b0ea-403c-a97d-62dc9469c396.config
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.3096728Z ##[endgroup]
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.3097354Z ##[group]Fetching the repository
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.3103145Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +d1cd8dd72cd8ddb451f6f5cbf0e6fc03513264a2:refs/remotes/origin/main
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6289473Z From https://github.com/duy1504/devsecops-project
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6290041Z  * [new ref]         d1cd8dd72cd8ddb451f6f5cbf0e6fc03513264a2 -> origin/main
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6298404Z [command]/usr/bin/git branch --list --remote origin/main
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6337234Z   origin/main
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6344318Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6363221Z d1cd8dd72cd8ddb451f6f5cbf0e6fc03513264a2
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6365690Z ##[endgroup]
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6366301Z ##[group]Determining the checkout info
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6366960Z ##[endgroup]
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6370454Z [command]/usr/bin/git sparse-checkout disable
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6426479Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6447857Z ##[group]Checking out the ref
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6451377Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6692392Z Switched to a new branch 'main'
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6701865Z branch 'main' set up to track 'origin/main'.
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6704584Z ##[endgroup]
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6740566Z [command]/usr/bin/git log -1 --format=%H
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6759408Z d1cd8dd72cd8ddb451f6f5cbf0e6fc03513264a2
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6765031Z ##[group]Removing auth
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6765390Z Removing SSH command configuration
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6767866Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6790063Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6940063Z Removing HTTP extra header
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6948731Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.6972299Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7121353Z Removing includeIf entries pointing to credentials config files
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7123772Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7147426Z includeif.gitdir:/home/runner/work/devsecops-project/devsecops-project/.git.path
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7148093Z includeif.gitdir:/home/runner/work/devsecops-project/devsecops-project/.git/worktrees/*.path
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7148875Z includeif.gitdir:/github/workspace/.git.path
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7149260Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7153226Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/devsecops-project/devsecops-project/.git.path
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7170149Z /home/runner/work/_temp/git-credentials-39dd3c7a-b0ea-403c-a97d-62dc9469c396.config
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7176563Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/devsecops-project/devsecops-project/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-39dd3c7a\-b0ea\-403c\-a97d\-62dc9469c396\.config
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7200625Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/devsecops-project/devsecops-project/.git/worktrees/*.path
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7218025Z /home/runner/work/_temp/git-credentials-39dd3c7a-b0ea-403c-a97d-62dc9469c396.config
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7224763Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/devsecops-project/devsecops-project/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-39dd3c7a\-b0ea\-403c\-a97d\-62dc9469c396\.config
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7247347Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7265589Z /github/runner_temp/git-credentials-39dd3c7a-b0ea-403c-a97d-62dc9469c396.config
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7270502Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-39dd3c7a\-b0ea\-403c\-a97d\-62dc9469c396\.config
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7294219Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7311897Z /github/runner_temp/git-credentials-39dd3c7a-b0ea-403c-a97d-62dc9469c396.config
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7316546Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-39dd3c7a\-b0ea\-403c\-a97d\-62dc9469c396\.config
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7340842Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7484224Z Removing credentials config '/home/runner/work/_temp/git-credentials-39dd3c7a-b0ea-403c-a97d-62dc9469c396.config'
+publish	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:12:44.7491081Z ##[endgroup]
+publish	Resolve configuration	﻿2026-11-26T10:12:44.7655250Z ##[group]Run set -euo pipefail
+publish	Resolve configuration	2026-11-26T10:12:44.7655631Z ^[[36;1mset -euo pipefail^[[0m
+publish	Resolve configuration	2026-11-26T10:12:44.7656120Z ^[[36;1mfor v in AWS_REGION ECR_REPOSITORY SIGNING_PROFILE_NAME PUBLISH_ROLE_NAME AWS_ACCOUNT_ID; do^[[0m
+publish	Resolve configuration	2026-11-26T10:12:44.7656679Z ^[[36;1m  [ -n "${!v}" ] || { echo "::error::Thiếu cấu hình $v (repo variables/secrets)"; exit 1; }^[[0m
+publish	Resolve configuration	2026-11-26T10:12:44.7657028Z ^[[36;1mdone^[[0m
+publish	Resolve configuration	2026-11-26T10:12:44.7657368Z ^[[36;1m[[ "$AWS_ACCOUNT_ID" =~ ^[0-9]{12}$ ]] || { echo "::error::AWS_ACCOUNT_ID sai định dạng"; exit 1; }^[[0m
+publish	Resolve configuration	2026-11-26T10:12:44.7657811Z ^[[36;1mreg="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"^[[0m
+publish	Resolve configuration	2026-11-26T10:12:44.7658138Z ^[[36;1m{^[[0m
+publish	Resolve configuration	2026-11-26T10:12:44.7658379Z ^[[36;1m  echo "ECR_REGISTRY=$reg"^[[0m
+publish	Resolve configuration	2026-11-26T10:12:44.7658650Z ^[[36;1m  echo "ECR_IMAGE=$reg/$ECR_REPOSITORY"^[[0m
+publish	Resolve configuration	2026-11-26T10:12:44.7659116Z ^[[36;1m  echo "SIGNING_PROFILE_ARN=arn:aws:signer:${AWS_REGION}:${AWS_ACCOUNT_ID}:/signing-profiles/${SIGNING_PROFILE_NAME}"^[[0m
+publish	Resolve configuration	2026-11-26T10:12:44.7659640Z ^[[36;1m  echo "PUBLISH_ROLE_ARN=arn:aws:iam::${AWS_ACCOUNT_ID}:role/${PUBLISH_ROLE_NAME}"^[[0m
+publish	Resolve configuration	2026-11-26T10:12:44.7660125Z ^[[36;1m} >> "$GITHUB_ENV"^[[0m
+publish	Resolve configuration	2026-11-26T10:12:45.2430682Z shell: /usr/bin/bash -e {0}
+publish	Resolve configuration	2026-11-26T10:12:45.2431202Z env:
+publish	Resolve configuration	2026-11-26T10:12:45.2431476Z   LOCAL_IMAGE: podinfo:ci
+publish	Resolve configuration	2026-11-26T10:12:45.2431715Z   GO_VERSION: 1.27.4
+publish	Resolve configuration	2026-11-26T10:12:45.2431976Z   GITLEAKS_VERSION: 8.30.1
+publish	Resolve configuration	2026-11-26T10:12:45.2432330Z   GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+publish	Resolve configuration	2026-11-26T10:12:45.2432898Z   SYFT_VERSION: 1.56.0
+publish	Resolve configuration	2026-11-26T10:12:45.2433283Z   SYFT_SHA256: 1c2493cfcf52d3367d6cb25780d9190c111c2219c34c820574c43e8bae15c528
+publish	Resolve configuration	2026-11-26T10:12:45.2433624Z   TRIVY_VERSION: 0.76.2
+publish	Resolve configuration	2026-11-26T10:12:45.2433968Z   TRIVY_SHA256: bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf
+publish	Resolve configuration	2026-11-26T10:12:45.2434320Z   KYVERNO_CLI_VERSION: v1.19.2
+publish	Resolve configuration	2026-11-26T10:12:45.2434684Z   KYVERNO_CLI_SHA256: 357eaf1df8bc24ddd5a73979fadeaae6a032e8710f11af264229756e4956bf4a
+publish	Resolve configuration	2026-11-26T10:12:45.2435167Z   AWS_REGION: ap-southeast-1
+publish	Resolve configuration	2026-11-26T10:12:45.2435403Z   ECR_REPOSITORY: podinfo
+publish	Resolve configuration	2026-11-26T10:12:45.2435689Z   SIGNING_PROFILE_NAME: podinfo_signing_profile
+publish	Resolve configuration	2026-11-26T10:12:45.2435978Z   PUBLISH_ROLE_NAME: devsecops-publisher
+publish	Resolve configuration	2026-11-26T10:12:45.2436610Z   AWS_ACCOUNT_ID: ***
+publish	Resolve configuration	2026-11-26T10:12:45.2436885Z ##[endgroup]
+publish	Download approved image (cùng workflow run)	﻿2026-11-26T10:12:45.2583539Z ##[group]Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2583971Z with:
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2584221Z   name: approved-image-45798939183-1
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2584527Z   path: artifact
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2584755Z   merge-multiple: false
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2584993Z   repository: duy1504/devsecops-project
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2585274Z   run-id: 45798939183
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2585549Z   skip-decompress: false
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2585797Z   digest-mismatch: error
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2586018Z env:
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2586213Z   LOCAL_IMAGE: podinfo:ci
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2586461Z   GO_VERSION: 1.27.4
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2586680Z   GITLEAKS_VERSION: 8.30.1
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2587071Z   GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2587428Z   SYFT_VERSION: 1.56.0
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2587725Z   SYFT_SHA256: 1c2493cfcf52d3367d6cb25780d9190c111c2219c34c820574c43e8bae15c528
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2588086Z   TRIVY_VERSION: 0.76.2
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2588494Z   TRIVY_SHA256: bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2588864Z   KYVERNO_CLI_VERSION: v1.19.2
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2589218Z   KYVERNO_CLI_SHA256: 357eaf1df8bc24ddd5a73979fadeaae6a032e8710f11af264229756e4956bf4a
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2589629Z   AWS_REGION: ap-southeast-1
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2589868Z   ECR_REPOSITORY: podinfo
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2590132Z   SIGNING_PROFILE_NAME: podinfo_signing_profile
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2590727Z   PUBLISH_ROLE_NAME: devsecops-publisher
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2591135Z   AWS_ACCOUNT_ID: ***
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2591435Z   ECR_REGISTRY: ***.dkr.ecr.ap-southeast-1.amazonaws.com
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2591824Z   ECR_IMAGE: ***.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2592312Z   SIGNING_PROFILE_ARN: arn:aws:signer:ap-southeast-1:***:/signing-profiles/podinfo_signing_profile
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2592778Z   PUBLISH_ROLE_ARN: arn:aws:iam::***:role/devsecops-publisher
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.2593077Z ##[endgroup]
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.3647345Z Downloading single artifact
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.4982721Z Preparing to download the following artifacts:
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.4983779Z - approved-image-45798939183-1 (ID: 15106007552, Size: 12285693, Expected Digest: sha256:29263e00c5bf9e85f2930efaa5b754334c94c45710ba46ccf90042a7a2730d3c)
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.6385610Z Redirecting to blob download url: https://productionresultssa9.blob.core.windows.net/actions-results/9ebc7b8e-00dc-857b-96d9-a2a96d65d8b2/workflow-job-run-9a93fd64-296d-5e6e-8085-dd3283e59446/artifacts/ce34ee90d0a59bd3f77091c4c1c947bfec953d5915e5bca8193ab664f48acaba.zip
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.6387092Z Starting download of artifact to: /home/runner/work/devsecops-project/devsecops-project/artifact
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.7536156Z (node:2312) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:45.7537099Z (Use `node --trace-deprecation ...` to show where the warning was created)
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:46.1746618Z SHA256 digest of downloaded artifact is 29263e00c5bf9e85f2930efaa5b754334c94c45710ba46ccf90042a7a2730d3c
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:46.1747556Z Artifact download completed successfully.
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:46.1747936Z Total of 1 artifact(s) downloaded
+publish	Download approved image (cùng workflow run)	2026-11-26T10:12:46.1749774Z Download artifact has finished successfully
+publish	Verify artifact integrity & load (không build lại)	﻿2026-11-26T10:12:46.2471485Z ##[group]Run set -euo pipefail
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2471861Z ^[[36;1mset -euo pipefail^[[0m
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2472145Z ^[[36;1msha256sum -c image.tar.sha256^[[0m
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2472539Z ^[[36;1mtest "$(cut -d' ' -f1 image.tar.sha256)" = "$(jq -r .image_tar_sha256 verification.json)"^[[0m
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2473098Z ^[[36;1m# verification.json phải thuộc đúng commit/run/attempt này và gate đã đạt^[[0m
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2473586Z ^[[36;1mjq -e --arg c "$GITHUB_SHA" --arg r "$GITHUB_RUN_ID" --arg a "$GITHUB_RUN_ATTEMPT" \^[[0m
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2474042Z ^[[36;1m  '.commit_sha == $c and .workflow_run_id == $r and .run_attempt == $a^[[0m
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2474475Z ^[[36;1m   and .gate_result == "pass" and .critical_count == 0' verification.json^[[0m
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2474838Z ^[[36;1mdocker load -i image.tar^[[0m
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2475296Z ^[[36;1mtest "$(docker image inspect "$LOCAL_IMAGE" --format '{{.Id}}')" = "$(jq -r .local_image_id verification.json)"^[[0m
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2475776Z ^[[36;1mecho "Image đã scan: $(jq -r .local_image_id verification.json)"^[[0m
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2500978Z shell: /usr/bin/bash -e {0}
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2501375Z env:
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2501637Z   LOCAL_IMAGE: podinfo:ci
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2501874Z   GO_VERSION: 1.27.4
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2502134Z   GITLEAKS_VERSION: 8.30.1
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2502526Z   GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2502898Z   SYFT_VERSION: 1.56.0
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2503215Z   SYFT_SHA256: 1c2493cfcf52d3367d6cb25780d9190c111c2219c34c820574c43e8bae15c528
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2503583Z   TRIVY_VERSION: 0.76.2
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2503913Z   TRIVY_SHA256: bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2504292Z   KYVERNO_CLI_VERSION: v1.19.2
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2504688Z   KYVERNO_CLI_SHA256: 357eaf1df8bc24ddd5a73979fadeaae6a032e8710f11af264229756e4956bf4a
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2505063Z   AWS_REGION: ap-southeast-1
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2505336Z   ECR_REPOSITORY: podinfo
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2505647Z   SIGNING_PROFILE_NAME: podinfo_signing_profile
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2505948Z   PUBLISH_ROLE_NAME: devsecops-publisher
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2506477Z   AWS_ACCOUNT_ID: ***
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2506819Z   ECR_REGISTRY: ***.dkr.ecr.ap-southeast-1.amazonaws.com
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2507213Z   ECR_IMAGE: ***.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2507732Z   SIGNING_PROFILE_ARN: arn:aws:signer:ap-southeast-1:***:/signing-profiles/podinfo_signing_profile
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2508193Z   PUBLISH_ROLE_ARN: arn:aws:iam::***:role/devsecops-publisher
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.2508522Z ##[endgroup]
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.3081777Z image.tar: OK
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:46.3129589Z true
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:48.1946671Z Loaded image: podinfo:ci
+publish	Verify artifact integrity & load (không build lại)	2026-11-26T10:12:48.2168150Z Image đã scan: sha256:242fd7991f93dd7a335c6b74d66fdb70e20b11548577fd522e03f170d3e5b48e
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	﻿2026-11-26T10:12:48.2268564Z ##[group]Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2268980Z with:
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2269548Z   role-to-assume: arn:aws:iam::***:role/devsecops-publisher
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2269894Z   aws-region: ap-southeast-1
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2270220Z   role-session-name: gh-publish-45798939183-1
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2270927Z   role-duration-seconds: 900
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2271198Z   mask-aws-account-id: true
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2271565Z   allowed-account-ids: ***
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2271846Z   audience: sts.amazonaws.com
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2272087Z env:
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2272321Z   LOCAL_IMAGE: podinfo:ci
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2272545Z   GO_VERSION: 1.27.4
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2272785Z   GITLEAKS_VERSION: 8.30.1
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2273133Z   GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2273672Z   SYFT_VERSION: 1.56.0
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2273986Z   SYFT_SHA256: 1c2493cfcf52d3367d6cb25780d9190c111c2219c34c820574c43e8bae15c528
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2274417Z   TRIVY_VERSION: 0.76.2
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2274790Z   TRIVY_SHA256: bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2275150Z   KYVERNO_CLI_VERSION: v1.19.2
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2275517Z   KYVERNO_CLI_SHA256: 357eaf1df8bc24ddd5a73979fadeaae6a032e8710f11af264229756e4956bf4a
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2275905Z   AWS_REGION: ap-southeast-1
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2276183Z   ECR_REPOSITORY: podinfo
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2276444Z   SIGNING_PROFILE_NAME: podinfo_signing_profile
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2276769Z   PUBLISH_ROLE_NAME: devsecops-publisher
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2277042Z   AWS_ACCOUNT_ID: ***
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2277333Z   ECR_REGISTRY: ***.dkr.ecr.ap-southeast-1.amazonaws.com
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2277772Z   ECR_IMAGE: ***.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2278241Z   SIGNING_PROFILE_ARN: arn:aws:signer:ap-southeast-1:***:/signing-profiles/podinfo_signing_profile
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2278732Z   PUBLISH_ROLE_ARN: arn:aws:iam::***:role/devsecops-publisher
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.2279028Z ##[endgroup]
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:48.4150690Z Assuming role with OIDC
+publish	Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	2026-11-26T10:12:49.1478770Z Authenticated as assumedRoleId AROA4DIY6KI7FEI43FQRR:gh-publish-45798939183-1
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	﻿2026-11-26T10:12:50.0188183Z ##[group]Run set -euo pipefail
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0188568Z ^[[36;1mset -euo pipefail^[[0m
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0188836Z ^[[36;1maws --version^[[0m
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0189257Z ^[[36;1maws ecr get-login-password | docker login --username AWS --password-stdin "$ECR_REGISTRY"^[[0m
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0189828Z ^[[36;1mTAG="sha-${GITHUB_SHA::12}-run-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"^[[0m
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0190221Z ^[[36;1mdocker tag "$LOCAL_IMAGE" "$ECR_IMAGE:$TAG"^[[0m
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0190772Z ^[[36;1mdocker push "$ECR_IMAGE:$TAG"^[[0m
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0191252Z ^[[36;1mDIGEST=$(aws ecr describe-images --repository-name "$ECR_REPOSITORY" --image-ids imageTag="$TAG" \^[[0m
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0191773Z ^[[36;1m  --query 'imageDetails[0].imageDigest' --output text)^[[0m
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0192271Z ^[[36;1m[[ "$DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]] || { echo "::error::Digest không hợp lệ: $DIGEST"; exit 1; }^[[0m
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0193074Z ^[[36;1m# Digest registry trả về phải trùng digest mà docker push ghi nhận^[[0m
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0193818Z ^[[36;1mPUSHED=$(docker image inspect "$ECR_IMAGE:$TAG" --format '{{range .RepoDigests}}{{println .}}{{end}}' \^[[0m
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0194305Z ^[[36;1m  | grep -F "$ECR_IMAGE@" | cut -d@ -f2 | head -1)^[[0m
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0194790Z ^[[36;1m[ "$PUSHED" = "$DIGEST" ] || { echo "::error::Digest lệch: push=$PUSHED registry=$DIGEST"; exit 1; }^[[0m
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0195223Z ^[[36;1mdocker logout "$ECR_REGISTRY"^[[0m
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0195523Z ^[[36;1mecho "tag=$TAG" >> "$GITHUB_OUTPUT"^[[0m
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0195849Z ^[[36;1mecho "digest=$DIGEST" >> "$GITHUB_OUTPUT"^[[0m
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0218829Z shell: /usr/bin/bash -e {0}
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0219222Z env:
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0219467Z   LOCAL_IMAGE: podinfo:ci
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0219757Z   GO_VERSION: 1.27.4
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0220050Z   GITLEAKS_VERSION: 8.30.1
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0220586Z   GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0221013Z   SYFT_VERSION: 1.56.0
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0221403Z   SYFT_SHA256: 1c2493cfcf52d3367d6cb25780d9190c111c2219c34c820574c43e8bae15c528
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0221787Z   TRIVY_VERSION: 0.76.2
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0222163Z   TRIVY_SHA256: bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0222570Z   KYVERNO_CLI_VERSION: v1.19.2
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0222932Z   KYVERNO_CLI_SHA256: 357eaf1df8bc24ddd5a73979fadeaae6a032e8710f11af264229756e4956bf4a
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0223385Z   AWS_REGION: ap-southeast-1
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0223664Z   ECR_REPOSITORY: podinfo
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0223957Z   SIGNING_PROFILE_NAME: podinfo_signing_profile
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0224420Z   PUBLISH_ROLE_NAME: devsecops-publisher
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0224902Z   AWS_ACCOUNT_ID: ***
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0225247Z   ECR_REGISTRY: ***.dkr.ecr.ap-southeast-1.amazonaws.com
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0225664Z   ECR_IMAGE: ***.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0226175Z   SIGNING_PROFILE_ARN: arn:aws:signer:ap-southeast-1:***:/signing-profiles/podinfo_signing_profile
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0226698Z   PUBLISH_ROLE_ARN: arn:aws:iam::***:role/devsecops-publisher
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0227048Z   AWS_DEFAULT_REGION: ap-southeast-1
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0227449Z   AWS_ACCESS_KEY_ID: ***
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0227775Z   AWS_SECRET_ACCESS_KEY: ***
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0231015Z   AWS_SESSION_TOKEN: ***
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:50.0231299Z ##[endgroup]
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:55.1230850Z aws-cli/2.42.1 Python/3.14.10 Linux/7.0.0-1018-aws exe/x86_64.ubuntu.24
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:58.4187778Z 
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:58.4189176Z WARNING! Your credentials are stored unencrypted in '/home/runner/.docker/config.json'.
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:58.4189965Z Configure a credential helper to remove this warning. See
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:58.4190570Z https://docs.docker.com/go/credential-store/
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:58.4190803Z 
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:58.4190939Z Login Succeeded
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:58.4454716Z The push refers to repository [***.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo]
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3320964Z f40d9d847c8b: Preparing
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3322107Z 3df481f7142e: Preparing
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3322394Z fe6ad1190a48: Preparing
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3323160Z 5904c32f457c: Preparing
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3323428Z 6e7fbcf090d0: Preparing
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3323728Z ad51d0769d16: Preparing
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3324073Z 4cde6b0bb6f5: Preparing
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3324385Z bd3cdfae1d3f: Preparing
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3324737Z 6f1cdceb6a31: Preparing
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3325099Z af5aa97ebe6c: Preparing
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3325419Z 4d049f83d9cf: Preparing
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3325766Z 114dde0fefeb: Preparing
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3326168Z 35b5ba6e08cd: Preparing
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3326518Z 8fa10c0194df: Preparing
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3326860Z 7223ea1323e8: Preparing
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3327203Z ad51d0769d16: Waiting
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3327555Z 4cde6b0bb6f5: Waiting
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3327948Z 6f1cdceb6a31: Waiting
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3328228Z af5aa97ebe6c: Waiting
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3328508Z 4d049f83d9cf: Waiting
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3328938Z 114dde0fefeb: Waiting
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3329198Z 8fa10c0194df: Waiting
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3329482Z 7223ea1323e8: Waiting
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3331541Z bd3cdfae1d3f: Waiting
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:12:59.3331820Z 35b5ba6e08cd: Waiting
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:13:00.2152509Z 5904c32f457c: Layer already exists
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:13:00.2385732Z 6e7fbcf090d0: Layer already exists
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:13:01.1309370Z 4cde6b0bb6f5: Layer already exists
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:13:01.1448381Z ad51d0769d16: Layer already exists
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:13:02.0776912Z 6f1cdceb6a31: Layer already exists
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:13:02.0832758Z bd3cdfae1d3f: Layer already exists
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:13:02.9728197Z 4d049f83d9cf: Layer already exists
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:13:02.9824351Z af5aa97ebe6c: Layer already exists
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:13:03.2908840Z f40d9d847c8b: Pushed
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:13:03.3591862Z fe6ad1190a48: Pushed
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:13:03.8526398Z 35b5ba6e08cd: Layer already exists
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:13:03.9021425Z 114dde0fefeb: Layer already exists
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:13:04.1959429Z 8fa10c0194df: Layer already exists
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:13:04.3129782Z 7223ea1323e8: Layer already exists
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:13:05.9547159Z 3df481f7142e: Pushed
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:13:11.8404330Z sha-d1cd8dd72cd8-run-45798939183-1: digest: sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 size: 3438
+publish	Push (đúng image đã scan, tag duy nhất mỗi lần chạy)	2026-11-26T10:13:12.9895838Z Removing login credentials for ***.dkr.ecr.ap-southeast-1.amazonaws.com
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	﻿2026-11-26T10:13:12.9958295Z ##[group]Run bash scripts/wait-signature.sh
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9958715Z ^[[36;1mbash scripts/wait-signature.sh^[[0m
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9981798Z shell: /usr/bin/bash -e {0}
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9982241Z env:
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9982575Z   LOCAL_IMAGE: podinfo:ci
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9982851Z   GO_VERSION: 1.27.4
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9983119Z   GITLEAKS_VERSION: 8.30.1
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9983551Z   GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9983968Z   SYFT_VERSION: 1.56.0
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9984303Z   SYFT_SHA256: 1c2493cfcf52d3367d6cb25780d9190c111c2219c34c820574c43e8bae15c528
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9984705Z   TRIVY_VERSION: 0.76.2
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9985094Z   TRIVY_SHA256: bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9985473Z   KYVERNO_CLI_VERSION: v1.19.2
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9985884Z   KYVERNO_CLI_SHA256: 357eaf1df8bc24ddd5a73979fadeaae6a032e8710f11af264229756e4956bf4a
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9986360Z   AWS_REGION: ap-southeast-1
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9986737Z   ECR_REPOSITORY: podinfo
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9987059Z   SIGNING_PROFILE_NAME: podinfo_signing_profile
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9987404Z   PUBLISH_ROLE_NAME: devsecops-publisher
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9987755Z   AWS_ACCOUNT_ID: ***
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9988129Z   ECR_REGISTRY: ***.dkr.ecr.ap-southeast-1.amazonaws.com
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9988555Z   ECR_IMAGE: ***.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9989064Z   SIGNING_PROFILE_ARN: arn:aws:signer:ap-southeast-1:***:/signing-profiles/podinfo_signing_profile
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9989569Z   PUBLISH_ROLE_ARN: arn:aws:iam::***:role/devsecops-publisher
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9989913Z   AWS_DEFAULT_REGION: ap-southeast-1
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9990212Z   AWS_ACCESS_KEY_ID: ***
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9990751Z   AWS_SECRET_ACCESS_KEY: ***
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9993891Z   AWS_SESSION_TOKEN: ***
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9994315Z   IMAGE_DIGEST: sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9994704Z   RELEASE_DIR: release-raw
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:12.9994985Z ##[endgroup]
+publish	Wait for ECR Managed Signing (đúng profile, COMPLETE)	2026-11-26T10:13:20.3944231Z Signed by expected profile after ~5s
+publish	Release manifest	﻿2026-11-26T10:13:20.3976077Z ##[group]Run set -euo pipefail
+publish	Release manifest	2026-11-26T10:13:20.3976486Z ^[[36;1mset -euo pipefail^[[0m
+publish	Release manifest	2026-11-26T10:13:20.3976902Z ^[[36;1mjq --arg uri "$ECR_IMAGE" --arg tag "$TAG" --arg digest "$DIGEST" --arg arn "$SIGNING_PROFILE_ARN" \^[[0m
+publish	Release manifest	2026-11-26T10:13:20.3977351Z ^[[36;1m   --arg at "$(date -u +%FT%TZ)" \^[[0m
+publish	Release manifest	2026-11-26T10:13:20.3977792Z ^[[36;1m   '. + {image_uri:$uri, image_tag:$tag, image_digest:$digest,^[[0m
+publish	Release manifest	2026-11-26T10:13:20.3978265Z ^[[36;1m         signing_profile_arn:$arn, signing_status:"COMPLETE", published_at:$at}' \^[[0m
+publish	Release manifest	2026-11-26T10:13:20.3978714Z ^[[36;1m   artifact/verification.json > release-raw/release.json^[[0m
+publish	Release manifest	2026-11-26T10:13:20.3979035Z ^[[36;1m{^[[0m
+publish	Release manifest	2026-11-26T10:13:20.3979402Z ^[[36;1m  echo "### Release – \`${GITHUB_SHA::12}\` (run ${GITHUB_RUN_ID}/${GITHUB_RUN_ATTEMPT})"^[[0m
+publish	Release manifest	2026-11-26T10:13:20.3979844Z ^[[36;1m  echo "| Trường | Giá trị |"^[[0m
+publish	Release manifest	2026-11-26T10:13:20.3980109Z ^[[36;1m  echo "|---|---|"^[[0m
+publish	Release manifest	2026-11-26T10:13:20.3980917Z ^[[36;1m  echo "| Image | \`$ECR_IMAGE@$DIGEST\` |"^[[0m
+publish	Release manifest	2026-11-26T10:13:20.3981328Z ^[[36;1m  echo "| Tag | \`$TAG\` |"^[[0m
+publish	Release manifest	2026-11-26T10:13:20.3981714Z ^[[36;1m  echo "| Signing | \`COMPLETE\` – \`$SIGNING_PROFILE_ARN\` |"^[[0m
+publish	Release manifest	2026-11-26T10:13:20.3982137Z ^[[36;1m} | sed "s/${AWS_ACCOUNT_ID}/<ACCOUNT_ID>/g" >> "$GITHUB_STEP_SUMMARY"^[[0m
+publish	Release manifest	2026-11-26T10:13:20.4005101Z shell: /usr/bin/bash -e {0}
+publish	Release manifest	2026-11-26T10:13:20.4005468Z env:
+publish	Release manifest	2026-11-26T10:13:20.4005718Z   LOCAL_IMAGE: podinfo:ci
+publish	Release manifest	2026-11-26T10:13:20.4006224Z   GO_VERSION: 1.27.4
+publish	Release manifest	2026-11-26T10:13:20.4006457Z   GITLEAKS_VERSION: 8.30.1
+publish	Release manifest	2026-11-26T10:13:20.4006841Z   GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+publish	Release manifest	2026-11-26T10:13:20.4007245Z   SYFT_VERSION: 1.56.0
+publish	Release manifest	2026-11-26T10:13:20.4007562Z   SYFT_SHA256: 1c2493cfcf52d3367d6cb25780d9190c111c2219c34c820574c43e8bae15c528
+publish	Release manifest	2026-11-26T10:13:20.4007975Z   TRIVY_VERSION: 0.76.2
+publish	Release manifest	2026-11-26T10:13:20.4008319Z   TRIVY_SHA256: bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf
+publish	Release manifest	2026-11-26T10:13:20.4008790Z   KYVERNO_CLI_VERSION: v1.19.2
+publish	Release manifest	2026-11-26T10:13:20.4009341Z   KYVERNO_CLI_SHA256: 357eaf1df8bc24ddd5a73979fadeaae6a032e8710f11af264229756e4956bf4a
+publish	Release manifest	2026-11-26T10:13:20.4009805Z   AWS_REGION: ap-southeast-1
+publish	Release manifest	2026-11-26T10:13:20.4010069Z   ECR_REPOSITORY: podinfo
+publish	Release manifest	2026-11-26T10:13:20.4010553Z   SIGNING_PROFILE_NAME: podinfo_signing_profile
+publish	Release manifest	2026-11-26T10:13:20.4010903Z   PUBLISH_ROLE_NAME: devsecops-publisher
+publish	Release manifest	2026-11-26T10:13:20.4011335Z   AWS_ACCOUNT_ID: ***
+publish	Release manifest	2026-11-26T10:13:20.4011650Z   ECR_REGISTRY: ***.dkr.ecr.ap-southeast-1.amazonaws.com
+publish	Release manifest	2026-11-26T10:13:20.4012073Z   ECR_IMAGE: ***.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo
+publish	Release manifest	2026-11-26T10:13:20.4012598Z   SIGNING_PROFILE_ARN: arn:aws:signer:ap-southeast-1:***:/signing-profiles/podinfo_signing_profile
+publish	Release manifest	2026-11-26T10:13:20.4013121Z   PUBLISH_ROLE_ARN: arn:aws:iam::***:role/devsecops-publisher
+publish	Release manifest	2026-11-26T10:13:20.4013487Z   AWS_DEFAULT_REGION: ap-southeast-1
+publish	Release manifest	2026-11-26T10:13:20.4013766Z   AWS_ACCESS_KEY_ID: ***
+publish	Release manifest	2026-11-26T10:13:20.4014136Z   AWS_SECRET_ACCESS_KEY: ***
+publish	Release manifest	2026-11-26T10:13:20.4017324Z   AWS_SESSION_TOKEN: ***
+publish	Release manifest	2026-11-26T10:13:20.4017634Z   TAG: sha-d1cd8dd72cd8-run-45798939183-1
+publish	Release manifest	2026-11-26T10:13:20.4018024Z   DIGEST: sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+publish	Release manifest	2026-11-26T10:13:20.4018402Z ##[endgroup]
+publish	Mask account ID in release files (artifact của repo public)	﻿2026-11-26T10:13:20.4139080Z ##[group]Run set -euo pipefail
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4139387Z ^[[36;1mset -euo pipefail^[[0m
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4139676Z ^[[36;1mmkdir -p release^[[0m
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4139984Z ^[[36;1m[ -n "$AWS_ACCOUNT_ID" ] || exit 0^[[0m
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4140522Z ^[[36;1mfor f in release-raw/*.json; do^[[0m
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4140830Z ^[[36;1m  [ -e "$f" ] || continue^[[0m
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4141203Z ^[[36;1m  sed "s/${AWS_ACCOUNT_ID}/<ACCOUNT_ID>/g" "$f" > "release/$(basename "$f")"^[[0m
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4141630Z ^[[36;1mdone^[[0m
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4142022Z ^[[36;1mif grep -rqF "$AWS_ACCOUNT_ID" release/; then echo "::error::Còn account ID trong release/"; exit 1; fi^[[0m
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4161150Z shell: /usr/bin/bash -e {0}
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4161498Z env:
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4161778Z   LOCAL_IMAGE: podinfo:ci
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4162032Z   GO_VERSION: 1.27.4
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4162296Z   GITLEAKS_VERSION: 8.30.1
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4162687Z   GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4163154Z   SYFT_VERSION: 1.56.0
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4163495Z   SYFT_SHA256: 1c2493cfcf52d3367d6cb25780d9190c111c2219c34c820574c43e8bae15c528
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4163853Z   TRIVY_VERSION: 0.76.2
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4164221Z   TRIVY_SHA256: bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4164617Z   KYVERNO_CLI_VERSION: v1.19.2
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4164977Z   KYVERNO_CLI_SHA256: 357eaf1df8bc24ddd5a73979fadeaae6a032e8710f11af264229756e4956bf4a
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4165489Z   AWS_REGION: ap-southeast-1
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4165795Z   ECR_REPOSITORY: podinfo
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4166110Z   SIGNING_PROFILE_NAME: podinfo_signing_profile
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4166400Z   PUBLISH_ROLE_NAME: devsecops-publisher
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4166769Z   AWS_ACCOUNT_ID: ***
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4167084Z   ECR_REGISTRY: ***.dkr.ecr.ap-southeast-1.amazonaws.com
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4167536Z   ECR_IMAGE: ***.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4168068Z   SIGNING_PROFILE_ARN: arn:aws:signer:ap-southeast-1:***:/signing-profiles/podinfo_signing_profile
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4168580Z   PUBLISH_ROLE_ARN: arn:aws:iam::***:role/devsecops-publisher
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4169085Z   AWS_DEFAULT_REGION: ap-southeast-1
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4169441Z   AWS_ACCESS_KEY_ID: ***
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4169788Z   AWS_SECRET_ACCESS_KEY: ***
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4173114Z   AWS_SESSION_TOKEN: ***
+publish	Mask account ID in release files (artifact của repo public)	2026-11-26T10:13:20.4173358Z ##[endgroup]
+publish	Upload release record	﻿2026-11-26T10:13:20.4301881Z ##[group]Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+publish	Upload release record	2026-11-26T10:13:20.4302324Z with:
+publish	Upload release record	2026-11-26T10:13:20.4302593Z   name: release-45798939183-1
+publish	Upload release record	2026-11-26T10:13:20.4302851Z   path: release/
+publish	Upload release record	2026-11-26T10:13:20.4303186Z   retention-days: 30
+publish	Upload release record	2026-11-26T10:13:20.4303484Z   if-no-files-found: warn
+publish	Upload release record	2026-11-26T10:13:20.4303722Z   compression-level: 6
+publish	Upload release record	2026-11-26T10:13:20.4304007Z   overwrite: false
+publish	Upload release record	2026-11-26T10:13:20.4304253Z   include-hidden-files: false
+publish	Upload release record	2026-11-26T10:13:20.4304549Z   archive: true
+publish	Upload release record	2026-11-26T10:13:20.4304810Z env:
+publish	Upload release record	2026-11-26T10:13:20.4305038Z   LOCAL_IMAGE: podinfo:ci
+publish	Upload release record	2026-11-26T10:13:20.4305301Z   GO_VERSION: 1.27.4
+publish	Upload release record	2026-11-26T10:13:20.4305569Z   GITLEAKS_VERSION: 8.30.1
+publish	Upload release record	2026-11-26T10:13:20.4305942Z   GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+publish	Upload release record	2026-11-26T10:13:20.4306339Z   SYFT_VERSION: 1.56.0
+publish	Upload release record	2026-11-26T10:13:20.4306709Z   SYFT_SHA256: 1c2493cfcf52d3367d6cb25780d9190c111c2219c34c820574c43e8bae15c528
+publish	Upload release record	2026-11-26T10:13:20.4307159Z   TRIVY_VERSION: 0.76.2
+publish	Upload release record	2026-11-26T10:13:20.4307542Z   TRIVY_SHA256: bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf
+publish	Upload release record	2026-11-26T10:13:20.4307945Z   KYVERNO_CLI_VERSION: v1.19.2
+publish	Upload release record	2026-11-26T10:13:20.4308329Z   KYVERNO_CLI_SHA256: 357eaf1df8bc24ddd5a73979fadeaae6a032e8710f11af264229756e4956bf4a
+publish	Upload release record	2026-11-26T10:13:20.4308761Z   AWS_REGION: ap-southeast-1
+publish	Upload release record	2026-11-26T10:13:20.4309071Z   ECR_REPOSITORY: podinfo
+publish	Upload release record	2026-11-26T10:13:20.4309346Z   SIGNING_PROFILE_NAME: podinfo_signing_profile
+publish	Upload release record	2026-11-26T10:13:20.4309709Z   PUBLISH_ROLE_NAME: devsecops-publisher
+publish	Upload release record	2026-11-26T10:13:20.4310055Z   AWS_ACCOUNT_ID: ***
+publish	Upload release record	2026-11-26T10:13:20.4310610Z   ECR_REGISTRY: ***.dkr.ecr.ap-southeast-1.amazonaws.com
+publish	Upload release record	2026-11-26T10:13:20.4311065Z   ECR_IMAGE: ***.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo
+publish	Upload release record	2026-11-26T10:13:20.4311619Z   SIGNING_PROFILE_ARN: arn:aws:signer:ap-southeast-1:***:/signing-profiles/podinfo_signing_profile
+publish	Upload release record	2026-11-26T10:13:20.4312127Z   PUBLISH_ROLE_ARN: arn:aws:iam::***:role/devsecops-publisher
+publish	Upload release record	2026-11-26T10:13:20.4312515Z   AWS_DEFAULT_REGION: ap-southeast-1
+publish	Upload release record	2026-11-26T10:13:20.4312824Z   AWS_ACCESS_KEY_ID: ***
+publish	Upload release record	2026-11-26T10:13:20.4313160Z   AWS_SECRET_ACCESS_KEY: ***
+publish	Upload release record	2026-11-26T10:13:20.4316296Z   AWS_SESSION_TOKEN: ***
+publish	Upload release record	2026-11-26T10:13:20.4316590Z ##[endgroup]
+publish	Upload release record	2026-11-26T10:13:20.5398725Z With the provided path, there will be 2 files uploaded
+publish	Upload release record	2026-11-26T10:13:20.5399941Z Artifact name is valid!
+publish	Upload release record	2026-11-26T10:13:20.5400673Z Root directory input is valid!
+publish	Upload release record	2026-11-26T10:13:20.7271093Z Uploading artifact: release-45798939183-1.zip
+publish	Upload release record	2026-11-26T10:13:20.7297297Z Beginning upload of artifact content to blob storage
+publish	Upload release record	2026-11-26T10:13:20.8386762Z Uploaded bytes 1124
+publish	Upload release record	2026-11-26T10:13:20.8649011Z Finished uploading artifact content to blob storage!
+publish	Upload release record	2026-11-26T10:13:20.8649779Z SHA256 digest of uploaded artifact is b981c2aafbc4015ca2dbc125937a6f7439226e2f7673d8d6de92c5a348b72f07
+publish	Upload release record	2026-11-26T10:13:20.8650755Z Finalizing artifact upload
+publish	Upload release record	2026-11-26T10:13:21.1888342Z Artifact release-45798939183-1 successfully finalized. Artifact ID 15105268713
+publish	Upload release record	2026-11-26T10:13:21.1889364Z Artifact release-45798939183-1 has been successfully uploaded! Final size is 1124 bytes. Artifact ID is 15105268713
+publish	Upload release record	2026-11-26T10:13:21.1892061Z Artifact download URL: https://github.com/duy1504/devsecops-project/actions/runs/45798939183/artifacts/15105268713
+publish	Post Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd	﻿2026-11-26T10:13:21.2067196Z Post job cleanup.
+publish	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-11-26T10:13:21.2655788Z Post job cleanup.
+publish	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:13:21.3441599Z [command]/usr/bin/git version
+publish	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:13:21.3471299Z git version 2.56.1
+publish	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:13:21.3495515Z Temporarily overriding HOME='/home/runner/work/_temp/fb671433-eec6-49df-b2f7-f365462ff674' before making global git config changes
+publish	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:13:21.3496519Z Adding repository directory to the temporary git global config as a safe directory
+publish	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:13:21.3499958Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/devsecops-project/devsecops-project
+publish	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:13:21.3523747Z Removing SSH command configuration
+publish	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:13:21.3527762Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+publish	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:13:21.3552887Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+publish	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:13:21.3716921Z Removing HTTP extra header
+publish	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:13:21.3721678Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+publish	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:13:21.3749270Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+publish	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:13:21.3928863Z Removing includeIf entries pointing to credentials config files
+publish	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:13:21.3934349Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+publish	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-26T10:13:21.3955831Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+publish	Complete job	﻿2026-11-26T10:13:21.4302402Z Evaluate and set job outputs
+publish	Complete job	2026-11-26T10:13:21.4309230Z Set output 'digest'
+publish	Complete job	2026-11-26T10:13:21.4311481Z Cleaning up orphan processes

@@ -1,0 +1,197 @@
+I1126 10:11:39.246283       1 leaderelection.go:258] "Attempting to acquire leader lease..." lock="kyverno-notation-aws/kyverno-notation-aws"
+2026-11-26T10:11:39.252Z	INFO	/main.go:186	Starting CRD Manager
+2026-11-26T10:11:39.252Z	INFO	/main.go:191	CRD Manager Started
+2026-11-26T10:11:39.255Z	INFO	manager/server.go:83	starting server	{"name": "health probe", "addr": "[::]:8081"}
+2026-11-26T10:11:39.254Z	INFO	controller-runtime.metrics	server/server.go:208	Starting metrics server
+2026-11-26T10:11:39.256Z	INFO	controller-runtime.metrics	server/server.go:247	Serving metrics server	{"bindAddress": ":8080", "secure": false}
+2026-11-26T10:11:39.257Z	INFO	controller/controller.go:369	Starting EventSource	{"controller": "trustpolicy", "controllerGroup": "notation.nirmata.io", "controllerKind": "TrustPolicy", "source": "kind source: *v1alpha1.TrustPolicy"}
+2026-11-26T10:11:39.257Z	INFO	controller/controller.go:369	Starting EventSource	{"controller": "truststore", "controllerGroup": "notation.nirmata.io", "controllerKind": "TrustStore", "source": "kind source: *v1alpha1.TrustStore"}
+2026-11-26T10:11:39.472Z	INFO	controller/controller.go:302	Starting Controller	{"controller": "trustpolicy", "controllerGroup": "notation.nirmata.io", "controllerKind": "TrustPolicy"}
+2026-11-26T10:11:39.472Z	INFO	controller/controller.go:305	Starting workers	{"controller": "trustpolicy", "controllerGroup": "notation.nirmata.io", "controllerKind": "TrustPolicy", "worker count": 1}
+2026-11-26T10:11:39.472Z	INFO	controller/controller.go:302	Starting Controller	{"controller": "truststore", "controllerGroup": "notation.nirmata.io", "controllerKind": "TrustStore"}
+2026-11-26T10:11:39.473Z	INFO	controller/controller.go:305	Starting workers	{"controller": "truststore", "controllerGroup": "notation.nirmata.io", "controllerKind": "TrustStore", "worker count": 1}
+2026-11-26T10:11:39.475Z	INFO	controller/trustpolicy_controller.go:94	writing trust policy	{"controller": "trustpolicy", "controllerGroup": "notation.nirmata.io", "controllerKind": "TrustPolicy", "TrustPolicy": {"name":"tp-supply-chain"}, "namespace": "", "name": "tp-supply-chain", "reconcileID": "b8bd92ab-9965-482d-ba52-b1cdfb568cba", "name": "tp-supply-chain"}
+2026-11-26T10:11:39.483Z	INFO	controller/trustpolicy_controller.go:108	updated trust policy	{"controller": "trustpolicy", "controllerGroup": "notation.nirmata.io", "controllerKind": "TrustPolicy", "TrustPolicy": {"name":"tp-supply-chain"}, "namespace": "", "name": "tp-supply-chain", "reconcileID": "b8bd92ab-9965-482d-ba52-b1cdfb568cba", "path": "/notation/tp-supply-chain.json"}
+2026-11-26T10:11:39.483Z	INFO	controller/trustpolicy_controller.go:112	CRDs updated: sent update request	{"controller": "trustpolicy", "controllerGroup": "notation.nirmata.io", "controllerKind": "TrustPolicy", "TrustPolicy": {"name":"tp-supply-chain"}, "namespace": "", "name": "tp-supply-chain", "reconcileID": "b8bd92ab-9965-482d-ba52-b1cdfb568cba"}
+2026-11-26T10:11:39.488Z	INFO	controller/truststore_controller.go:99	updated trust store	{"controller": "truststore", "controllerGroup": "notation.nirmata.io", "controllerKind": "TrustStore", "TrustStore": {"name":"aws-signer-ts"}, "namespace": "", "name": "aws-signer-ts", "reconcileID": "3c744cf6-de24-4b78-9157-275ff512e900", "path": "/notation/truststore/x509/signingAuthority/aws-signer-ts/certificates.crt"}
+2026-11-26T10:11:39.488Z	INFO	controller/truststore_controller.go:105	CRDs updated: update request already present	{"controller": "truststore", "controllerGroup": "notation.nirmata.io", "controllerKind": "TrustStore", "TrustStore": {"name":"aws-signer-ts"}, "namespace": "", "name": "aws-signer-ts", "reconcileID": "3c744cf6-de24-4b78-9157-275ff512e900"}
+2026-11-26T10:11:39.552Z	INFO	setup/setup.go:21	configuring notation	{"dir.UserConfigDir": "/notation", "dir.UserLibexecDir": "/notation"}
+2026-11-26T10:11:39.553Z	INFO	notationfactory/client.go:38	Refreshing notation verifiers
+2026-11-26T10:11:39.554Z	INFO	notationfactory/client.go:46	Files in notation directory, [d plugins/ - tp-supply-chain.json d truststore/]
+2026-11-26T10:11:39.554Z	INFO	notationfactory/client.go:49	Reading file in notation directory, plugins
+2026-11-26T10:11:39.554Z	INFO	notationfactory/client.go:51	Entry is a directory plugins
+2026-11-26T10:11:39.554Z	INFO	notationfactory/client.go:49	Reading file in notation directory, tp-supply-chain.json
+2026-11-26T10:11:39.554Z	INFO	notationfactory/utils.go:28	Loading trust policy path=/notation/tp-supply-chain.json
+2026-11-26T10:11:39.555Z	INFO	notationfactory/client.go:61	Trust policy loaded from file /notation/tp-supply-chain.json
+2026-11-26T10:11:39.555Z	INFO	notationfactory/client.go:64	Trust store loaded
+2026-11-26T10:11:39.567Z	INFO	notationfactory/client.go:73	Added verifier to the list for trust policy tp-supply-chain
+2026-11-26T10:11:39.567Z	INFO	notationfactory/client.go:49	Reading file in notation directory, truststore
+2026-11-26T10:11:39.567Z	INFO	notationfactory/client.go:51	Entry is a directory truststore
+2026-11-26T10:11:39.567Z	INFO	notationfactory/utils.go:24	Notation verifier factory cleared
+2026-11-26T10:11:39.567Z	INFO	notationfactory/client.go:78	Successfully updated verifiers
+2026-11-26T10:11:39.567Z	INFO	verifier/verify.go:61	notation verifier created
+2026-11-26T10:11:39.568Z	INFO	verifier/verify.go:72	Initializing cache cacheEnabled=false, maxSize=1000. maxTTL=801362h40m26.63743488s
+2026-11-26T10:11:39.569Z	INFO	verifier/verify.go:81	cache created
+2026-11-26T10:11:39.572Z	INFO	verifier/verify.go:86	initialized	{"namespace": "kyverno-notation-aws", "secrets": "", "insecureRegistry": false}
+2026-11-26T10:11:39.572Z	INFO	/main.go:253	Listening for requests...
+2026-11-26T10:11:39.572Z	INFO	/main.go:257	CRD Changed, updating notation verifier {}
+2026-11-26T10:11:39.572Z	INFO	notationfactory/client.go:38	Refreshing notation verifiers
+2026-11-26T10:11:39.572Z	INFO	notationfactory/client.go:46	Files in notation directory, [d plugins/ - tp-supply-chain.json d truststore/]
+2026-11-26T10:11:39.572Z	INFO	notationfactory/client.go:49	Reading file in notation directory, plugins
+2026-11-26T10:11:39.572Z	INFO	notationfactory/client.go:51	Entry is a directory plugins
+2026-11-26T10:11:39.572Z	INFO	notationfactory/client.go:49	Reading file in notation directory, tp-supply-chain.json
+2026-11-26T10:11:39.572Z	INFO	notationfactory/utils.go:28	Loading trust policy path=/notation/tp-supply-chain.json
+2026-11-26T10:11:39.573Z	INFO	notationfactory/client.go:61	Trust policy loaded from file /notation/tp-supply-chain.json
+2026-11-26T10:11:39.573Z	INFO	notationfactory/client.go:64	Trust store loaded
+2026-11-26T10:11:39.573Z	INFO	notationfactory/client.go:73	Added verifier to the list for trust policy tp-supply-chain
+2026-11-26T10:11:39.573Z	INFO	notationfactory/client.go:49	Reading file in notation directory, truststore
+2026-11-26T10:11:39.573Z	INFO	notationfactory/client.go:51	Entry is a directory truststore
+2026-11-26T10:11:39.573Z	INFO	notationfactory/utils.go:24	Notation verifier factory cleared
+2026-11-26T10:11:39.573Z	INFO	notationfactory/client.go:78	Successfully updated verifiers
+2026-11-26T10:11:39.577Z	INFO	/main.go:262	Notation verifier updated {}
+I1126 10:11:52.018470       1 leaderelection.go:272] "Successfully acquired lease" lock="kyverno-notation-aws/kyverno-notation-aws"
+2026-11-26T10:11:52.029Z	INFO	controllers	/controller.go:32	starting controller	{"name": "cert-manager", "workers": 1}
+2026-11-26T10:14:59.974Z	INFO	verifier/client.go:183	Token is authorized: user="system:serviceaccount:kyverno:kyverno-admission-controller"
+2026-11-26T10:14:59.975Z	INFO	verifier/client.go:196	Request recieved with data={ImageReferences:[*] Images:{InitContainers:map[] Containers:map[podinfo:{Image:{ImageInfo:{Registry:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com Name:podinfo Path:podinfo Tag: Digest:sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 Reference:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 ReferenceWithTag:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo:}} Pointer:/spec/template/spec/containers/0/image}] EphemeralContainers:map[]} TrustPolicy:tp-supply-chain Attestations:[] Metadata: Insecure:false}
+2026-11-26T10:14:59.975Z	INFO	notationfactory/client.go:91	Using trust policy provided in the request tp-supply-chain
+2026-11-26T10:14:59.975Z	INFO	notationfactory/client.go:102	Found notation verifer for trust policy tp-supply-chain
+2026-11-26T10:14:59.975Z	INFO	cache/client.go:120	Getting image from the cache: trustPolicy=tp-supply-chain, imageRef=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+2026-11-26T10:14:59.976Z	INFO	cache/client.go:122	Cache is disabled not getting image
+2026-11-26T10:14:59.976Z	INFO	verifier/verify.go:368	Entry not found in the cache verifying image=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+2026-11-26T10:14:59.976Z	INFO	verifier/verify.go:370	verifying image infos {Image:{ImageInfo:{Registry:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com Name:podinfo Path:podinfo Tag: Digest:sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 Reference:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 ReferenceWithTag:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo:}} Pointer:/spec/template/spec/containers/0/image}
+2026-11-26T10:14:59.976Z	INFO	verifier/verify.go:388	verifying image <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+time="2026-11-26T10:15:00Z" level=info msg="Could not save cache" error="open /.ecr/.config.json.tmp60525147: no such file or directory"
+2026-11-26T10:15:00.219Z	INFO	notation-go@v1.3.2/notation.go:354	Checking whether signature verification should be skipped or not
+2026-11-26T10:15:00.220Z	INFO	verifier/verifier.go:175	Trust policy configuration: &{Name:trusted-podinfo RegistryScopes:[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo] SignatureVerification:{VerificationLevel:strict Override:map[] VerifyTimestamp:} TrustStores:[signingAuthority:aws-signer-ts] TrustedIdentities:[arn:aws:signer:ap-southeast-1:<ACCOUNT_ID>:/signing-profiles/podinfo_signing_profile]}
+2026-11-26T10:15:00.220Z	INFO	notation-go@v1.3.2/notation.go:363	Check over. The signature verification level is not set to 'skip' in the trust policy.
+2026-11-26T10:15:00.621Z	INFO	notation-go@v1.3.2/notation.go:402	Processing signature with manifest mediaType: application/vnd.oci.image.manifest.v1+json and digest: sha256:749615ca3e70b2bfce1d96be9df1125389f5f874a799129f9c7ee2ef40275373
+2026-11-26T10:15:01.120Z	INFO	verifier/verifier.go:209	Trust policy configuration: &{Name:trusted-podinfo RegistryScopes:[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo] SignatureVerification:{VerificationLevel:strict Override:map[] VerifyTimestamp:} TrustStores:[signingAuthority:aws-signer-ts] TrustedIdentities:[arn:aws:signer:ap-southeast-1:<ACCOUNT_ID>:/signing-profiles/podinfo_signing_profile]}
+2026-11-26T10:15:01.594Z	INFO	verifier/verify.go:436	successfully verified image <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 digest sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+2026-11-26T10:15:01.594Z	INFO	cache/client.go:104	Adding image to the cache: trustPolicy=tp-supply-chain, imageRef=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3, result={{<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com podinfo podinfo  sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo:}}
+2026-11-26T10:15:01.594Z	INFO	cache/client.go:106	Cache is disabled not adding image
+2026-11-26T10:15:01.594Z	INFO	verifier/verify.go:130	verified map[%!d(string=podinfo):{{{%!d(string=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com) %!d(string=podinfo) %!d(string=podinfo) %!d(string=) %!d(string=sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3) %!d(string=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3) %!d(string=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo:)}} %!d(string=/spec/template/spec/containers/0/image)}] containers 
+2026-11-26T10:15:01.594Z	INFO	verifier/verify.go:150	verified map[] initContainers
+2026-11-26T10:15:01.594Z	INFO	verifier/verify.go:170	verified map[] ephemeralContainers
+2026-11-26T10:15:01.594Z	INFO	verifier/response.go:109	building attestation set []
+2026-11-26T10:15:01.594Z	INFO	verifier/verify.go:176	built attestation list%!(EXTRA map[string]types.AttestationList=map[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3:map[]])
+2026-11-26T10:15:01.594Z	INFO	verifier/verify.go:186	verifying attestations map[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3:map[]]
+2026-11-26T10:15:01.594Z	INFO	verifier/verify.go:196	verifying attestation, image=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3; attestations=map[]
+2026-11-26T10:15:01.594Z	INFO	verifier/response.go:104	Sending response result=[{Operation:replace Path:/spec/template/spec/containers/0/image Value:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3}]
+2026-11-26T10:15:01.595Z	INFO	verifier/client.go:234	Sending response {
+    "verified": true,
+    "results": [
+      {
+        "op": "replace",
+        "path": "/spec/template/spec/containers/0/image",
+        "value": "<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3"
+      }
+    ]
+  }
+2026-11-26T10:15:01.898Z	INFO	verifier/client.go:183	Token is authorized: user="system:serviceaccount:kyverno:kyverno-admission-controller"
+2026-11-26T10:15:01.898Z	INFO	verifier/client.go:196	Request recieved with data={ImageReferences:[*] Images:{InitContainers:map[] Containers:map[podinfo:{Image:{ImageInfo:{Registry:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com Name:podinfo Path:podinfo Tag: Digest:sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 Reference:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 ReferenceWithTag:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo:}} Pointer:/spec/template/spec/containers/0/image}] EphemeralContainers:map[]} TrustPolicy:tp-supply-chain Attestations:[] Metadata: Insecure:false}
+2026-11-26T10:15:01.898Z	INFO	notationfactory/client.go:91	Using trust policy provided in the request tp-supply-chain
+2026-11-26T10:15:01.898Z	INFO	notationfactory/client.go:102	Found notation verifer for trust policy tp-supply-chain
+2026-11-26T10:15:01.898Z	INFO	cache/client.go:120	Getting image from the cache: trustPolicy=tp-supply-chain, imageRef=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+2026-11-26T10:15:01.898Z	INFO	cache/client.go:122	Cache is disabled not getting image
+2026-11-26T10:15:01.898Z	INFO	verifier/verify.go:368	Entry not found in the cache verifying image=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+2026-11-26T10:15:01.898Z	INFO	verifier/verify.go:370	verifying image infos {Image:{ImageInfo:{Registry:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com Name:podinfo Path:podinfo Tag: Digest:sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 Reference:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 ReferenceWithTag:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo:}} Pointer:/spec/template/spec/containers/0/image}
+2026-11-26T10:15:01.898Z	INFO	verifier/verify.go:388	verifying image <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+time="2026-11-26T10:15:02Z" level=info msg="Could not save cache" error="open /.ecr/.config.json.tmp813058228: no such file or directory"
+2026-11-26T10:15:02.064Z	INFO	notation-go@v1.3.2/notation.go:354	Checking whether signature verification should be skipped or not
+2026-11-26T10:15:02.065Z	INFO	verifier/verifier.go:175	Trust policy configuration: &{Name:trusted-podinfo RegistryScopes:[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo] SignatureVerification:{VerificationLevel:strict Override:map[] VerifyTimestamp:} TrustStores:[signingAuthority:aws-signer-ts] TrustedIdentities:[arn:aws:signer:ap-southeast-1:<ACCOUNT_ID>:/signing-profiles/podinfo_signing_profile]}
+2026-11-26T10:15:02.066Z	INFO	notation-go@v1.3.2/notation.go:363	Check over. The signature verification level is not set to 'skip' in the trust policy.
+2026-11-26T10:15:02.282Z	INFO	notation-go@v1.3.2/notation.go:402	Processing signature with manifest mediaType: application/vnd.oci.image.manifest.v1+json and digest: sha256:749615ca3e70b2bfce1d96be9df1125389f5f874a799129f9c7ee2ef40275373
+2026-11-26T10:15:02.535Z	INFO	verifier/verifier.go:209	Trust policy configuration: &{Name:trusted-podinfo RegistryScopes:[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo] SignatureVerification:{VerificationLevel:strict Override:map[] VerifyTimestamp:} TrustStores:[signingAuthority:aws-signer-ts] TrustedIdentities:[arn:aws:signer:ap-southeast-1:<ACCOUNT_ID>:/signing-profiles/podinfo_signing_profile]}
+2026-11-26T10:15:03.334Z	INFO	verifier/verify.go:436	successfully verified image <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 digest sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+2026-11-26T10:15:03.334Z	INFO	cache/client.go:104	Adding image to the cache: trustPolicy=tp-supply-chain, imageRef=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3, result={{<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com podinfo podinfo  sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo:}}
+2026-11-26T10:15:03.334Z	INFO	cache/client.go:106	Cache is disabled not adding image
+2026-11-26T10:15:03.334Z	INFO	verifier/verify.go:130	verified map[%!d(string=podinfo):{{{%!d(string=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com) %!d(string=podinfo) %!d(string=podinfo) %!d(string=) %!d(string=sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3) %!d(string=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3) %!d(string=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo:)}} %!d(string=/spec/template/spec/containers/0/image)}] containers 
+2026-11-26T10:15:03.334Z	INFO	verifier/verify.go:150	verified map[] initContainers
+2026-11-26T10:15:03.334Z	INFO	verifier/verify.go:170	verified map[] ephemeralContainers
+2026-11-26T10:15:03.334Z	INFO	verifier/response.go:109	building attestation set []
+2026-11-26T10:15:03.334Z	INFO	verifier/verify.go:176	built attestation list%!(EXTRA map[string]types.AttestationList=map[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3:map[]])
+2026-11-26T10:15:03.334Z	INFO	verifier/verify.go:186	verifying attestations map[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3:map[]]
+2026-11-26T10:15:03.334Z	INFO	verifier/verify.go:196	verifying attestation, image=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3; attestations=map[]
+2026-11-26T10:15:03.334Z	INFO	verifier/response.go:104	Sending response result=[{Operation:replace Path:/spec/template/spec/containers/0/image Value:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3}]
+2026-11-26T10:15:03.334Z	INFO	verifier/client.go:234	Sending response {
+    "verified": true,
+    "results": [
+      {
+        "op": "replace",
+        "path": "/spec/template/spec/containers/0/image",
+        "value": "<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3"
+      }
+    ]
+  }
+2026-11-26T10:15:03.413Z	INFO	verifier/client.go:183	Token is authorized: user="system:serviceaccount:kyverno:kyverno-admission-controller"
+2026-11-26T10:15:03.413Z	INFO	verifier/client.go:196	Request recieved with data={ImageReferences:[*] Images:{InitContainers:map[] Containers:map[podinfo:{Image:{ImageInfo:{Registry:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com Name:podinfo Path:podinfo Tag: Digest:sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 Reference:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 ReferenceWithTag:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo:}} Pointer:/spec/containers/0/image}] EphemeralContainers:map[]} TrustPolicy:tp-supply-chain Attestations:[] Metadata: Insecure:false}
+2026-11-26T10:15:03.413Z	INFO	notationfactory/client.go:91	Using trust policy provided in the request tp-supply-chain
+2026-11-26T10:15:03.413Z	INFO	notationfactory/client.go:102	Found notation verifer for trust policy tp-supply-chain
+2026-11-26T10:15:03.413Z	INFO	cache/client.go:120	Getting image from the cache: trustPolicy=tp-supply-chain, imageRef=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+2026-11-26T10:15:03.413Z	INFO	cache/client.go:122	Cache is disabled not getting image
+2026-11-26T10:15:03.413Z	INFO	verifier/verify.go:368	Entry not found in the cache verifying image=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+2026-11-26T10:15:03.413Z	INFO	verifier/verify.go:370	verifying image infos {Image:{ImageInfo:{Registry:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com Name:podinfo Path:podinfo Tag: Digest:sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 Reference:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 ReferenceWithTag:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo:}} Pointer:/spec/containers/0/image}
+2026-11-26T10:15:03.413Z	INFO	verifier/verify.go:388	verifying image <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+time="2026-11-26T10:15:03Z" level=info msg="Could not save cache" error="open /.ecr/.config.json.tmp2799072614: no such file or directory"
+2026-11-26T10:15:03.578Z	INFO	notation-go@v1.3.2/notation.go:354	Checking whether signature verification should be skipped or not
+2026-11-26T10:15:03.578Z	INFO	verifier/verifier.go:175	Trust policy configuration: &{Name:trusted-podinfo RegistryScopes:[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo] SignatureVerification:{VerificationLevel:strict Override:map[] VerifyTimestamp:} TrustStores:[signingAuthority:aws-signer-ts] TrustedIdentities:[arn:aws:signer:ap-southeast-1:<ACCOUNT_ID>:/signing-profiles/podinfo_signing_profile]}
+2026-11-26T10:15:03.578Z	INFO	notation-go@v1.3.2/notation.go:363	Check over. The signature verification level is not set to 'skip' in the trust policy.
+2026-11-26T10:15:03.771Z	INFO	notation-go@v1.3.2/notation.go:402	Processing signature with manifest mediaType: application/vnd.oci.image.manifest.v1+json and digest: sha256:749615ca3e70b2bfce1d96be9df1125389f5f874a799129f9c7ee2ef40275373
+2026-11-26T10:15:04.019Z	INFO	verifier/verifier.go:209	Trust policy configuration: &{Name:trusted-podinfo RegistryScopes:[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo] SignatureVerification:{VerificationLevel:strict Override:map[] VerifyTimestamp:} TrustStores:[signingAuthority:aws-signer-ts] TrustedIdentities:[arn:aws:signer:ap-southeast-1:<ACCOUNT_ID>:/signing-profiles/podinfo_signing_profile]}
+2026-11-26T10:15:04.240Z	INFO	verifier/verify.go:436	successfully verified image <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 digest sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+2026-11-26T10:15:04.240Z	INFO	cache/client.go:104	Adding image to the cache: trustPolicy=tp-supply-chain, imageRef=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3, result={{<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com podinfo podinfo  sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo:}}
+2026-11-26T10:15:04.240Z	INFO	cache/client.go:106	Cache is disabled not adding image
+2026-11-26T10:15:04.240Z	INFO	verifier/verify.go:130	verified map[%!d(string=podinfo):{{{%!d(string=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com) %!d(string=podinfo) %!d(string=podinfo) %!d(string=) %!d(string=sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3) %!d(string=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3) %!d(string=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo:)}} %!d(string=/spec/containers/0/image)}] containers 
+2026-11-26T10:15:04.240Z	INFO	verifier/verify.go:150	verified map[] initContainers
+2026-11-26T10:15:04.240Z	INFO	verifier/verify.go:170	verified map[] ephemeralContainers
+2026-11-26T10:15:04.240Z	INFO	verifier/response.go:109	building attestation set []
+2026-11-26T10:15:04.240Z	INFO	verifier/verify.go:176	built attestation list%!(EXTRA map[string]types.AttestationList=map[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3:map[]])
+2026-11-26T10:15:04.240Z	INFO	verifier/verify.go:186	verifying attestations map[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3:map[]]
+2026-11-26T10:15:04.240Z	INFO	verifier/verify.go:196	verifying attestation, image=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3; attestations=map[]
+2026-11-26T10:15:04.240Z	INFO	verifier/response.go:104	Sending response result=[{Operation:replace Path:/spec/containers/0/image Value:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3}]
+2026-11-26T10:15:04.241Z	INFO	verifier/client.go:234	Sending response {
+    "verified": true,
+    "results": [
+      {
+        "op": "replace",
+        "path": "/spec/containers/0/image",
+        "value": "<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3"
+      }
+    ]
+  }
+2026-11-26T10:15:04.262Z	INFO	verifier/client.go:183	Token is authorized: user="system:serviceaccount:kyverno:kyverno-admission-controller"
+2026-11-26T10:15:04.262Z	INFO	verifier/client.go:196	Request recieved with data={ImageReferences:[*] Images:{InitContainers:map[] Containers:map[podinfo:{Image:{ImageInfo:{Registry:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com Name:podinfo Path:podinfo Tag: Digest:sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 Reference:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 ReferenceWithTag:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo:}} Pointer:/spec/containers/0/image}] EphemeralContainers:map[]} TrustPolicy:tp-supply-chain Attestations:[] Metadata: Insecure:false}
+2026-11-26T10:15:04.262Z	INFO	notationfactory/client.go:91	Using trust policy provided in the request tp-supply-chain
+2026-11-26T10:15:04.262Z	INFO	notationfactory/client.go:102	Found notation verifer for trust policy tp-supply-chain
+2026-11-26T10:15:04.262Z	INFO	cache/client.go:120	Getting image from the cache: trustPolicy=tp-supply-chain, imageRef=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+2026-11-26T10:15:04.262Z	INFO	cache/client.go:122	Cache is disabled not getting image
+2026-11-26T10:15:04.262Z	INFO	verifier/verify.go:368	Entry not found in the cache verifying image=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+2026-11-26T10:15:04.262Z	INFO	verifier/verify.go:370	verifying image infos {Image:{ImageInfo:{Registry:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com Name:podinfo Path:podinfo Tag: Digest:sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 Reference:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 ReferenceWithTag:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo:}} Pointer:/spec/containers/0/image}
+2026-11-26T10:15:04.262Z	INFO	verifier/verify.go:388	verifying image <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+time="2026-11-26T10:15:04Z" level=info msg="Could not save cache" error="open /.ecr/.config.json.tmp3063770968: no such file or directory"
+2026-11-26T10:15:04.437Z	INFO	notation-go@v1.3.2/notation.go:354	Checking whether signature verification should be skipped or not
+2026-11-26T10:15:04.437Z	INFO	verifier/verifier.go:175	Trust policy configuration: &{Name:trusted-podinfo RegistryScopes:[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo] SignatureVerification:{VerificationLevel:strict Override:map[] VerifyTimestamp:} TrustStores:[signingAuthority:aws-signer-ts] TrustedIdentities:[arn:aws:signer:ap-southeast-1:<ACCOUNT_ID>:/signing-profiles/podinfo_signing_profile]}
+2026-11-26T10:15:04.437Z	INFO	notation-go@v1.3.2/notation.go:363	Check over. The signature verification level is not set to 'skip' in the trust policy.
+2026-11-26T10:15:04.634Z	INFO	notation-go@v1.3.2/notation.go:402	Processing signature with manifest mediaType: application/vnd.oci.image.manifest.v1+json and digest: sha256:749615ca3e70b2bfce1d96be9df1125389f5f874a799129f9c7ee2ef40275373
+2026-11-26T10:15:04.893Z	INFO	verifier/verifier.go:209	Trust policy configuration: &{Name:trusted-podinfo RegistryScopes:[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo] SignatureVerification:{VerificationLevel:strict Override:map[] VerifyTimestamp:} TrustStores:[signingAuthority:aws-signer-ts] TrustedIdentities:[arn:aws:signer:ap-southeast-1:<ACCOUNT_ID>:/signing-profiles/podinfo_signing_profile]}
+2026-11-26T10:15:05.138Z	INFO	verifier/verify.go:436	successfully verified image <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 digest sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+2026-11-26T10:15:05.138Z	INFO	cache/client.go:104	Adding image to the cache: trustPolicy=tp-supply-chain, imageRef=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3, result={{<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com podinfo podinfo  sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3 <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo:}}
+2026-11-26T10:15:05.138Z	INFO	cache/client.go:106	Cache is disabled not adding image
+2026-11-26T10:15:05.138Z	INFO	verifier/verify.go:130	verified map[%!d(string=podinfo):{{{%!d(string=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com) %!d(string=podinfo) %!d(string=podinfo) %!d(string=) %!d(string=sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3) %!d(string=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3) %!d(string=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo:)}} %!d(string=/spec/containers/0/image)}] containers 
+2026-11-26T10:15:05.138Z	INFO	verifier/verify.go:150	verified map[] initContainers
+2026-11-26T10:15:05.138Z	INFO	verifier/verify.go:170	verified map[] ephemeralContainers
+2026-11-26T10:15:05.138Z	INFO	verifier/response.go:109	building attestation set []
+2026-11-26T10:15:05.138Z	INFO	verifier/verify.go:176	built attestation list%!(EXTRA map[string]types.AttestationList=map[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3:map[]])
+2026-11-26T10:15:05.138Z	INFO	verifier/verify.go:186	verifying attestations map[<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3:map[]]
+2026-11-26T10:15:05.138Z	INFO	verifier/verify.go:196	verifying attestation, image=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3; attestations=map[]
+2026-11-26T10:15:05.138Z	INFO	verifier/response.go:104	Sending response result=[{Operation:replace Path:/spec/containers/0/image Value:<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3}]
+2026-11-26T10:15:05.138Z	INFO	verifier/client.go:234	Sending response {
+    "verified": true,
+    "results": [
+      {
+        "op": "replace",
+        "path": "/spec/containers/0/image",
+        "value": "<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3"
+      }
+    ]
+  }
