@@ -1,0 +1,1 @@
+Error from server (Forbidden): pods "podinfo-546898db97-djnlb" is forbidden: User "ci-deployer" cannot delete resource "pods" in API group "" in the namespace "app"

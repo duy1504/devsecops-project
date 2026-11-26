@@ -1,0 +1,1 @@
+error: unable to upgrade connection: pods "podinfo-546898db97-djnlb" is forbidden: User "ci-deployer" cannot create resource "pods/exec" in API group "" in the namespace "app"

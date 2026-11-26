@@ -1,0 +1,2 @@
+Warning: Non-root user is configured for the entire target Pod, and some capabilities granted by debug profile may not work. Please consider using "--custom" with a custom profile that specifies "securityContext.runAsUser: 0".
+Error from server (Forbidden): pods "podinfo-546898db97-djnlb" is forbidden: User "ci-deployer" cannot patch resource "pods/ephemeralcontainers" in API group "" in the namespace "app"
