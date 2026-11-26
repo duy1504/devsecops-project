@@ -1,5 +1,5 @@
-# Pipeline bảo mật chuỗi cung ứng (kế hoạch mục 9). Hiện có: verify + policy-test (không quyền AWS).
-# publish/deploy thêm sau khi spike Managed Signing đạt (mục 6.2).
+# Pipeline bảo mật chuỗi cung ứng (kế hoạch mục 9): verify + policy-test (không quyền AWS) → publish (OIDC, chỉ main).
+# Không có job deploy: đồ án chạy kind, triển khai bằng scripts/deploy.sh từ release.json (mục 9.4 ghi chú, 10.4).
 # Action ghim theo commit SHA đầy đủ; công cụ CLI ghim phiên bản + SHA-256 (nguồn: docs/versions.md).
 name: secure-supply-chain
 
@@ -224,3 +224,137 @@ jobs:
           sudo install -m 0755 kyverno /usr/local/bin/kyverno
       - name: Render policy + resource & run offline tests
         run: bash scripts/policy-test.sh   # đúng lệnh chạy ở máy local
+
+  publish:                           # mục 9.4: chỉ push vào main, sau khi verify (mọi gate) đạt
+    needs: verify
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write                # chỉ job này có OIDC → role devsecops-publisher (trust: ref:refs/heads/main)
+    outputs:
+      digest: ${{ steps.push.outputs.digest }}
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+      SIGNING_PROFILE_NAME: ${{ vars.SIGNING_PROFILE_NAME }}
+      PUBLISH_ROLE_NAME: ${{ vars.AWS_PUBLISH_ROLE_NAME }}
+      # Account ID không phải credential, nhưng repo public: để ở Secret để GitHub tự che mọi chuỗi chứa nó
+      # trong log (ARN, registry). Không có Secret nào chứa access key.
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Resolve configuration
+        run: |
+          set -euo pipefail
+          for v in AWS_REGION ECR_REPOSITORY SIGNING_PROFILE_NAME PUBLISH_ROLE_NAME AWS_ACCOUNT_ID; do
+            [ -n "${!v}" ] || { echo "::error::Thiếu cấu hình $v (repo variables/secrets)"; exit 1; }
+          done
+          [[ "$AWS_ACCOUNT_ID" =~ ^[0-9]{12}$ ]] || { echo "::error::AWS_ACCOUNT_ID sai định dạng"; exit 1; }
+          reg="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+          {
+            echo "ECR_REGISTRY=$reg"
+            echo "ECR_IMAGE=$reg/$ECR_REPOSITORY"
+            echo "SIGNING_PROFILE_ARN=arn:aws:signer:${AWS_REGION}:${AWS_ACCOUNT_ID}:/signing-profiles/${SIGNING_PROFILE_NAME}"
+            echo "PUBLISH_ROLE_ARN=arn:aws:iam::${AWS_ACCOUNT_ID}:role/${PUBLISH_ROLE_NAME}"
+          } >> "$GITHUB_ENV"
+
+      - name: Download approved image (cùng workflow run)
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333  # v8.0.2
+        with:
+          name: approved-image-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifact             # digest-mismatch mặc định = error
+
+      - name: Verify artifact integrity & load (không build lại)
+        working-directory: artifact
+        run: |
+          set -euo pipefail
+          sha256sum -c image.tar.sha256
+          test "$(cut -d' ' -f1 image.tar.sha256)" = "$(jq -r .image_tar_sha256 verification.json)"
+          # verification.json phải thuộc đúng commit/run/attempt này và gate đã đạt
+          jq -e --arg c "$GITHUB_SHA" --arg r "$GITHUB_RUN_ID" --arg a "$GITHUB_RUN_ATTEMPT" \
+            '.commit_sha == $c and .workflow_run_id == $r and .run_attempt == $a
+             and .gate_result == "pass" and .critical_count == 0' verification.json
+          docker load -i image.tar
+          test "$(docker image inspect "$LOCAL_IMAGE" --format '{{.Id}}')" = "$(jq -r .local_image_id verification.json)"
+          echo "Image đã scan: $(jq -r .local_image_id verification.json)"
+
+      - uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd  # v6.3.0
+        with:
+          role-to-assume: ${{ env.PUBLISH_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+          role-session-name: gh-publish-${{ github.run_id }}-${{ github.run_attempt }}
+          role-duration-seconds: 900
+          mask-aws-account-id: true
+          allowed-account-ids: ${{ env.AWS_ACCOUNT_ID }}
+
+      - name: Push (đúng image đã scan, tag duy nhất mỗi lần chạy)
+        id: push
+        run: |
+          set -euo pipefail
+          aws --version
+          aws ecr get-login-password | docker login --username AWS --password-stdin "$ECR_REGISTRY"
+          TAG="sha-${GITHUB_SHA::12}-run-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          docker tag "$LOCAL_IMAGE" "$ECR_IMAGE:$TAG"
+          docker push "$ECR_IMAGE:$TAG"
+          DIGEST=$(aws ecr describe-images --repository-name "$ECR_REPOSITORY" --image-ids imageTag="$TAG" \
+            --query 'imageDetails[0].imageDigest' --output text)
+          [[ "$DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]] || { echo "::error::Digest không hợp lệ: $DIGEST"; exit 1; }
+          # Digest registry trả về phải trùng digest mà docker push ghi nhận
+          PUSHED=$(docker image inspect "$ECR_IMAGE:$TAG" --format '{{range .RepoDigests}}{{println .}}{{end}}' \
+            | grep -F "$ECR_IMAGE@" | cut -d@ -f2 | head -1)
+          [ "$PUSHED" = "$DIGEST" ] || { echo "::error::Digest lệch: push=$PUSHED registry=$DIGEST"; exit 1; }
+          docker logout "$ECR_REGISTRY"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "digest=$DIGEST" >> "$GITHUB_OUTPUT"
+
+      - name: Wait for ECR Managed Signing (đúng profile, COMPLETE)
+        env:
+          IMAGE_DIGEST: ${{ steps.push.outputs.digest }}
+          RELEASE_DIR: release-raw
+        run: bash scripts/wait-signature.sh
+
+      - name: Release manifest
+        env:
+          TAG: ${{ steps.push.outputs.tag }}
+          DIGEST: ${{ steps.push.outputs.digest }}
+        run: |
+          set -euo pipefail
+          jq --arg uri "$ECR_IMAGE" --arg tag "$TAG" --arg digest "$DIGEST" --arg arn "$SIGNING_PROFILE_ARN" \
+             --arg at "$(date -u +%FT%TZ)" \
+             '. + {image_uri:$uri, image_tag:$tag, image_digest:$digest,
+                   signing_profile_arn:$arn, signing_status:"COMPLETE", published_at:$at}' \
+             artifact/verification.json > release-raw/release.json
+          {
+            echo "### Release – \`${GITHUB_SHA::12}\` (run ${GITHUB_RUN_ID}/${GITHUB_RUN_ATTEMPT})"
+            echo "| Trường | Giá trị |"
+            echo "|---|---|"
+            echo "| Image | \`$ECR_IMAGE@$DIGEST\` |"
+            echo "| Tag | \`$TAG\` |"
+            echo "| Signing | \`COMPLETE\` – \`$SIGNING_PROFILE_ARN\` |"
+          } | sed "s/${AWS_ACCOUNT_ID}/<ACCOUNT_ID>/g" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Mask account ID in release files (artifact của repo public)
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p release
+          [ -n "$AWS_ACCOUNT_ID" ] || exit 0
+          for f in release-raw/*.json; do
+            [ -e "$f" ] || continue
+            sed "s/${AWS_ACCOUNT_ID}/<ACCOUNT_ID>/g" "$f" > "release/$(basename "$f")"
+          done
+          if grep -rqF "$AWS_ACCOUNT_ID" release/; then echo "::error::Còn account ID trong release/"; exit 1; fi
+
+      - name: Upload release record
+        if: always()                 # lưu cả signing-status.json khi ký FAILED/hết giờ; release.json chỉ có khi đạt
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
+        with:
+          name: release-${{ github.run_id }}-${{ github.run_attempt }}
+          path: release/
+          retention-days: 30
+          if-no-files-found: warn

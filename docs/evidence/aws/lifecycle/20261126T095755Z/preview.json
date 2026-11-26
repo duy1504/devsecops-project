@@ -1,0 +1,10 @@
+{
+    "previewResults": [],
+    "registryId": "<ACCOUNT_ID>",
+    "repositoryName": "podinfo",
+    "lifecyclePolicyText": "{\n  \"rules\": [\n    {\n      \"rulePriority\": 1,\n      \"description\": \"Giu 10 image phat hanh gan nhat (tag sha-*); fixture va chu ky khong khop rule nao\",\n      \"selection\": {\n        \"tagStatus\": \"tagged\",\n        \"tagPrefixList\": [\"sha-\"],\n        \"countType\": \"imageCountMoreThan\",\n        \"countNumber\": 10\n      },\n      \"action\": { \"type\": \"expire\" }\n    }\n  ]\n}\n",
+    "status": "COMPLETE",
+    "summary": {
+        "expiringImageTotalCount": 0
+    }
+}
