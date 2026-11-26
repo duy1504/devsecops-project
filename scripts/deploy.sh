@@ -23,6 +23,13 @@ jq -e --arg arn "${SIGNING_PROFILE_ARN/$AWS_ACCOUNT_ID/<ACCOUNT_ID>}" '
   and (.image_tag | startswith("sha-"))
   and .signing_profile_arn == $arn' "$REL" > /dev/null \
   || { echo "release.json không đạt (ký/gate/digest/profile)" >&2; exit 1; }
+# run.json do fetch-release.sh ghi từ API GitHub: release.json phải thuộc đúng run/attempt/commit thành công trên main
+RUNJ="$(dirname "$REL")/run.json"
+[ -s "$RUNJ" ] || { echo "Thiếu $RUNJ (tải bằng scripts/fetch-release.sh)" >&2; exit 1; }
+jq -e --slurpfile r "$RUNJ" '
+  .workflow_run_id == $r[0].run_id and .run_attempt == $r[0].attempt and .commit_sha == $r[0].head_sha
+  and $r[0].branch == "main" and $r[0].event == "push" and $r[0].conclusion == "success"' "$REL" > /dev/null \
+  || { echo "release.json không khớp run.json (run/attempt/commit)" >&2; exit 1; }
 URI=$(jq -r .image_uri "$REL"); URI=${URI/<ACCOUNT_ID>/$AWS_ACCOUNT_ID}
 [ "$URI" = "$ECR_IMAGE" ] || { echo "image_uri trong release.json khác ECR_IMAGE cấu hình" >&2; exit 1; }
 DIGEST=$(jq -r .image_digest "$REL")

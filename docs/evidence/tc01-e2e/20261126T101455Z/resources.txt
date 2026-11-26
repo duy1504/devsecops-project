@@ -1,0 +1,9 @@
+NAME                      READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                                                                                                                              SELECTOR
+deployment.apps/podinfo   2/2     2            2           12s   podinfo      <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3   app=podinfo
+
+NAME                                 DESIRED   CURRENT   READY   AGE   CONTAINERS   IMAGES                                                                                                                              SELECTOR
+replicaset.apps/podinfo-546898db97   2         2         2       10s   podinfo      <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3   app=podinfo,pod-template-hash=546898db97
+
+NAME                           READY   STATUS    RESTARTS   AGE   IP            NODE                      NOMINATED NODE   READINESS GATES
+pod/podinfo-546898db97-djnlb   1/1     Running   0          9s    10.244.0.20   devsecops-control-plane   <none>           <none>
+pod/podinfo-546898db97-mhh5p   1/1     Running   0          10s   10.244.0.19   devsecops-control-plane   <none>           <none>

@@ -1,0 +1,19 @@
+{
+  "commit_sha": "d1cd8dd72cd8ddb451f6f5cbf0e6fc03513264a2",
+  "workflow_run_id": "45798939183",
+  "run_attempt": "1",
+  "local_image_id": "sha256:242fd7991f93dd7a335c6b74d66fdb70e20b11548577fd522e03f170d3e5b48e",
+  "image_tar_sha256": "8c3332ec9efc28a22b9634f515818f060e03676ef991c9836bde96379884ebaa",
+  "sbom_sha256": "4826ca68d36a280850ee78fc0ece3f8855652f1b88583f0ee7344846a69c8579",
+  "vulnerability_report_sha256": "3bddbf8e639e8e61d5bc06e86627e4fe69cb794b812d0f34129d9b40a5306067",
+  "scanner_version": "Version: 0.76.2",
+  "vulnerability_db_updated_at": "2026-11-26T07:04:32.419054275Z",
+  "critical_count": 0,
+  "gate_result": "pass",
+  "image_uri": "<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo",
+  "image_tag": "sha-d1cd8dd72cd8-run-45798939183-1",
+  "image_digest": "sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3",
+  "signing_profile_arn": "arn:aws:signer:ap-southeast-1:<ACCOUNT_ID>:/signing-profiles/podinfo_signing_profile",
+  "signing_status": "COMPLETE",
+  "published_at": "2026-11-26T10:13:20Z"
+}

@@ -1,0 +1,4 @@
+Found 2 pods, using pod/podinfo-546898db97-mhh5p
+{"level":"info","ts":"2026-11-26T10:15:10.964Z","caller":"podinfo/main.go:175","msg":"Starting podinfo","version":"6.17.0","revision":"fd3a834ed8d14b80ea334cf8a2fddd4597924da6","port":"9898"}
+{"level":"warn","ts":"2026-11-26T10:15:10.965Z","caller":"http/artifact.go:103","msg":"artifact build failed, /artifact will return 404","error":"lstat ./kustomize: no such file or directory","path":"./kustomize"}
+{"level":"info","ts":"2026-11-26T10:15:10.966Z","caller":"http/server.go:291","msg":"Starting HTTP Server.","addr":":9898"}
