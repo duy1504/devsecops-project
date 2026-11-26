@@ -1,0 +1,8 @@
+Error from server: error when creating "reports/admission-p2/20261126T103324Z/rendered/tc06-wrong-signer.yaml": admission webhook "validate.kyverno.svc-fail" denied the request: 
+
+resource Pod/demo/tc06-wrong-signer was blocked due to the following policies 
+
+verify-signer:
+  verify-aws-signer: |
+    failed to check deny conditions: failed to substitute variables in condition key: failed to resolve response.verified || false at path : failed to fetch data for APICall: HTTP 406 Not Acceptable: failed to verify container podinfo: failed to verify image {{{<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com podinfo podinfo  sha256:6452d1877aeb082b63b02e742fd04a30496f2acf9e2b135eccf2f8b776782e75 <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:6452d1877aeb082b63b02e742fd04a30496f2acf9e2b135eccf2f8b776782e75 <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo:}} /spec/containers/0/image}: signature verification failed
+    failed to verify signature with digest sha256:999690e056b7094296c0d1b1c71eba0474be60254035fed62a9031843c2b2cd5, trusted identify verification by plugin "com.amazonaws.signer.notation.plugin" failed with reason "Signature publisher doesn't match any trusted identities."

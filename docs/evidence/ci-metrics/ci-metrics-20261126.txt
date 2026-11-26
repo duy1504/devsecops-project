@@ -1,0 +1,1302 @@
+run_id,event,branch,job,job_conclusion,step,seconds
+45801990148,push,main,verify,success,(job verify),94
+45801990148,push,main,verify,success,Set up job,3
+45801990148,push,main,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,4
+45801990148,push,main,verify,success,Install pinned CLI tools (version + SHA-256),3
+45801990148,push,main,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,6
+45801990148,push,main,verify,success,Unit test,6
+45801990148,push,main,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+45801990148,push,main,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,10
+45801990148,push,main,verify,success,Build once,31
+45801990148,push,main,verify,success,Save image artifact,1
+45801990148,push,main,verify,success,SBOM (Syft CLI; CycloneDX),1
+45801990148,push,main,verify,success,Validate SBOM,0
+45801990148,push,main,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),5
+45801990148,push,main,verify,success,Upload SARIF (Code Scanning),7
+45801990148,push,main,verify,success,Upload security reports,2
+45801990148,push,main,verify,success,GATE – no CRITICAL,0
+45801990148,push,main,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+45801990148,push,main,verify,success,Verification metadata,0
+45801990148,push,main,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),3
+45801990148,push,main,verify,success,Post Upload SARIF (Code Scanning),0
+45801990148,push,main,verify,success,Post Build once,2
+45801990148,push,main,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,5
+45801990148,push,main,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+45801990148,push,main,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+45801990148,push,main,verify,success,Complete job,0
+45801990148,push,main,policy-test,success,(job policy-test),9
+45801990148,push,main,policy-test,success,Set up job,1
+45801990148,push,main,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,4
+45801990148,push,main,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+45801990148,push,main,policy-test,success,Render policy + resource & run offline tests,0
+45801990148,push,main,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+45801990148,push,main,policy-test,success,Complete job,0
+45801990148,push,main,publish,success,(job publish),31
+45801990148,push,main,publish,success,Set up job,1
+45801990148,push,main,publish,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+45801990148,push,main,publish,success,Resolve configuration,0
+45801990148,push,main,publish,success,Download approved image (cùng workflow run),3
+45801990148,push,main,publish,success,Verify artifact integrity & load (không build lại),0
+45801990148,push,main,publish,success,Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd,2
+45801990148,push,main,publish,success,Push (đúng image đã scan; tag duy nhất mỗi lần chạy),17
+45801990148,push,main,publish,success,Wait for ECR Managed Signing (đúng profile; COMPLETE),1
+45801990148,push,main,publish,success,Release manifest,0
+45801990148,push,main,publish,success,Mask account ID in release files (artifact của repo public),0
+45801990148,push,main,publish,success,Upload release record,2
+45801990148,push,main,publish,success,Post Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd,0
+45801990148,push,main,publish,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+45801990148,push,main,publish,success,Complete job,0
+45801669285,pull_request,docs/spike-step10,policy-test,success,(job policy-test),8
+45801669285,pull_request,docs/spike-step10,policy-test,success,Set up job,0
+45801669285,pull_request,docs/spike-step10,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,2
+45801669285,pull_request,docs/spike-step10,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),1
+45801669285,pull_request,docs/spike-step10,policy-test,success,Render policy + resource & run offline tests,1
+45801669285,pull_request,docs/spike-step10,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+45801669285,pull_request,docs/spike-step10,policy-test,success,Complete job,0
+45801669285,pull_request,docs/spike-step10,verify,success,(job verify),95
+45801669285,pull_request,docs/spike-step10,verify,success,Set up job,3
+45801669285,pull_request,docs/spike-step10,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,4
+45801669285,pull_request,docs/spike-step10,verify,success,Install pinned CLI tools (version + SHA-256),3
+45801669285,pull_request,docs/spike-step10,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,12
+45801669285,pull_request,docs/spike-step10,verify,success,Unit test,3
+45801669285,pull_request,docs/spike-step10,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+45801669285,pull_request,docs/spike-step10,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,9
+45801669285,pull_request,docs/spike-step10,verify,success,Build once,32
+45801669285,pull_request,docs/spike-step10,verify,success,Save image artifact,1
+45801669285,pull_request,docs/spike-step10,verify,success,SBOM (Syft CLI; CycloneDX),1
+45801669285,pull_request,docs/spike-step10,verify,success,Validate SBOM,0
+45801669285,pull_request,docs/spike-step10,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),5
+45801669285,pull_request,docs/spike-step10,verify,success,Upload SARIF (Code Scanning),7
+45801669285,pull_request,docs/spike-step10,verify,success,Upload security reports,2
+45801669285,pull_request,docs/spike-step10,verify,success,GATE – no CRITICAL,0
+45801669285,pull_request,docs/spike-step10,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+45801669285,pull_request,docs/spike-step10,verify,success,Verification metadata,0
+45801669285,pull_request,docs/spike-step10,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),0
+45801669285,pull_request,docs/spike-step10,verify,success,Post Upload SARIF (Code Scanning),1
+45801669285,pull_request,docs/spike-step10,verify,success,Post Build once,2
+45801669285,pull_request,docs/spike-step10,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,4
+45801669285,pull_request,docs/spike-step10,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+45801669285,pull_request,docs/spike-step10,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+45801669285,pull_request,docs/spike-step10,verify,success,Complete job,0
+45801669285,pull_request,docs/spike-step10,publish,skipped,(job publish),0
+45800377707,push,main,policy-test,success,(job policy-test),8
+45800377707,push,main,policy-test,success,Set up job,0
+45800377707,push,main,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,2
+45800377707,push,main,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+45800377707,push,main,policy-test,success,Render policy + resource & run offline tests,0
+45800377707,push,main,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+45800377707,push,main,policy-test,success,Complete job,0
+45800377707,push,main,verify,success,(job verify),108
+45800377707,push,main,verify,success,Set up job,3
+45800377707,push,main,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+45800377707,push,main,verify,success,Install pinned CLI tools (version + SHA-256),3
+45800377707,push,main,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,4
+45800377707,push,main,verify,success,Unit test,6
+45800377707,push,main,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+45800377707,push,main,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,9
+45800377707,push,main,verify,success,Build once,48
+45800377707,push,main,verify,success,Save image artifact,1
+45800377707,push,main,verify,success,SBOM (Syft CLI; CycloneDX),2
+45800377707,push,main,verify,success,Validate SBOM,0
+45800377707,push,main,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),6
+45800377707,push,main,verify,success,Upload SARIF (Code Scanning),8
+45800377707,push,main,verify,success,Upload security reports,1
+45800377707,push,main,verify,success,GATE – no CRITICAL,0
+45800377707,push,main,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+45800377707,push,main,verify,success,Verification metadata,0
+45800377707,push,main,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),3
+45800377707,push,main,verify,success,Post Upload SARIF (Code Scanning),0
+45800377707,push,main,verify,success,Post Build once,2
+45800377707,push,main,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,7
+45800377707,push,main,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+45800377707,push,main,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+45800377707,push,main,verify,success,Complete job,0
+45800377707,push,main,publish,success,(job publish),39
+45800377707,push,main,publish,success,Set up job,3
+45800377707,push,main,publish,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+45800377707,push,main,publish,success,Resolve configuration,0
+45800377707,push,main,publish,success,Download approved image (cùng workflow run),2
+45800377707,push,main,publish,success,Verify artifact integrity & load (không build lại),2
+45800377707,push,main,publish,success,Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd,1
+45800377707,push,main,publish,success,Push (đúng image đã scan; tag duy nhất mỗi lần chạy),18
+45800377707,push,main,publish,success,Wait for ECR Managed Signing (đúng profile; COMPLETE),8
+45800377707,push,main,publish,success,Release manifest,0
+45800377707,push,main,publish,success,Mask account ID in release files (artifact của repo public),0
+45800377707,push,main,publish,success,Upload release record,1
+45800377707,push,main,publish,success,Post Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd,0
+45800377707,push,main,publish,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+45800377707,push,main,publish,success,Complete job,0
+45800055366,pull_request,docs/tc01-e2e,policy-test,success,(job policy-test),12
+45800055366,pull_request,docs/tc01-e2e,policy-test,success,Set up job,2
+45800055366,pull_request,docs/tc01-e2e,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,4
+45800055366,pull_request,docs/tc01-e2e,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+45800055366,pull_request,docs/tc01-e2e,policy-test,success,Render policy + resource & run offline tests,1
+45800055366,pull_request,docs/tc01-e2e,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+45800055366,pull_request,docs/tc01-e2e,policy-test,success,Complete job,0
+45800055366,pull_request,docs/tc01-e2e,verify,success,(job verify),86
+45800055366,pull_request,docs/tc01-e2e,verify,success,Set up job,3
+45800055366,pull_request,docs/tc01-e2e,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,5
+45800055366,pull_request,docs/tc01-e2e,verify,success,Install pinned CLI tools (version + SHA-256),3
+45800055366,pull_request,docs/tc01-e2e,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,9
+45800055366,pull_request,docs/tc01-e2e,verify,success,Unit test,3
+45800055366,pull_request,docs/tc01-e2e,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+45800055366,pull_request,docs/tc01-e2e,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,10
+45800055366,pull_request,docs/tc01-e2e,verify,success,Build once,30
+45800055366,pull_request,docs/tc01-e2e,verify,success,Save image artifact,1
+45800055366,pull_request,docs/tc01-e2e,verify,success,SBOM (Syft CLI; CycloneDX),1
+45800055366,pull_request,docs/tc01-e2e,verify,success,Validate SBOM,0
+45800055366,pull_request,docs/tc01-e2e,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),5
+45800055366,pull_request,docs/tc01-e2e,verify,success,Upload SARIF (Code Scanning),7
+45800055366,pull_request,docs/tc01-e2e,verify,success,Upload security reports,1
+45800055366,pull_request,docs/tc01-e2e,verify,success,GATE – no CRITICAL,0
+45800055366,pull_request,docs/tc01-e2e,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+45800055366,pull_request,docs/tc01-e2e,verify,success,Verification metadata,0
+45800055366,pull_request,docs/tc01-e2e,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),0
+45800055366,pull_request,docs/tc01-e2e,verify,success,Post Upload SARIF (Code Scanning),1
+45800055366,pull_request,docs/tc01-e2e,verify,success,Post Build once,1
+45800055366,pull_request,docs/tc01-e2e,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,3
+45800055366,pull_request,docs/tc01-e2e,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+45800055366,pull_request,docs/tc01-e2e,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+45800055366,pull_request,docs/tc01-e2e,verify,success,Complete job,0
+45800055366,pull_request,docs/tc01-e2e,publish,skipped,(job publish),0
+45798939183,push,main,verify,success,(job verify),85
+45798939183,push,main,verify,success,Set up job,3
+45798939183,push,main,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,5
+45798939183,push,main,verify,success,Install pinned CLI tools (version + SHA-256),3
+45798939183,push,main,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,8
+45798939183,push,main,verify,success,Unit test,3
+45798939183,push,main,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+45798939183,push,main,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,9
+45798939183,push,main,verify,success,Build once,29
+45798939183,push,main,verify,success,Save image artifact,1
+45798939183,push,main,verify,success,SBOM (Syft CLI; CycloneDX),1
+45798939183,push,main,verify,success,Validate SBOM,0
+45798939183,push,main,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),4
+45798939183,push,main,verify,success,Upload SARIF (Code Scanning),8
+45798939183,push,main,verify,success,Upload security reports,1
+45798939183,push,main,verify,success,GATE – no CRITICAL,0
+45798939183,push,main,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+45798939183,push,main,verify,success,Verification metadata,0
+45798939183,push,main,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),2
+45798939183,push,main,verify,success,Post Upload SARIF (Code Scanning),0
+45798939183,push,main,verify,success,Post Build once,1
+45798939183,push,main,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,3
+45798939183,push,main,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+45798939183,push,main,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+45798939183,push,main,verify,success,Complete job,0
+45798939183,push,main,policy-test,success,(job policy-test),11
+45798939183,push,main,policy-test,success,Set up job,2
+45798939183,push,main,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,5
+45798939183,push,main,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+45798939183,push,main,policy-test,success,Render policy + resource & run offline tests,0
+45798939183,push,main,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+45798939183,push,main,policy-test,success,Complete job,0
+45798939183,push,main,publish,success,(job publish),45
+45798939183,push,main,publish,success,Set up job,2
+45798939183,push,main,publish,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,4
+45798939183,push,main,publish,success,Resolve configuration,1
+45798939183,push,main,publish,success,Download approved image (cùng workflow run),1
+45798939183,push,main,publish,success,Verify artifact integrity & load (không build lại),2
+45798939183,push,main,publish,success,Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd,2
+45798939183,push,main,publish,success,Push (đúng image đã scan; tag duy nhất mỗi lần chạy),22
+45798939183,push,main,publish,success,Wait for ECR Managed Signing (đúng profile; COMPLETE),8
+45798939183,push,main,publish,success,Release manifest,0
+45798939183,push,main,publish,success,Mask account ID in release files (artifact của repo public),0
+45798939183,push,main,publish,success,Upload release record,1
+45798939183,push,main,publish,success,Post Run aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd,0
+45798939183,push,main,publish,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+45798939183,push,main,publish,success,Complete job,0
+45797614266,pull_request,feat/publish-oidc,verify,success,(job verify),93
+45797614266,pull_request,feat/publish-oidc,verify,success,Set up job,3
+45797614266,pull_request,feat/publish-oidc,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,4
+45797614266,pull_request,feat/publish-oidc,verify,success,Install pinned CLI tools (version + SHA-256),3
+45797614266,pull_request,feat/publish-oidc,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,11
+45797614266,pull_request,feat/publish-oidc,verify,success,Unit test,3
+45797614266,pull_request,feat/publish-oidc,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+45797614266,pull_request,feat/publish-oidc,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,9
+45797614266,pull_request,feat/publish-oidc,verify,success,Build once,31
+45797614266,pull_request,feat/publish-oidc,verify,success,Save image artifact,1
+45797614266,pull_request,feat/publish-oidc,verify,success,SBOM (Syft CLI; CycloneDX),0
+45797614266,pull_request,feat/publish-oidc,verify,success,Validate SBOM,1
+45797614266,pull_request,feat/publish-oidc,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),5
+45797614266,pull_request,feat/publish-oidc,verify,success,Upload SARIF (Code Scanning),8
+45797614266,pull_request,feat/publish-oidc,verify,success,Upload security reports,2
+45797614266,pull_request,feat/publish-oidc,verify,success,GATE – no CRITICAL,0
+45797614266,pull_request,feat/publish-oidc,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+45797614266,pull_request,feat/publish-oidc,verify,success,Verification metadata,0
+45797614266,pull_request,feat/publish-oidc,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),0
+45797614266,pull_request,feat/publish-oidc,verify,success,Post Upload SARIF (Code Scanning),0
+45797614266,pull_request,feat/publish-oidc,verify,success,Post Build once,2
+45797614266,pull_request,feat/publish-oidc,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,4
+45797614266,pull_request,feat/publish-oidc,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+45797614266,pull_request,feat/publish-oidc,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+45797614266,pull_request,feat/publish-oidc,verify,success,Complete job,0
+45797614266,pull_request,feat/publish-oidc,policy-test,success,(job policy-test),7
+45797614266,pull_request,feat/publish-oidc,policy-test,success,Set up job,0
+45797614266,pull_request,feat/publish-oidc,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,2
+45797614266,pull_request,feat/publish-oidc,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),1
+45797614266,pull_request,feat/publish-oidc,policy-test,success,Render policy + resource & run offline tests,1
+45797614266,pull_request,feat/publish-oidc,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+45797614266,pull_request,feat/publish-oidc,policy-test,success,Complete job,0
+45797614266,pull_request,feat/publish-oidc,publish,skipped,(job publish),0
+45782968906,push,main,policy-test,success,(job policy-test),11
+45782968906,push,main,policy-test,success,Set up job,2
+45782968906,push,main,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,4
+45782968906,push,main,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+45782968906,push,main,policy-test,success,Render policy + resource & run offline tests,1
+45782968906,push,main,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+45782968906,push,main,policy-test,success,Complete job,0
+45782968906,push,main,verify,success,(job verify),82
+45782968906,push,main,verify,success,Set up job,3
+45782968906,push,main,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,2
+45782968906,push,main,verify,success,Install pinned CLI tools (version + SHA-256),3
+45782968906,push,main,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,8
+45782968906,push,main,verify,success,Unit test,3
+45782968906,push,main,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+45782968906,push,main,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,8
+45782968906,push,main,verify,success,Build once,29
+45782968906,push,main,verify,success,Save image artifact,1
+45782968906,push,main,verify,success,SBOM (Syft CLI; CycloneDX),1
+45782968906,push,main,verify,success,Validate SBOM,0
+45782968906,push,main,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),4
+45782968906,push,main,verify,success,Upload SARIF (Code Scanning),7
+45782968906,push,main,verify,success,Upload security reports,1
+45782968906,push,main,verify,success,GATE – no CRITICAL,0
+45782968906,push,main,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+45782968906,push,main,verify,success,Verification metadata,0
+45782968906,push,main,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),2
+45782968906,push,main,verify,success,Post Upload SARIF (Code Scanning),0
+45782968906,push,main,verify,success,Post Build once,1
+45782968906,push,main,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,5
+45782968906,push,main,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+45782968906,push,main,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+45782968906,push,main,verify,success,Complete job,0
+45782716043,pull_request,spike/policy2-kind,verify,success,(job verify),86
+45782716043,pull_request,spike/policy2-kind,verify,success,Set up job,3
+45782716043,pull_request,spike/policy2-kind,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,4
+45782716043,pull_request,spike/policy2-kind,verify,success,Install pinned CLI tools (version + SHA-256),2
+45782716043,pull_request,spike/policy2-kind,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,8
+45782716043,pull_request,spike/policy2-kind,verify,success,Unit test,4
+45782716043,pull_request,spike/policy2-kind,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+45782716043,pull_request,spike/policy2-kind,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,8
+45782716043,pull_request,spike/policy2-kind,verify,success,Build once,30
+45782716043,pull_request,spike/policy2-kind,verify,success,Save image artifact,1
+45782716043,pull_request,spike/policy2-kind,verify,success,SBOM (Syft CLI; CycloneDX),2
+45782716043,pull_request,spike/policy2-kind,verify,success,Validate SBOM,0
+45782716043,pull_request,spike/policy2-kind,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),6
+45782716043,pull_request,spike/policy2-kind,verify,success,Upload SARIF (Code Scanning),9
+45782716043,pull_request,spike/policy2-kind,verify,success,Upload security reports,0
+45782716043,pull_request,spike/policy2-kind,verify,success,GATE – no CRITICAL,0
+45782716043,pull_request,spike/policy2-kind,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+45782716043,pull_request,spike/policy2-kind,verify,success,Verification metadata,0
+45782716043,pull_request,spike/policy2-kind,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),0
+45782716043,pull_request,spike/policy2-kind,verify,success,Post Upload SARIF (Code Scanning),1
+45782716043,pull_request,spike/policy2-kind,verify,success,Post Build once,1
+45782716043,pull_request,spike/policy2-kind,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,5
+45782716043,pull_request,spike/policy2-kind,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+45782716043,pull_request,spike/policy2-kind,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+45782716043,pull_request,spike/policy2-kind,verify,success,Complete job,0
+45782716043,pull_request,spike/policy2-kind,policy-test,success,(job policy-test),6
+45782716043,pull_request,spike/policy2-kind,policy-test,success,Set up job,1
+45782716043,pull_request,spike/policy2-kind,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+45782716043,pull_request,spike/policy2-kind,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+45782716043,pull_request,spike/policy2-kind,policy-test,success,Render policy + resource & run offline tests,0
+45782716043,pull_request,spike/policy2-kind,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+45782716043,pull_request,spike/policy2-kind,policy-test,success,Complete job,0
+44722825738,push,main,verify,success,(job verify),111
+44722825738,push,main,verify,success,Set up job,3
+44722825738,push,main,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44722825738,push,main,verify,success,Install pinned CLI tools (version + SHA-256),3
+44722825738,push,main,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,10
+44722825738,push,main,verify,success,Unit test,4
+44722825738,push,main,verify,success,Secret scan (Gitleaks; toàn lịch sử),0
+44722825738,push,main,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,13
+44722825738,push,main,verify,success,Build once,40
+44722825738,push,main,verify,success,Save image artifact,1
+44722825738,push,main,verify,success,SBOM (Syft CLI; CycloneDX),2
+44722825738,push,main,verify,success,Validate SBOM,0
+44722825738,push,main,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),6
+44722825738,push,main,verify,success,Upload SARIF (Code Scanning),8
+44722825738,push,main,verify,success,Upload security reports,1
+44722825738,push,main,verify,success,GATE – no CRITICAL,0
+44722825738,push,main,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44722825738,push,main,verify,success,Verification metadata,0
+44722825738,push,main,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),2
+44722825738,push,main,verify,success,Post Upload SARIF (Code Scanning),1
+44722825738,push,main,verify,success,Post Build once,1
+44722825738,push,main,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,12
+44722825738,push,main,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44722825738,push,main,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44722825738,push,main,verify,success,Complete job,0
+44722825738,push,main,policy-test,success,(job policy-test),6
+44722825738,push,main,policy-test,success,Set up job,1
+44722825738,push,main,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44722825738,push,main,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),1
+44722825738,push,main,policy-test,success,Render policy + resource & run offline tests,1
+44722825738,push,main,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44722825738,push,main,policy-test,success,Complete job,0
+44722608678,pull_request,docs/progress-stop-2011,policy-test,success,(job policy-test),14
+44722608678,pull_request,docs/progress-stop-2011,policy-test,success,Set up job,2
+44722608678,pull_request,docs/progress-stop-2011,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,6
+44722608678,pull_request,docs/progress-stop-2011,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44722608678,pull_request,docs/progress-stop-2011,policy-test,success,Render policy + resource & run offline tests,1
+44722608678,pull_request,docs/progress-stop-2011,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44722608678,pull_request,docs/progress-stop-2011,policy-test,success,Complete job,0
+44722608678,pull_request,docs/progress-stop-2011,verify,success,(job verify),85
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Set up job,2
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,4
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Install pinned CLI tools (version + SHA-256),3
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,8
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Unit test,4
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Secret scan (Gitleaks; toàn lịch sử),0
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,10
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Build once,30
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Save image artifact,1
+44722608678,pull_request,docs/progress-stop-2011,verify,success,SBOM (Syft CLI; CycloneDX),1
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Validate SBOM,0
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),5
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Upload SARIF (Code Scanning),8
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Upload security reports,1
+44722608678,pull_request,docs/progress-stop-2011,verify,success,GATE – no CRITICAL,0
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Verification metadata,0
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),0
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Post Upload SARIF (Code Scanning),0
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Post Build once,1
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,5
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44722608678,pull_request,docs/progress-stop-2011,verify,success,Complete job,0
+44721893610,push,main,policy-test,success,(job policy-test),6
+44721893610,push,main,policy-test,success,Set up job,0
+44721893610,push,main,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44721893610,push,main,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44721893610,push,main,policy-test,success,Render policy + resource & run offline tests,0
+44721893610,push,main,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44721893610,push,main,policy-test,success,Complete job,0
+44721893610,push,main,verify,success,(job verify),107
+44721893610,push,main,verify,success,Set up job,2
+44721893610,push,main,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,4
+44721893610,push,main,verify,success,Install pinned CLI tools (version + SHA-256),2
+44721893610,push,main,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,4
+44721893610,push,main,verify,success,Unit test,9
+44721893610,push,main,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+44721893610,push,main,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,16
+44721893610,push,main,verify,success,Build once,33
+44721893610,push,main,verify,success,Save image artifact,1
+44721893610,push,main,verify,success,SBOM (Syft CLI; CycloneDX),1
+44721893610,push,main,verify,success,Validate SBOM,0
+44721893610,push,main,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),6
+44721893610,push,main,verify,success,Upload SARIF (Code Scanning),8
+44721893610,push,main,verify,success,Upload security reports,1
+44721893610,push,main,verify,success,GATE – no CRITICAL,0
+44721893610,push,main,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44721893610,push,main,verify,success,Verification metadata,0
+44721893610,push,main,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),2
+44721893610,push,main,verify,success,Post Upload SARIF (Code Scanning),1
+44721893610,push,main,verify,success,Post Build once,1
+44721893610,push,main,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,11
+44721893610,push,main,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44721893610,push,main,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44721893610,push,main,verify,success,Complete job,0
+44721612328,pull_request,spike/managed-signing,policy-test,success,(job policy-test),13
+44721612328,pull_request,spike/managed-signing,policy-test,success,Set up job,2
+44721612328,pull_request,spike/managed-signing,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,5
+44721612328,pull_request,spike/managed-signing,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44721612328,pull_request,spike/managed-signing,policy-test,success,Render policy + resource & run offline tests,0
+44721612328,pull_request,spike/managed-signing,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44721612328,pull_request,spike/managed-signing,policy-test,success,Complete job,0
+44721612328,pull_request,spike/managed-signing,verify,success,(job verify),105
+44721612328,pull_request,spike/managed-signing,verify,success,Set up job,3
+44721612328,pull_request,spike/managed-signing,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,6
+44721612328,pull_request,spike/managed-signing,verify,success,Install pinned CLI tools (version + SHA-256),3
+44721612328,pull_request,spike/managed-signing,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,18
+44721612328,pull_request,spike/managed-signing,verify,success,Unit test,3
+44721612328,pull_request,spike/managed-signing,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+44721612328,pull_request,spike/managed-signing,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,12
+44721612328,pull_request,spike/managed-signing,verify,success,Build once,30
+44721612328,pull_request,spike/managed-signing,verify,success,Save image artifact,1
+44721612328,pull_request,spike/managed-signing,verify,success,SBOM (Syft CLI; CycloneDX),1
+44721612328,pull_request,spike/managed-signing,verify,success,Validate SBOM,0
+44721612328,pull_request,spike/managed-signing,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),5
+44721612328,pull_request,spike/managed-signing,verify,success,Upload SARIF (Code Scanning),8
+44721612328,pull_request,spike/managed-signing,verify,success,Upload security reports,2
+44721612328,pull_request,spike/managed-signing,verify,success,GATE – no CRITICAL,0
+44721612328,pull_request,spike/managed-signing,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44721612328,pull_request,spike/managed-signing,verify,success,Verification metadata,0
+44721612328,pull_request,spike/managed-signing,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),0
+44721612328,pull_request,spike/managed-signing,verify,success,Post Upload SARIF (Code Scanning),0
+44721612328,pull_request,spike/managed-signing,verify,success,Post Build once,2
+44721612328,pull_request,spike/managed-signing,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,5
+44721612328,pull_request,spike/managed-signing,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44721612328,pull_request,spike/managed-signing,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44721612328,pull_request,spike/managed-signing,verify,success,Complete job,0
+44718962265,push,main,policy-test,success,(job policy-test),10
+44718962265,push,main,policy-test,success,Set up job,2
+44718962265,push,main,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,4
+44718962265,push,main,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44718962265,push,main,policy-test,success,Render policy + resource & run offline tests,0
+44718962265,push,main,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44718962265,push,main,policy-test,success,Complete job,0
+44718962265,push,main,verify,success,(job verify),97
+44718962265,push,main,verify,success,Set up job,3
+44718962265,push,main,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,4
+44718962265,push,main,verify,success,Install pinned CLI tools (version + SHA-256),3
+44718962265,push,main,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,12
+44718962265,push,main,verify,success,Unit test,3
+44718962265,push,main,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+44718962265,push,main,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,11
+44718962265,push,main,verify,success,Build once,29
+44718962265,push,main,verify,success,Save image artifact,1
+44718962265,push,main,verify,success,SBOM (Syft CLI; CycloneDX),1
+44718962265,push,main,verify,success,Validate SBOM,0
+44718962265,push,main,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),5
+44718962265,push,main,verify,success,Upload SARIF (Code Scanning),8
+44718962265,push,main,verify,success,Upload security reports,1
+44718962265,push,main,verify,success,GATE – no CRITICAL,0
+44718962265,push,main,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),1
+44718962265,push,main,verify,success,Verification metadata,0
+44718962265,push,main,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),3
+44718962265,push,main,verify,success,Post Upload SARIF (Code Scanning),0
+44718962265,push,main,verify,success,Post Build once,2
+44718962265,push,main,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,4
+44718962265,push,main,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,1
+44718962265,push,main,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44718962265,push,main,verify,success,Complete job,0
+44718676595,pull_request,spike/notation-verify,verify,success,(job verify),96
+44718676595,pull_request,spike/notation-verify,verify,success,Set up job,4
+44718676595,pull_request,spike/notation-verify,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,6
+44718676595,pull_request,spike/notation-verify,verify,success,Install pinned CLI tools (version + SHA-256),3
+44718676595,pull_request,spike/notation-verify,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,11
+44718676595,pull_request,spike/notation-verify,verify,success,Unit test,4
+44718676595,pull_request,spike/notation-verify,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+44718676595,pull_request,spike/notation-verify,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,10
+44718676595,pull_request,spike/notation-verify,verify,success,Build once,30
+44718676595,pull_request,spike/notation-verify,verify,success,Save image artifact,1
+44718676595,pull_request,spike/notation-verify,verify,success,SBOM (Syft CLI; CycloneDX),1
+44718676595,pull_request,spike/notation-verify,verify,success,Validate SBOM,0
+44718676595,pull_request,spike/notation-verify,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),5
+44718676595,pull_request,spike/notation-verify,verify,success,Upload SARIF (Code Scanning),8
+44718676595,pull_request,spike/notation-verify,verify,success,Upload security reports,1
+44718676595,pull_request,spike/notation-verify,verify,success,GATE – no CRITICAL,0
+44718676595,pull_request,spike/notation-verify,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44718676595,pull_request,spike/notation-verify,verify,success,Verification metadata,1
+44718676595,pull_request,spike/notation-verify,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),0
+44718676595,pull_request,spike/notation-verify,verify,success,Post Upload SARIF (Code Scanning),0
+44718676595,pull_request,spike/notation-verify,verify,success,Post Build once,2
+44718676595,pull_request,spike/notation-verify,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,4
+44718676595,pull_request,spike/notation-verify,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44718676595,pull_request,spike/notation-verify,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44718676595,pull_request,spike/notation-verify,verify,success,Complete job,0
+44718676595,pull_request,spike/notation-verify,policy-test,success,(job policy-test),13
+44718676595,pull_request,spike/notation-verify,policy-test,success,Set up job,2
+44718676595,pull_request,spike/notation-verify,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,5
+44718676595,pull_request,spike/notation-verify,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44718676595,pull_request,spike/notation-verify,policy-test,success,Render policy + resource & run offline tests,0
+44718676595,pull_request,spike/notation-verify,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44718676595,pull_request,spike/notation-verify,policy-test,success,Complete job,0
+44717998510,push,main,policy-test,success,(job policy-test),8
+44717998510,push,main,policy-test,success,Set up job,1
+44717998510,push,main,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44717998510,push,main,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),1
+44717998510,push,main,policy-test,success,Render policy + resource & run offline tests,1
+44717998510,push,main,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44717998510,push,main,policy-test,success,Complete job,0
+44717998510,push,main,verify,success,(job verify),101
+44717998510,push,main,verify,success,Set up job,4
+44717998510,push,main,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,6
+44717998510,push,main,verify,success,Install pinned CLI tools (version + SHA-256),3
+44717998510,push,main,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,12
+44717998510,push,main,verify,success,Unit test,3
+44717998510,push,main,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+44717998510,push,main,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,11
+44717998510,push,main,verify,success,Build once,30
+44717998510,push,main,verify,success,Save image artifact,1
+44717998510,push,main,verify,success,SBOM (Syft CLI; CycloneDX),1
+44717998510,push,main,verify,success,Validate SBOM,0
+44717998510,push,main,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),5
+44717998510,push,main,verify,success,Upload SARIF (Code Scanning),8
+44717998510,push,main,verify,success,Upload security reports,1
+44717998510,push,main,verify,success,GATE – no CRITICAL,0
+44717998510,push,main,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44717998510,push,main,verify,success,Verification metadata,1
+44717998510,push,main,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),3
+44717998510,push,main,verify,success,Post Upload SARIF (Code Scanning),0
+44717998510,push,main,verify,success,Post Build once,2
+44717998510,push,main,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,4
+44717998510,push,main,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44717998510,push,main,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44717998510,push,main,verify,success,Complete job,0
+44717650762,pull_request,spike/aws-fixtures,policy-test,success,(job policy-test),13
+44717650762,pull_request,spike/aws-fixtures,policy-test,success,Set up job,2
+44717650762,pull_request,spike/aws-fixtures,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,5
+44717650762,pull_request,spike/aws-fixtures,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44717650762,pull_request,spike/aws-fixtures,policy-test,success,Render policy + resource & run offline tests,0
+44717650762,pull_request,spike/aws-fixtures,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44717650762,pull_request,spike/aws-fixtures,policy-test,success,Complete job,0
+44717650762,pull_request,spike/aws-fixtures,verify,success,(job verify),116
+44717650762,pull_request,spike/aws-fixtures,verify,success,Set up job,4
+44717650762,pull_request,spike/aws-fixtures,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,4
+44717650762,pull_request,spike/aws-fixtures,verify,success,Install pinned CLI tools (version + SHA-256),14
+44717650762,pull_request,spike/aws-fixtures,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,18
+44717650762,pull_request,spike/aws-fixtures,verify,success,Unit test,4
+44717650762,pull_request,spike/aws-fixtures,verify,success,Secret scan (Gitleaks; toàn lịch sử),0
+44717650762,pull_request,spike/aws-fixtures,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,14
+44717650762,pull_request,spike/aws-fixtures,verify,success,Build once,30
+44717650762,pull_request,spike/aws-fixtures,verify,success,Save image artifact,1
+44717650762,pull_request,spike/aws-fixtures,verify,success,SBOM (Syft CLI; CycloneDX),1
+44717650762,pull_request,spike/aws-fixtures,verify,success,Validate SBOM,0
+44717650762,pull_request,spike/aws-fixtures,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),5
+44717650762,pull_request,spike/aws-fixtures,verify,success,Upload SARIF (Code Scanning),8
+44717650762,pull_request,spike/aws-fixtures,verify,success,Upload security reports,2
+44717650762,pull_request,spike/aws-fixtures,verify,success,GATE – no CRITICAL,0
+44717650762,pull_request,spike/aws-fixtures,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44717650762,pull_request,spike/aws-fixtures,verify,success,Verification metadata,0
+44717650762,pull_request,spike/aws-fixtures,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),0
+44717650762,pull_request,spike/aws-fixtures,verify,success,Post Upload SARIF (Code Scanning),0
+44717650762,pull_request,spike/aws-fixtures,verify,success,Post Build once,2
+44717650762,pull_request,spike/aws-fixtures,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,5
+44717650762,pull_request,spike/aws-fixtures,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44717650762,pull_request,spike/aws-fixtures,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44717650762,pull_request,spike/aws-fixtures,verify,success,Complete job,0
+44697737559,push,main,policy-test,success,(job policy-test),10
+44697737559,push,main,policy-test,success,Set up job,1
+44697737559,push,main,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,5
+44697737559,push,main,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44697737559,push,main,policy-test,success,Render policy + resource & run offline tests,0
+44697737559,push,main,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44697737559,push,main,policy-test,success,Complete job,0
+44697737559,push,main,verify,success,(job verify),119
+44697737559,push,main,verify,success,Set up job,3
+44697737559,push,main,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44697737559,push,main,verify,success,Install pinned CLI tools (version + SHA-256),4
+44697737559,push,main,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,13
+44697737559,push,main,verify,success,Unit test,4
+44697737559,push,main,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+44697737559,push,main,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,11
+44697737559,push,main,verify,success,Build once,48
+44697737559,push,main,verify,success,Save image artifact,2
+44697737559,push,main,verify,success,SBOM (Syft CLI; CycloneDX),1
+44697737559,push,main,verify,success,Validate SBOM,0
+44697737559,push,main,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),7
+44697737559,push,main,verify,success,Upload SARIF (Code Scanning),8
+44697737559,push,main,verify,success,Upload security reports,1
+44697737559,push,main,verify,success,GATE – no CRITICAL,0
+44697737559,push,main,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44697737559,push,main,verify,success,Verification metadata,0
+44697737559,push,main,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),3
+44697737559,push,main,verify,success,Post Upload SARIF (Code Scanning),0
+44697737559,push,main,verify,success,Post Build once,2
+44697737559,push,main,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,6
+44697737559,push,main,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44697737559,push,main,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44697737559,push,main,verify,success,Complete job,0
+44697517810,pull_request,docs/architecture,policy-test,success,(job policy-test),8
+44697517810,pull_request,docs/architecture,policy-test,success,Set up job,1
+44697517810,pull_request,docs/architecture,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44697517810,pull_request,docs/architecture,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44697517810,pull_request,docs/architecture,policy-test,success,Render policy + resource & run offline tests,1
+44697517810,pull_request,docs/architecture,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44697517810,pull_request,docs/architecture,policy-test,success,Complete job,0
+44697517810,pull_request,docs/architecture,verify,success,(job verify),88
+44697517810,pull_request,docs/architecture,verify,success,Set up job,2
+44697517810,pull_request,docs/architecture,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44697517810,pull_request,docs/architecture,verify,success,Install pinned CLI tools (version + SHA-256),2
+44697517810,pull_request,docs/architecture,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,9
+44697517810,pull_request,docs/architecture,verify,success,Unit test,4
+44697517810,pull_request,docs/architecture,verify,success,Secret scan (Gitleaks; toàn lịch sử),0
+44697517810,pull_request,docs/architecture,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,9
+44697517810,pull_request,docs/architecture,verify,success,Build once,31
+44697517810,pull_request,docs/architecture,verify,success,Save image artifact,1
+44697517810,pull_request,docs/architecture,verify,success,SBOM (Syft CLI; CycloneDX),1
+44697517810,pull_request,docs/architecture,verify,success,Validate SBOM,0
+44697517810,pull_request,docs/architecture,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),5
+44697517810,pull_request,docs/architecture,verify,success,Upload SARIF (Code Scanning),7
+44697517810,pull_request,docs/architecture,verify,success,Upload security reports,1
+44697517810,pull_request,docs/architecture,verify,success,GATE – no CRITICAL,0
+44697517810,pull_request,docs/architecture,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44697517810,pull_request,docs/architecture,verify,success,Verification metadata,0
+44697517810,pull_request,docs/architecture,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),0
+44697517810,pull_request,docs/architecture,verify,success,Post Upload SARIF (Code Scanning),1
+44697517810,pull_request,docs/architecture,verify,success,Post Build once,1
+44697517810,pull_request,docs/architecture,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,10
+44697517810,pull_request,docs/architecture,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44697517810,pull_request,docs/architecture,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44697517810,pull_request,docs/architecture,verify,success,Complete job,0
+44141279232,push,main,policy-test,success,(job policy-test),7
+44141279232,push,main,policy-test,success,Set up job,0
+44141279232,push,main,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44141279232,push,main,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44141279232,push,main,policy-test,success,Render policy + resource & run offline tests,1
+44141279232,push,main,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44141279232,push,main,policy-test,success,Complete job,0
+44141279232,push,main,verify,success,(job verify),104
+44141279232,push,main,verify,success,Set up job,3
+44141279232,push,main,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44141279232,push,main,verify,success,Install pinned CLI tools (version + SHA-256),4
+44141279232,push,main,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,11
+44141279232,push,main,verify,success,Unit test,4
+44141279232,push,main,verify,success,Secret scan (Gitleaks; toàn lịch sử),0
+44141279232,push,main,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,8
+44141279232,push,main,verify,success,Build once,41
+44141279232,push,main,verify,success,Save image artifact,2
+44141279232,push,main,verify,success,SBOM (Syft CLI; CycloneDX),1
+44141279232,push,main,verify,success,Validate SBOM,0
+44141279232,push,main,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),6
+44141279232,push,main,verify,success,Upload SARIF (Code Scanning),8
+44141279232,push,main,verify,success,Upload security reports,1
+44141279232,push,main,verify,success,GATE – no CRITICAL,0
+44141279232,push,main,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44141279232,push,main,verify,success,Verification metadata,0
+44141279232,push,main,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),3
+44141279232,push,main,verify,success,Post Upload SARIF (Code Scanning),0
+44141279232,push,main,verify,success,Post Build once,2
+44141279232,push,main,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,5
+44141279232,push,main,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44141279232,push,main,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44141279232,push,main,verify,success,Complete job,0
+44140896521,pull_request,docs/progress-stop-1811,policy-test,success,(job policy-test),7
+44140896521,pull_request,docs/progress-stop-1811,policy-test,success,Set up job,1
+44140896521,pull_request,docs/progress-stop-1811,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44140896521,pull_request,docs/progress-stop-1811,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44140896521,pull_request,docs/progress-stop-1811,policy-test,success,Render policy + resource & run offline tests,0
+44140896521,pull_request,docs/progress-stop-1811,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44140896521,pull_request,docs/progress-stop-1811,policy-test,success,Complete job,0
+44140896521,pull_request,docs/progress-stop-1811,verify,success,(job verify),98
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Set up job,4
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,6
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Install pinned CLI tools (version + SHA-256),4
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,11
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Unit test,3
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,11
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Build once,30
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Save image artifact,1
+44140896521,pull_request,docs/progress-stop-1811,verify,success,SBOM (Syft CLI; CycloneDX),1
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Validate SBOM,0
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),6
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Upload SARIF (Code Scanning),7
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Upload security reports,2
+44140896521,pull_request,docs/progress-stop-1811,verify,success,GATE – no CRITICAL,0
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Verification metadata,0
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),0
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Post Upload SARIF (Code Scanning),1
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Post Build once,2
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,4
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44140896521,pull_request,docs/progress-stop-1811,verify,success,Complete job,0
+44139932546,push,main,verify,success,(job verify),84
+44139932546,push,main,verify,success,Set up job,2
+44139932546,push,main,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,3
+44139932546,push,main,verify,success,Install pinned CLI tools (version + SHA-256),3
+44139932546,push,main,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,7
+44139932546,push,main,verify,success,Unit test,4
+44139932546,push,main,verify,success,Secret scan (Gitleaks; toàn lịch sử),0
+44139932546,push,main,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,11
+44139932546,push,main,verify,success,Build once,29
+44139932546,push,main,verify,success,Save image artifact,1
+44139932546,push,main,verify,success,SBOM (Syft CLI; CycloneDX),1
+44139932546,push,main,verify,success,Validate SBOM,0
+44139932546,push,main,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),5
+44139932546,push,main,verify,success,Upload SARIF (Code Scanning),7
+44139932546,push,main,verify,success,Upload security reports,1
+44139932546,push,main,verify,success,GATE – no CRITICAL,0
+44139932546,push,main,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44139932546,push,main,verify,success,Verification metadata,0
+44139932546,push,main,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),2
+44139932546,push,main,verify,success,Post Upload SARIF (Code Scanning),0
+44139932546,push,main,verify,success,Post Build once,1
+44139932546,push,main,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,4
+44139932546,push,main,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44139932546,push,main,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44139932546,push,main,verify,success,Complete job,0
+44139932546,push,main,policy-test,success,(job policy-test),7
+44139932546,push,main,policy-test,success,Set up job,0
+44139932546,push,main,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44139932546,push,main,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44139932546,push,main,policy-test,success,Render policy + resource & run offline tests,0
+44139932546,push,main,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44139932546,push,main,policy-test,success,Complete job,0
+44139487222,pull_request,docs/test-results,verify,success,(job verify),125
+44139487222,pull_request,docs/test-results,verify,success,Set up job,2
+44139487222,pull_request,docs/test-results,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,2
+44139487222,pull_request,docs/test-results,verify,success,Install pinned CLI tools (version + SHA-256),3
+44139487222,pull_request,docs/test-results,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,11
+44139487222,pull_request,docs/test-results,verify,success,Unit test,5
+44139487222,pull_request,docs/test-results,verify,success,Secret scan (Gitleaks; toàn lịch sử),0
+44139487222,pull_request,docs/test-results,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,13
+44139487222,pull_request,docs/test-results,verify,success,Build once,52
+44139487222,pull_request,docs/test-results,verify,success,Save image artifact,1
+44139487222,pull_request,docs/test-results,verify,success,SBOM (Syft CLI; CycloneDX),2
+44139487222,pull_request,docs/test-results,verify,success,Validate SBOM,0
+44139487222,pull_request,docs/test-results,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),7
+44139487222,pull_request,docs/test-results,verify,success,Upload SARIF (Code Scanning),8
+44139487222,pull_request,docs/test-results,verify,success,Upload security reports,1
+44139487222,pull_request,docs/test-results,verify,success,GATE – no CRITICAL,0
+44139487222,pull_request,docs/test-results,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44139487222,pull_request,docs/test-results,verify,success,Verification metadata,0
+44139487222,pull_request,docs/test-results,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),0
+44139487222,pull_request,docs/test-results,verify,success,Post Upload SARIF (Code Scanning),0
+44139487222,pull_request,docs/test-results,verify,success,Post Build once,2
+44139487222,pull_request,docs/test-results,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,13
+44139487222,pull_request,docs/test-results,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44139487222,pull_request,docs/test-results,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44139487222,pull_request,docs/test-results,verify,success,Complete job,0
+44139487222,pull_request,docs/test-results,policy-test,success,(job policy-test),6
+44139487222,pull_request,docs/test-results,policy-test,success,Set up job,1
+44139487222,pull_request,docs/test-results,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44139487222,pull_request,docs/test-results,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44139487222,pull_request,docs/test-results,policy-test,success,Render policy + resource & run offline tests,0
+44139487222,pull_request,docs/test-results,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44139487222,pull_request,docs/test-results,policy-test,success,Complete job,0
+44136609956,push,main,policy-test,success,(job policy-test),7
+44136609956,push,main,policy-test,success,Set up job,1
+44136609956,push,main,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44136609956,push,main,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),1
+44136609956,push,main,policy-test,success,Render policy + resource & run offline tests,1
+44136609956,push,main,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44136609956,push,main,policy-test,success,Complete job,0
+44136609956,push,main,verify,success,(job verify),122
+44136609956,push,main,verify,success,Set up job,2
+44136609956,push,main,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44136609956,push,main,verify,success,Install pinned CLI tools (version + SHA-256),3
+44136609956,push,main,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,13
+44136609956,push,main,verify,success,Unit test,4
+44136609956,push,main,verify,success,Secret scan (Gitleaks; toàn lịch sử),0
+44136609956,push,main,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,17
+44136609956,push,main,verify,success,Build once,41
+44136609956,push,main,verify,success,Save image artifact,2
+44136609956,push,main,verify,success,SBOM (Syft CLI; CycloneDX),1
+44136609956,push,main,verify,success,Validate SBOM,0
+44136609956,push,main,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),7
+44136609956,push,main,verify,success,Upload SARIF (Code Scanning),8
+44136609956,push,main,verify,success,Upload security reports,1
+44136609956,push,main,verify,success,GATE – no CRITICAL,0
+44136609956,push,main,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44136609956,push,main,verify,success,Verification metadata,0
+44136609956,push,main,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),3
+44136609956,push,main,verify,success,Post Upload SARIF (Code Scanning),1
+44136609956,push,main,verify,success,Post Build once,2
+44136609956,push,main,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,11
+44136609956,push,main,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44136609956,push,main,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44136609956,push,main,verify,success,Complete job,0
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,(job verify),107
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Set up job,1
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Install pinned CLI tools (version + SHA-256),3
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,12
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Unit test,5
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Secret scan (Gitleaks; toàn lịch sử),0
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,11
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Build once,39
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Save image artifact,1
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,SBOM (Syft CLI; CycloneDX),2
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Validate SBOM,0
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),6
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Upload SARIF (Code Scanning),8
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Upload security reports,1
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,GATE – no CRITICAL,0
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Verification metadata,0
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),0
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Post Upload SARIF (Code Scanning),0
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Post Build once,2
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,11
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,1
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44136212238,pull_request,docs/tc02-tc03-results,verify,success,Complete job,0
+44136212238,pull_request,docs/tc02-tc03-results,policy-test,success,(job policy-test),13
+44136212238,pull_request,docs/tc02-tc03-results,policy-test,success,Set up job,2
+44136212238,pull_request,docs/tc02-tc03-results,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,4
+44136212238,pull_request,docs/tc02-tc03-results,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44136212238,pull_request,docs/tc02-tc03-results,policy-test,success,Render policy + resource & run offline tests,1
+44136212238,pull_request,docs/tc02-tc03-results,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44136212238,pull_request,docs/tc02-tc03-results,policy-test,success,Complete job,0
+44135534522,pull_request,demo/critical-cve,policy-test,success,(job policy-test),6
+44135534522,pull_request,demo/critical-cve,policy-test,success,Set up job,1
+44135534522,pull_request,demo/critical-cve,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44135534522,pull_request,demo/critical-cve,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),1
+44135534522,pull_request,demo/critical-cve,policy-test,success,Render policy + resource & run offline tests,1
+44135534522,pull_request,demo/critical-cve,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44135534522,pull_request,demo/critical-cve,policy-test,success,Complete job,0
+44135534522,pull_request,demo/critical-cve,verify,failure,(job verify),85
+44135534522,pull_request,demo/critical-cve,verify,failure,Set up job,3
+44135534522,pull_request,demo/critical-cve,verify,failure,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,5
+44135534522,pull_request,demo/critical-cve,verify,failure,Install pinned CLI tools (version + SHA-256),3
+44135534522,pull_request,demo/critical-cve,verify,failure,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,8
+44135534522,pull_request,demo/critical-cve,verify,failure,Unit test,3
+44135534522,pull_request,demo/critical-cve,verify,failure,Secret scan (Gitleaks; toàn lịch sử),1
+44135534522,pull_request,demo/critical-cve,verify,failure,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,10
+44135534522,pull_request,demo/critical-cve,verify,failure,Build once,29
+44135534522,pull_request,demo/critical-cve,verify,failure,Save image artifact,0
+44135534522,pull_request,demo/critical-cve,verify,failure,SBOM (Syft CLI; CycloneDX),1
+44135534522,pull_request,demo/critical-cve,verify,failure,Validate SBOM,0
+44135534522,pull_request,demo/critical-cve,verify,failure,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),6
+44135534522,pull_request,demo/critical-cve,verify,failure,Upload SARIF (Code Scanning),7
+44135534522,pull_request,demo/critical-cve,verify,failure,Upload security reports,1
+44135534522,pull_request,demo/critical-cve,verify,failure,GATE – no CRITICAL,0
+44135534522,pull_request,demo/critical-cve,verify,failure,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44135534522,pull_request,demo/critical-cve,verify,failure,Verification metadata,0
+44135534522,pull_request,demo/critical-cve,verify,failure,Upload approved image (chỉ push vào main; mọi gate đạt),0
+44135534522,pull_request,demo/critical-cve,verify,failure,Post Upload SARIF (Code Scanning),0
+44135534522,pull_request,demo/critical-cve,verify,failure,Post Build once,1
+44135534522,pull_request,demo/critical-cve,verify,failure,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,5
+44135534522,pull_request,demo/critical-cve,verify,failure,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44135534522,pull_request,demo/critical-cve,verify,failure,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44135534522,pull_request,demo/critical-cve,verify,failure,Complete job,0
+44135492045,push,main,policy-test,success,(job policy-test),8
+44135492045,push,main,policy-test,success,Set up job,1
+44135492045,push,main,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44135492045,push,main,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44135492045,push,main,policy-test,success,Render policy + resource & run offline tests,1
+44135492045,push,main,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44135492045,push,main,policy-test,success,Complete job,0
+44135492045,push,main,verify,success,(job verify),123
+44135492045,push,main,verify,success,Set up job,3
+44135492045,push,main,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44135492045,push,main,verify,success,Install pinned CLI tools (version + SHA-256),3
+44135492045,push,main,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,12
+44135492045,push,main,verify,success,Unit test,4
+44135492045,push,main,verify,success,Secret scan (Gitleaks; toàn lịch sử),0
+44135492045,push,main,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,14
+44135492045,push,main,verify,success,Build once,40
+44135492045,push,main,verify,success,Save image artifact,4
+44135492045,push,main,verify,success,SBOM (Syft CLI; CycloneDX),1
+44135492045,push,main,verify,success,Validate SBOM,0
+44135492045,push,main,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),9
+44135492045,push,main,verify,success,Upload SARIF (Code Scanning),7
+44135492045,push,main,verify,success,Upload security reports,2
+44135492045,push,main,verify,success,GATE – no CRITICAL,0
+44135492045,push,main,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44135492045,push,main,verify,success,Verification metadata,0
+44135492045,push,main,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),3
+44135492045,push,main,verify,success,Post Upload SARIF (Code Scanning),0
+44135492045,push,main,verify,success,Post Build once,2
+44135492045,push,main,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,12
+44135492045,push,main,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44135492045,push,main,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44135492045,push,main,verify,success,Complete job,0
+44135162063,pull_request,fix/gitleaks-scope,policy-test,success,(job policy-test),7
+44135162063,pull_request,fix/gitleaks-scope,policy-test,success,Set up job,1
+44135162063,pull_request,fix/gitleaks-scope,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44135162063,pull_request,fix/gitleaks-scope,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44135162063,pull_request,fix/gitleaks-scope,policy-test,success,Render policy + resource & run offline tests,1
+44135162063,pull_request,fix/gitleaks-scope,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44135162063,pull_request,fix/gitleaks-scope,policy-test,success,Complete job,0
+44135162063,pull_request,fix/gitleaks-scope,verify,success,(job verify),90
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Set up job,3
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,5
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Install pinned CLI tools (version + SHA-256),3
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,9
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Unit test,3
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,12
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Build once,29
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Save image artifact,1
+44135162063,pull_request,fix/gitleaks-scope,verify,success,SBOM (Syft CLI; CycloneDX),1
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Validate SBOM,0
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),5
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Upload SARIF (Code Scanning),8
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Upload security reports,1
+44135162063,pull_request,fix/gitleaks-scope,verify,success,GATE – no CRITICAL,0
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Verification metadata,0
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),0
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Post Upload SARIF (Code Scanning),0
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Post Build once,2
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,4
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44135162063,pull_request,fix/gitleaks-scope,verify,success,Complete job,1
+44134429165,pull_request,demo/leak-secret,policy-test,success,(job policy-test),10
+44134429165,pull_request,demo/leak-secret,policy-test,success,Set up job,2
+44134429165,pull_request,demo/leak-secret,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,4
+44134429165,pull_request,demo/leak-secret,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44134429165,pull_request,demo/leak-secret,policy-test,success,Render policy + resource & run offline tests,0
+44134429165,pull_request,demo/leak-secret,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44134429165,pull_request,demo/leak-secret,policy-test,success,Complete job,0
+44134429165,pull_request,demo/leak-secret,verify,failure,(job verify),29
+44134429165,pull_request,demo/leak-secret,verify,failure,Set up job,3
+44134429165,pull_request,demo/leak-secret,verify,failure,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,6
+44134429165,pull_request,demo/leak-secret,verify,failure,Install pinned CLI tools (version + SHA-256),3
+44134429165,pull_request,demo/leak-secret,verify,failure,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,8
+44134429165,pull_request,demo/leak-secret,verify,failure,Unit test,4
+44134429165,pull_request,demo/leak-secret,verify,failure,Secret scan (Gitleaks; toàn lịch sử),0
+44134429165,pull_request,demo/leak-secret,verify,failure,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,0
+44134429165,pull_request,demo/leak-secret,verify,failure,Build once,0
+44134429165,pull_request,demo/leak-secret,verify,failure,Save image artifact,0
+44134429165,pull_request,demo/leak-secret,verify,failure,SBOM (Syft CLI; CycloneDX),0
+44134429165,pull_request,demo/leak-secret,verify,failure,Validate SBOM,0
+44134429165,pull_request,demo/leak-secret,verify,failure,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),0
+44134429165,pull_request,demo/leak-secret,verify,failure,Upload SARIF (Code Scanning),0
+44134429165,pull_request,demo/leak-secret,verify,failure,Upload security reports,1
+44134429165,pull_request,demo/leak-secret,verify,failure,GATE – no CRITICAL,0
+44134429165,pull_request,demo/leak-secret,verify,failure,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44134429165,pull_request,demo/leak-secret,verify,failure,Verification metadata,0
+44134429165,pull_request,demo/leak-secret,verify,failure,Upload approved image (chỉ push vào main; mọi gate đạt),0
+44134429165,pull_request,demo/leak-secret,verify,failure,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44134429165,pull_request,demo/leak-secret,verify,failure,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44134429165,pull_request,demo/leak-secret,verify,failure,Complete job,0
+44134407592,pull_request,demo/critical-cve,verify,failure,(job verify),33
+44134407592,pull_request,demo/critical-cve,verify,failure,Set up job,3
+44134407592,pull_request,demo/critical-cve,verify,failure,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,6
+44134407592,pull_request,demo/critical-cve,verify,failure,Install pinned CLI tools (version + SHA-256),3
+44134407592,pull_request,demo/critical-cve,verify,failure,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,10
+44134407592,pull_request,demo/critical-cve,verify,failure,Unit test,4
+44134407592,pull_request,demo/critical-cve,verify,failure,Secret scan (Gitleaks; toàn lịch sử),0
+44134407592,pull_request,demo/critical-cve,verify,failure,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,0
+44134407592,pull_request,demo/critical-cve,verify,failure,Build once,0
+44134407592,pull_request,demo/critical-cve,verify,failure,Save image artifact,0
+44134407592,pull_request,demo/critical-cve,verify,failure,SBOM (Syft CLI; CycloneDX),0
+44134407592,pull_request,demo/critical-cve,verify,failure,Validate SBOM,0
+44134407592,pull_request,demo/critical-cve,verify,failure,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),0
+44134407592,pull_request,demo/critical-cve,verify,failure,Upload SARIF (Code Scanning),0
+44134407592,pull_request,demo/critical-cve,verify,failure,Upload security reports,3
+44134407592,pull_request,demo/critical-cve,verify,failure,GATE – no CRITICAL,0
+44134407592,pull_request,demo/critical-cve,verify,failure,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44134407592,pull_request,demo/critical-cve,verify,failure,Verification metadata,0
+44134407592,pull_request,demo/critical-cve,verify,failure,Upload approved image (chỉ push vào main; mọi gate đạt),0
+44134407592,pull_request,demo/critical-cve,verify,failure,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44134407592,pull_request,demo/critical-cve,verify,failure,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44134407592,pull_request,demo/critical-cve,verify,failure,Complete job,0
+44134407592,pull_request,demo/critical-cve,policy-test,success,(job policy-test),13
+44134407592,pull_request,demo/critical-cve,policy-test,success,Set up job,3
+44134407592,pull_request,demo/critical-cve,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,5
+44134407592,pull_request,demo/critical-cve,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44134407592,pull_request,demo/critical-cve,policy-test,success,Render policy + resource & run offline tests,0
+44134407592,pull_request,demo/critical-cve,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44134407592,pull_request,demo/critical-cve,policy-test,success,Complete job,0
+44134324474,push,main,verify,success,(job verify),84
+44134324474,push,main,verify,success,Set up job,3
+44134324474,push,main,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,4
+44134324474,push,main,verify,success,Install pinned CLI tools (version + SHA-256),2
+44134324474,push,main,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,8
+44134324474,push,main,verify,success,Unit test,4
+44134324474,push,main,verify,success,Secret scan (Gitleaks; toàn lịch sử),0
+44134324474,push,main,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,8
+44134324474,push,main,verify,success,Build once,30
+44134324474,push,main,verify,success,Save image artifact,1
+44134324474,push,main,verify,success,SBOM (Syft CLI; CycloneDX),2
+44134324474,push,main,verify,success,Validate SBOM,0
+44134324474,push,main,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),4
+44134324474,push,main,verify,success,Upload SARIF (Code Scanning),8
+44134324474,push,main,verify,success,Upload security reports,1
+44134324474,push,main,verify,success,GATE – no CRITICAL,0
+44134324474,push,main,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44134324474,push,main,verify,success,Verification metadata,0
+44134324474,push,main,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),2
+44134324474,push,main,verify,success,Post Upload SARIF (Code Scanning),0
+44134324474,push,main,verify,success,Post Build once,1
+44134324474,push,main,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,4
+44134324474,push,main,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,1
+44134324474,push,main,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44134324474,push,main,verify,success,Complete job,0
+44134324474,push,main,policy-test,success,(job policy-test),15
+44134324474,push,main,policy-test,success,Set up job,2
+44134324474,push,main,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,7
+44134324474,push,main,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44134324474,push,main,policy-test,success,Render policy + resource & run offline tests,0
+44134324474,push,main,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44134324474,push,main,policy-test,success,Complete job,0
+44133873897,pull_request,feat/tc02-tc03-fixtures,policy-test,success,(job policy-test),14
+44133873897,pull_request,feat/tc02-tc03-fixtures,policy-test,success,Set up job,3
+44133873897,pull_request,feat/tc02-tc03-fixtures,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,5
+44133873897,pull_request,feat/tc02-tc03-fixtures,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44133873897,pull_request,feat/tc02-tc03-fixtures,policy-test,success,Render policy + resource & run offline tests,1
+44133873897,pull_request,feat/tc02-tc03-fixtures,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44133873897,pull_request,feat/tc02-tc03-fixtures,policy-test,success,Complete job,0
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,(job verify),102
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Set up job,5
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,5
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Install pinned CLI tools (version + SHA-256),3
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,13
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Unit test,3
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,12
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Build once,30
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Save image artifact,2
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,SBOM (Syft CLI; CycloneDX),0
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Validate SBOM,0
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),5
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Upload SARIF (Code Scanning),10
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Upload security reports,1
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,GATE – no CRITICAL,0
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Verification metadata,1
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),0
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Post Upload SARIF (Code Scanning),0
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Post Build once,2
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,4
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,1
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44133873897,pull_request,feat/tc02-tc03-fixtures,verify,success,Complete job,0
+44133160272,push,main,policy-test,success,(job policy-test),11
+44133160272,push,main,policy-test,success,Set up job,2
+44133160272,push,main,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,4
+44133160272,push,main,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44133160272,push,main,policy-test,success,Render policy + resource & run offline tests,0
+44133160272,push,main,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44133160272,push,main,policy-test,success,Complete job,0
+44133160272,push,main,verify,success,(job verify),108
+44133160272,push,main,verify,success,Set up job,5
+44133160272,push,main,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,8
+44133160272,push,main,verify,success,Install pinned CLI tools (version + SHA-256),4
+44133160272,push,main,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,11
+44133160272,push,main,verify,success,Unit test,4
+44133160272,push,main,verify,success,Secret scan (Gitleaks; toàn lịch sử),0
+44133160272,push,main,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,13
+44133160272,push,main,verify,success,Build once,31
+44133160272,push,main,verify,success,Save image artifact,2
+44133160272,push,main,verify,success,SBOM (Syft CLI; CycloneDX),1
+44133160272,push,main,verify,success,Validate SBOM,0
+44133160272,push,main,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),5
+44133160272,push,main,verify,success,Upload SARIF (Code Scanning),8
+44133160272,push,main,verify,success,Upload security reports,1
+44133160272,push,main,verify,success,GATE – no CRITICAL,0
+44133160272,push,main,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44133160272,push,main,verify,success,Verification metadata,0
+44133160272,push,main,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),4
+44133160272,push,main,verify,success,Post Upload SARIF (Code Scanning),0
+44133160272,push,main,verify,success,Post Build once,2
+44133160272,push,main,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,4
+44133160272,push,main,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44133160272,push,main,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44133160272,push,main,verify,success,Complete job,0
+44032867950,pull_request,ci/sarif-upload,verify,success,(job verify),105
+44032867950,pull_request,ci/sarif-upload,verify,success,Set up job,1
+44032867950,pull_request,ci/sarif-upload,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44032867950,pull_request,ci/sarif-upload,verify,success,Install pinned CLI tools (version + SHA-256),3
+44032867950,pull_request,ci/sarif-upload,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,11
+44032867950,pull_request,ci/sarif-upload,verify,success,Unit test,4
+44032867950,pull_request,ci/sarif-upload,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+44032867950,pull_request,ci/sarif-upload,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,11
+44032867950,pull_request,ci/sarif-upload,verify,success,Build once,46
+44032867950,pull_request,ci/sarif-upload,verify,success,Save image artifact,1
+44032867950,pull_request,ci/sarif-upload,verify,success,SBOM (Syft CLI; CycloneDX),1
+44032867950,pull_request,ci/sarif-upload,verify,success,Validate SBOM,0
+44032867950,pull_request,ci/sarif-upload,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),5
+44032867950,pull_request,ci/sarif-upload,verify,success,Upload SARIF (Code Scanning),8
+44032867950,pull_request,ci/sarif-upload,verify,success,Upload security reports,1
+44032867950,pull_request,ci/sarif-upload,verify,success,GATE – no CRITICAL,0
+44032867950,pull_request,ci/sarif-upload,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44032867950,pull_request,ci/sarif-upload,verify,success,Verification metadata,0
+44032867950,pull_request,ci/sarif-upload,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),0
+44032867950,pull_request,ci/sarif-upload,verify,success,Post Upload SARIF (Code Scanning),0
+44032867950,pull_request,ci/sarif-upload,verify,success,Post Build once,2
+44032867950,pull_request,ci/sarif-upload,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,6
+44032867950,pull_request,ci/sarif-upload,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44032867950,pull_request,ci/sarif-upload,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44032867950,pull_request,ci/sarif-upload,verify,success,Complete job,0
+44032867950,pull_request,ci/sarif-upload,policy-test,success,(job policy-test),8
+44032867950,pull_request,ci/sarif-upload,policy-test,success,Set up job,1
+44032867950,pull_request,ci/sarif-upload,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44032867950,pull_request,ci/sarif-upload,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44032867950,pull_request,ci/sarif-upload,policy-test,success,Render policy + resource & run offline tests,0
+44032867950,pull_request,ci/sarif-upload,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44032867950,pull_request,ci/sarif-upload,policy-test,success,Complete job,0
+44032373301,pull_request,ci/sarif-upload,verify,success,(job verify),85
+44032373301,pull_request,ci/sarif-upload,verify,success,Set up job,4
+44032373301,pull_request,ci/sarif-upload,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,4
+44032373301,pull_request,ci/sarif-upload,verify,success,Install pinned CLI tools (version + SHA-256),3
+44032373301,pull_request,ci/sarif-upload,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,8
+44032373301,pull_request,ci/sarif-upload,verify,success,Unit test,3
+44032373301,pull_request,ci/sarif-upload,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+44032373301,pull_request,ci/sarif-upload,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,9
+44032373301,pull_request,ci/sarif-upload,verify,success,Build once,29
+44032373301,pull_request,ci/sarif-upload,verify,success,Save image artifact,2
+44032373301,pull_request,ci/sarif-upload,verify,success,SBOM (Syft CLI; CycloneDX),1
+44032373301,pull_request,ci/sarif-upload,verify,success,Validate SBOM,0
+44032373301,pull_request,ci/sarif-upload,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),5
+44032373301,pull_request,ci/sarif-upload,verify,success,Upload SARIF (Code Scanning),7
+44032373301,pull_request,ci/sarif-upload,verify,success,Upload security reports,1
+44032373301,pull_request,ci/sarif-upload,verify,success,GATE – no CRITICAL,0
+44032373301,pull_request,ci/sarif-upload,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44032373301,pull_request,ci/sarif-upload,verify,success,Verification metadata,0
+44032373301,pull_request,ci/sarif-upload,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),0
+44032373301,pull_request,ci/sarif-upload,verify,success,Post Upload SARIF (Code Scanning),1
+44032373301,pull_request,ci/sarif-upload,verify,success,Post Build once,1
+44032373301,pull_request,ci/sarif-upload,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,4
+44032373301,pull_request,ci/sarif-upload,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44032373301,pull_request,ci/sarif-upload,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44032373301,pull_request,ci/sarif-upload,verify,success,Complete job,1
+44032373301,pull_request,ci/sarif-upload,policy-test,success,(job policy-test),15
+44032373301,pull_request,ci/sarif-upload,policy-test,success,Set up job,2
+44032373301,pull_request,ci/sarif-upload,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,6
+44032373301,pull_request,ci/sarif-upload,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44032373301,pull_request,ci/sarif-upload,policy-test,success,Render policy + resource & run offline tests,0
+44032373301,pull_request,ci/sarif-upload,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44032373301,pull_request,ci/sarif-upload,policy-test,success,Complete job,0
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,(job verify),30
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Set up job,1
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Install pinned CLI tools (version + SHA-256),3
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,11
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Unit test,4
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Secret scan (Gitleaks; toàn lịch sử),1
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,5
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Build once,0
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Save image artifact,0
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,SBOM (Syft CLI; CycloneDX),0
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Validate SBOM,0
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),0
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Upload SARIF (Code Scanning),0
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Upload security reports,1
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,GATE – no CRITICAL,0
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Verification metadata,0
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Upload approved image (chỉ push vào main; mọi gate đạt),0
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,0
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44032314170,pull_request,ci/sarif-upload,verify,cancelled,Complete job,0
+44032314170,pull_request,ci/sarif-upload,policy-test,success,(job policy-test),14
+44032314170,pull_request,ci/sarif-upload,policy-test,success,Set up job,2
+44032314170,pull_request,ci/sarif-upload,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,6
+44032314170,pull_request,ci/sarif-upload,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),1
+44032314170,pull_request,ci/sarif-upload,policy-test,success,Render policy + resource & run offline tests,1
+44032314170,pull_request,ci/sarif-upload,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44032314170,pull_request,ci/sarif-upload,policy-test,success,Complete job,0
+44032313112,pull_request,ci/sarif-upload,policy-test,cancelled,(job policy-test),0
+44032313112,pull_request,ci/sarif-upload,verify,cancelled,(job verify),0
+44032306665,push,main,policy-test,success,(job policy-test),10
+44032306665,push,main,policy-test,success,Set up job,2
+44032306665,push,main,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,5
+44032306665,push,main,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),1
+44032306665,push,main,policy-test,success,Render policy + resource & run offline tests,1
+44032306665,push,main,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44032306665,push,main,policy-test,success,Complete job,0
+44032306665,push,main,verify,success,(job verify),105
+44032306665,push,main,verify,success,Set up job,3
+44032306665,push,main,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44032306665,push,main,verify,success,Install pinned CLI tools (version + SHA-256),3
+44032306665,push,main,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,13
+44032306665,push,main,verify,success,Unit test,4
+44032306665,push,main,verify,success,Secret scan (Gitleaks; toàn lịch sử),0
+44032306665,push,main,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,9
+44032306665,push,main,verify,success,Build once,46
+44032306665,push,main,verify,success,Save image artifact,1
+44032306665,push,main,verify,success,SBOM (Syft CLI; CycloneDX),1
+44032306665,push,main,verify,success,Validate SBOM,0
+44032306665,push,main,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),6
+44032306665,push,main,verify,success,Upload security reports,2
+44032306665,push,main,verify,success,GATE – no CRITICAL,0
+44032306665,push,main,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44032306665,push,main,verify,success,Verification metadata,0
+44032306665,push,main,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),3
+44032306665,push,main,verify,success,Post Build once,2
+44032306665,push,main,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,7
+44032306665,push,main,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44032306665,push,main,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44032306665,push,main,verify,success,Complete job,0
+44031270968,pull_request,ci/sarif-upload,policy-test,success,(job policy-test),8
+44031270968,pull_request,ci/sarif-upload,policy-test,success,Set up job,1
+44031270968,pull_request,ci/sarif-upload,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44031270968,pull_request,ci/sarif-upload,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44031270968,pull_request,ci/sarif-upload,policy-test,success,Render policy + resource & run offline tests,0
+44031270968,pull_request,ci/sarif-upload,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44031270968,pull_request,ci/sarif-upload,policy-test,success,Complete job,0
+44031270968,pull_request,ci/sarif-upload,verify,success,(job verify),105
+44031270968,pull_request,ci/sarif-upload,verify,success,Set up job,2
+44031270968,pull_request,ci/sarif-upload,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44031270968,pull_request,ci/sarif-upload,verify,success,Install pinned CLI tools (version + SHA-256),3
+44031270968,pull_request,ci/sarif-upload,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,10
+44031270968,pull_request,ci/sarif-upload,verify,success,Unit test,3
+44031270968,pull_request,ci/sarif-upload,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+44031270968,pull_request,ci/sarif-upload,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,12
+44031270968,pull_request,ci/sarif-upload,verify,success,Build once,38
+44031270968,pull_request,ci/sarif-upload,verify,success,Save image artifact,1
+44031270968,pull_request,ci/sarif-upload,verify,success,SBOM (Syft CLI; CycloneDX),1
+44031270968,pull_request,ci/sarif-upload,verify,success,Validate SBOM,0
+44031270968,pull_request,ci/sarif-upload,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),6
+44031270968,pull_request,ci/sarif-upload,verify,success,Upload SARIF (Code Scanning),8
+44031270968,pull_request,ci/sarif-upload,verify,success,Upload security reports,1
+44031270968,pull_request,ci/sarif-upload,verify,success,GATE – no CRITICAL,0
+44031270968,pull_request,ci/sarif-upload,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44031270968,pull_request,ci/sarif-upload,verify,success,Verification metadata,0
+44031270968,pull_request,ci/sarif-upload,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),0
+44031270968,pull_request,ci/sarif-upload,verify,success,Post Upload SARIF (Code Scanning),0
+44031270968,pull_request,ci/sarif-upload,verify,success,Post Build once,1
+44031270968,pull_request,ci/sarif-upload,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,12
+44031270968,pull_request,ci/sarif-upload,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44031270968,pull_request,ci/sarif-upload,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44031270968,pull_request,ci/sarif-upload,verify,success,Complete job,0
+44028249982,push,main,policy-test,success,(job policy-test),8
+44028249982,push,main,policy-test,success,Set up job,1
+44028249982,push,main,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44028249982,push,main,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),3
+44028249982,push,main,policy-test,success,Render policy + resource & run offline tests,0
+44028249982,push,main,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44028249982,push,main,policy-test,success,Complete job,0
+44028249982,push,main,verify,success,(job verify),158
+44028249982,push,main,verify,success,Set up job,1
+44028249982,push,main,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,2
+44028249982,push,main,verify,success,Install pinned CLI tools (version + SHA-256),3
+44028249982,push,main,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,18
+44028249982,push,main,verify,success,Unit test,5
+44028249982,push,main,verify,success,Secret scan (Gitleaks; toàn lịch sử),2
+44028249982,push,main,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,8
+44028249982,push,main,verify,success,Build once,86
+44028249982,push,main,verify,success,Save image artifact,2
+44028249982,push,main,verify,success,SBOM (Syft CLI; CycloneDX),1
+44028249982,push,main,verify,success,Validate SBOM,0
+44028249982,push,main,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),10
+44028249982,push,main,verify,success,Upload security reports,2
+44028249982,push,main,verify,success,GATE – no CRITICAL,0
+44028249982,push,main,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44028249982,push,main,verify,success,Verification metadata,0
+44028249982,push,main,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),4
+44028249982,push,main,verify,success,Post Build once,2
+44028249982,push,main,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,6
+44028249982,push,main,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,0
+44028249982,push,main,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44028249982,push,main,verify,success,Complete job,0
+44024593626,push,main,verify,success,(job verify),235
+44024593626,push,main,verify,success,Set up job,3
+44024593626,push,main,verify,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44024593626,push,main,verify,success,Install pinned CLI tools (version + SHA-256),4
+44024593626,push,main,verify,success,Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,12
+44024593626,push,main,verify,success,Unit test,90
+44024593626,push,main,verify,success,Secret scan (Gitleaks; toàn lịch sử),1
+44024593626,push,main,verify,success,Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,7
+44024593626,push,main,verify,success,Build once,81
+44024593626,push,main,verify,success,Save image artifact,1
+44024593626,push,main,verify,success,SBOM (Syft CLI; CycloneDX),1
+44024593626,push,main,verify,success,Validate SBOM,0
+44024593626,push,main,verify,success,Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail),11
+44024593626,push,main,verify,success,Upload security reports,2
+44024593626,push,main,verify,success,GATE – no CRITICAL,0
+44024593626,push,main,verify,success,Job summary (chỉ trình bày; không đổi kết quả gate),0
+44024593626,push,main,verify,success,Verification metadata,0
+44024593626,push,main,verify,success,Upload approved image (chỉ push vào main; mọi gate đạt),3
+44024593626,push,main,verify,success,Post Build once,3
+44024593626,push,main,verify,success,Post Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069,5
+44024593626,push,main,verify,success,Post Run actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5,5
+44024593626,push,main,verify,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44024593626,push,main,verify,success,Complete job,0
+44024593626,push,main,policy-test,success,(job policy-test),9
+44024593626,push,main,policy-test,success,Set up job,1
+44024593626,push,main,policy-test,success,Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,1
+44024593626,push,main,policy-test,success,Install Kyverno CLI (pinned version + SHA-256),2
+44024593626,push,main,policy-test,success,Render policy + resource & run offline tests,1
+44024593626,push,main,policy-test,success,Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1,0
+44024593626,push,main,policy-test,success,Complete job,0
+
+== Thống kê (chỉ job thành công)
+job | bước                                                    n    min     tb    max
+policy-test | (job policy-test)                                 39      6    9.6     15
+publish | (job publish)                                          3     31   38.3     45
+publish | Download approved image (cùng workflow run)           3      1    2.0      3
+publish | Push (đúng image đã scan; tag duy nhất mỗi lần chạy)   3     17   19.0     22
+publish | Release manifest                                       3      0    0.0      0
+publish | Verify artifact integrity & load (không build lại)   3      0    1.3      2
+publish | Wait for ECR Managed Signing (đúng profile; COMPLETE)   3      1    5.7      8
+verify | (job verify)                                           35     82  105.5    235
+verify | Build once                                             35     29   37.4     86
+verify | GATE – no CRITICAL                                   35      0    0.0      0
+verify | SBOM (Syft CLI; CycloneDX)                             35      0    1.1      2
+verify | Secret scan (Gitleaks; toàn lịch sử)              35      0    0.7      2
+verify | Unit test                                              35      3    6.4     90
+verify | Vulnerability scan (một lần; JSON; lỗi công cụ/DB = fail)  35      4    5.8     11

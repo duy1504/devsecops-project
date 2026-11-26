@@ -1,0 +1,8 @@
+Policy 2 trên kind (20261126T103324Z)
+tc01-signed                    allow  OK   exit=0 1799ms 
+tc01-pod-ready                 allow  OK   Running image=<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:59c79d672187539c33b7da543c70360fd55a0963eaa780da44e3cad3db6d0035
+tc04-unsigned                  deny   OK   exit=1 686ms no signature is associated with "<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:85b97e849174ed1d56fed8629ecb7cdb2bfd2a10bd9fe9f3110a6e97068cdf6f"
+tc06-wrong-signer              deny   OK   exit=1 1143ms failed with reason "Signature publisher doesn't match any trusted identities."
+tc09-ext-down-signed           deny   OK   exit=1 298ms dial tcp 10.96.48.78:443: connect: connection refused'
+tc09-ext-up-signed             allow  OK   exit=0 2589ms 
+KẾT QUẢ: ĐẠT

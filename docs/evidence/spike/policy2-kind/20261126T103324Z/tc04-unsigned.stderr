@@ -1,0 +1,7 @@
+Error from server: error when creating "reports/admission-p2/20261126T103324Z/rendered/tc04-unsigned.yaml": admission webhook "validate.kyverno.svc-fail" denied the request: 
+
+resource Pod/demo/tc04-unsigned was blocked due to the following policies 
+
+verify-signer:
+  verify-aws-signer: |
+    failed to check deny conditions: failed to substitute variables in condition key: failed to resolve response.verified || false at path : failed to fetch data for APICall: HTTP 406 Not Acceptable: failed to verify container podinfo: failed to verify image {{{<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com podinfo podinfo  sha256:85b97e849174ed1d56fed8629ecb7cdb2bfd2a10bd9fe9f3110a6e97068cdf6f <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:85b97e849174ed1d56fed8629ecb7cdb2bfd2a10bd9fe9f3110a6e97068cdf6f <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo:}} /spec/containers/0/image}: no signature is associated with "<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:85b97e849174ed1d56fed8629ecb7cdb2bfd2a10bd9fe9f3110a6e97068cdf6f", make sure the artifact was signed successfully

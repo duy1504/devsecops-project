@@ -118,22 +118,41 @@ Policy 2 dùng `imageReferences: ["*"]` nên cũng xác minh image ngoài ECR: v
 
 ## 3. Chỉ số
 
-### Thời gian CI (job `verify`, 13 run thành công, 17–18/11/2026)
+### Thời gian CI (17–26/11/2026)
 
-Nguồn: `scripts/ci-metrics.sh`, dữ liệu `evidence/ci-metrics/ci-metrics-20261118.txt`. Độ phân giải 1 giây (timestamp của GitHub).
+Nguồn: `scripts/ci-metrics.sh` (đã mở rộng cho job `publish`), dữ liệu `evidence/ci-metrics/ci-metrics-20261126.txt` (bản 18/11: `ci-metrics-20261118.txt`). Chỉ tính job thành công. Độ phân giải 1 giây (timestamp của GitHub).
 
-| Bước | min (s) | trung bình (s) | max (s) |
-|---|---|---|---|
-| Cả job `verify` | 84 | 117,6 | 235 |
-| Unit test | 3 | 10,5 | 90 |
-| Gitleaks (toàn lịch sử) | 0 | 0,6 | 2 |
-| Build (một lần) | 29 | 43,5 | 86 |
-| SBOM (Syft) | 0 | 1,1 | 2 |
-| Trivy scan | 4 | 6,5 | 11 |
-| Gate Critical | 0 | 0,0 | 0 |
-| Job `policy-test` | 7 | 10,2 | 15 |
+| Job / bước | n | min (s) | trung bình (s) | max (s) |
+|---|---|---|---|---|
+| **Job `verify`** | 35 | 82 | 105,5 | 235 |
+| Unit test | 35 | 3 | 6,4 | 90 |
+| Gitleaks (toàn lịch sử) | 35 | 0 | 0,7 | 2 |
+| Build (một lần) | 35 | 29 | 37,4 | 86 |
+| SBOM (Syft) | 35 | 0 | 1,1 | 2 |
+| Trivy scan | 35 | 4 | 5,8 | 11 |
+| Gate Critical | 35 | 0 | 0,0 | 0 |
+| **Job `policy-test`** | 39 | 6 | 9,6 | 15 |
+| **Job `publish`** | 3 | 31 | 38,3 | 45 |
+| Tải `approved-image` | 3 | 1 | 2,0 | 3 |
+| Kiểm checksum + `docker load` | 3 | 0 | 1,3 | 2 |
+| Push lên ECR | 3 | 17 | 19,0 | 22 |
+| Chờ ký (`wait-signature.sh`, poll 5 s) | 3 | 1 | 5,7 | 8 |
+| `release.json` | 3 | 0 | 0,0 | 0 |
 
-Max của job (235 s) và unit test (90 s) thuộc run đầu tiên (44024593626), khi cache Go của `setup-go` chưa tồn tại. Max của build (86 s) thuộc run 44028249982. Run TC03 fail ở gate sau 85 s; run TC02 fail ở Gitleaks sau 29 s, không tốn thời gian build/scan.
+Max của job `verify` (235 s) và unit test (90 s) thuộc run đầu tiên (44024593626), khi cache Go của `setup-go` chưa tồn tại. Max của build (86 s) thuộc run 44028249982. Run TC03 fail ở gate sau 85 s; run TC02 fail ở Gitleaks sau 29 s, không tốn thời gian build/scan. Từ lúc run bắt đầu tới image đã ký trên ECR: 2 phút 14 giây ở run 45798939183 (tạo run 10:11:09, `publish` xong 10:13:23 UTC; `verify` và `publish` nối tiếp). Phần lớn thời gian `publish` là push layer; phần bảo mật thêm vào (kiểm checksum, đối chiếu image ID, chờ ký) chỉ vài giây.
+
+### Độ trễ ký của ECR Managed Signing
+
+Nguồn: `scripts/signing-latency.sh`, dữ liệu `evidence/signing-latency/20261126T103608Z/latency.csv`. Đo bằng mốc của ECR — `imagePushedAt` của artifact chữ ký trừ `imagePushedAt` của image (độ phân giải ms) — nên **không** phụ thuộc chu kỳ poll 5 s của `wait-signature.sh`.
+
+| Image | Push lên ECR (UTC) | Chữ ký có trên ECR sau |
+|---|---|---|
+| `signed-baseline` (spike, 20/11) | 10:41:59.701 | 2164 ms |
+| `sha-d1cd8dd72cd8-run-45798939183-1` | 10:13:11.582 | 2509 ms |
+| `sha-25847499904f-run-45800377707-1` | 10:22:38.467 | 2454 ms |
+| `sha-debc8f30999c-run-45801990148-1` | 10:32:41.206 | 1735 ms |
+
+Managed Signing (profile chính): **n = 4, min 1735 ms, trung bình 2216 ms, max 2509 ms**. Mỗi image có đúng 1 chữ ký, của `podinfo_signing_profile/gwTPmh8tPO`; `signingTime` trong chữ ký nằm giữa hai mốc. Bảng không tính `wrong-signer-baseline` (13 338 ms): đó là thời gian ký tay bằng `notation sign` khi tạo fixture, không phải độ trễ của Managed Signing. Bước chờ ký trong CI (1–8 s) lớn hơn do gồm chu kỳ poll.
 
 ### Độ trễ admission (Policy 1, 3 lượt)
 
@@ -147,26 +166,42 @@ Max của job (235 s) và unit test (90 s) thuộc run đầu tiên (44024593626
 | Đối chứng (dry-run server) | allow | 193, 199, 253 |
 | Namespace ngoài phạm vi (mốc) | allow | 155, 185, 244 |
 
-### Độ trễ admission có Policy 2 (2 lượt, 26/11)
+### Độ trễ admission có Policy 2 (4 lượt, 26/11)
 
-Mỗi yêu cầu hợp lệ phải qua cả Policy 1 và Policy 2; Policy 2 gọi extension → ECR (manifest, referrer, chữ ký) → AWS Signer (thu hồi). Cache kết quả của extension đang **tắt**.
+Mỗi yêu cầu hợp lệ phải qua cả Policy 1 và Policy 2; Policy 2 gọi extension → ECR (manifest, referrer, chữ ký) → AWS Signer (thu hồi). Cache kết quả của extension đang **tắt** (`--cacheEnabled=false`), nên mọi lần đều là "lần đầu" — không đo được chênh lệch có/không cache như mục 12.5 gợi ý. Đo end-to-end lệnh `kubectl create` như bảng Policy 1. Bốn lượt (08:18, 08:19, 10:32, 10:33 UTC) đều 6/6 đúng mong đợi; bằng chứng `evidence/spike/policy2-kind/`.
 
-| Yêu cầu | Kết quả | ms (lượt 08:18, 08:19) |
+| Yêu cầu | Kết quả | ms (4 lượt) | min | trung bình | max |
+|---|---|---|---|---|---|
+| TC01 signed (tạo thật) | allow | 2167, 1569, 1879, 1799 | 1569 | 1854 | 2167 |
+| TC04 unsigned | deny | 587, 1180, 607, 686 | 587 | 765 | 1180 |
+| TC06 wrong-signer | deny | 1269, 1225, 1028, 1143 | 1028 | 1166 | 1269 |
+| TC09 extension tắt | deny | 210, 405, 249, 298 | 210 | 291 | 405 |
+| TC09 bật lại, signed | allow | 2283, 1607, 2594, 2589 | 1607 | 2268 | 2594 |
+
+So với Policy 1 (~200–300 ms), xác minh chữ ký thêm khoảng 1,5–2 s cho Pod hợp lệ. Ca bị từ chối nhanh hơn ca hợp lệ. Giải thích khả dĩ theo thứ tự xác minh của Notation (**chưa đo từng bước**): TC04 dừng ngay khi không tìm thấy chữ ký; TC06 phải tải và kiểm chữ ký rồi mới so danh tính; ca hợp lệ còn kiểm thu hồi qua AWS Signer. TC09 khi extension tắt bị chặn sau ~0,3 s (kết nối bị từ chối), không phải chờ timeout 30 s.
+
+### Truy vết (TC01, run 45798939183)
+
+| Mắt xích | Liên kết bằng | Tự động / thủ công |
 |---|---|---|
-| TC01 signed (tạo thật) | allow | 2167, 1569 |
-| TC04 unsigned | deny | 587, 1180 |
-| TC06 wrong-signer | deny | 1269, 1225 |
-| TC09 extension tắt | deny | 210, 405 |
-| TC09 bật lại, signed | allow | 2283, 1607 |
+| Commit → run | `commit_sha`, `workflow_run_id`, `run_attempt` trong `verification.json`/`release.json` | Tự động (GitHub Actions) |
+| Run → artifact đã scan | `image_tar_sha256`, `local_image_id`; `sbom_sha256`, `vulnerability_report_sha256` trỏ vào artifact `security-reports-<run>-<attempt>` | Tự động (`verify`) |
+| Artifact → image trên ECR | `publish` kiểm checksum + image ID trước khi push; digest registry = digest push | Tự động (`publish`) |
+| Image → chữ ký | `wait-signature.sh` đòi `COMPLETE` đúng profile; `release.json` ghi profile | Tự động (Managed Signing + `publish`) |
+| `release.json` → Pod | `fetch-release.sh` (chỉ run push `main` thành công) → `deploy.sh` render digest | **Thủ công** (chạy 2 lệnh trên máy có cụm kind; không có job `deploy`) |
+| Pod → digest | `spec.image` và `status.imageID` = digest phát hành; extension log `"verified": true` cho đúng digest | Kiểm tự động trong `deploy.sh` |
 
-So với Policy 1 (~200–300 ms), xác minh chữ ký thêm khoảng 1–2 s cho mỗi Pod.
+Chiều ngược (từ Pod đang chạy về commit): đọc digest của Pod → tìm tag `sha-<commit12>-run-<id>-<attempt>` trên ECR (`aws ecr describe-images --image-ids imageDigest=…`) → run và commit nằm ngay trong tag; SBOM và báo cáo CVE lấy từ artifact của run đó.
 
 ### SBOM và lỗ hổng của image thật (podinfo 6.17.0)
 
 | Chỉ số | Giá trị |
 |---|---|
-| SBOM | CycloneDX (spec 1.7), 1032 component, có `pkg:golang/*` |
+| SBOM | CycloneDX (spec 1.7), 1032 component (76 `pkg:golang/*`), 349 409 byte (run 45801990148) |
 | Trivy (máy, DB 2026-11-16; CI, DB 2026-11-17) | Critical 0, High 2 (`go-jose/v4` 4.1.5, `x/net` 0.61.0 — đều có bản vá), Medium 1, Unknown 4 |
+| Trivy 0.76.2, CI run 45801990148 (DB 2026-11-26T07:04Z) | **Không đổi:** Critical 0, High 2 (CVE-2026-116587 `go-jose/v4` 4.1.5 → 4.1.6; CVE-2026-78661 `x/net` 0.61.0 → 0.62.0), Medium 1, Unknown 4; Gitleaks 0 finding. Bằng chứng `evidence/ci-reports/45801990148/` |
+
+Hai lỗ hổng High đến từ mã upstream podinfo 6.17.0 và đều có bản vá; đồ án giữ nguyên upstream để số liệu phản ánh workload thật (gate chỉ chặn Critical theo đề cương, mục 9.2). Trong 9 ngày (DB 16/11 → 26/11) không phát sinh CVE mới cho image này.
 
 ## 4. Vấn đề phát hiện nhờ thực nghiệm
 
