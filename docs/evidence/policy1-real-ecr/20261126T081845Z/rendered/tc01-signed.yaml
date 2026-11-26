@@ -1,0 +1,26 @@
+# Hợp lệ: đúng repo + digest, ký bởi profile chính qua Managed Signing → phải CHO QUA (tạo thật, Pod chạy)
+# Render: envsubst '<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo ${D_SIGNED}' (giá trị trong reports/spike/fixtures.env).
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tc01-signed
+  namespace: demo
+  labels: { tc: tc01 }
+spec:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65532
+    runAsGroup: 65532
+  containers:
+    - name: app
+      image: <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@${D_SIGNED}
+      securityContext:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        capabilities: { drop: [ALL] }
+      volumeMounts:
+        - { name: tmp, mountPath: /tmp }
+        - { name: data, mountPath: /data }
+  volumes:
+    - { name: tmp, emptyDir: {} }
+    - { name: data, emptyDir: {} }

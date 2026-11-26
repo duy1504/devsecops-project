@@ -1,0 +1,89 @@
+{
+  "apiVersion": "kyverno.io/v1",
+  "kind": "ClusterPolicy",
+  "metadata": {
+    "annotations": {
+      "policies.kyverno.io/description": "Pod trong namespace app, demo chỉ được tạo khi mọi image có chữ ký Notation hợp lệ của signing profile tin cậy (AWS Signer), kiểm tra cả thu hồi.",
+      "policies.kyverno.io/title": "Verify AWS Signer signature"
+    },
+    "creationTimestamp": "2026-11-26T08:01:18Z",
+    "name": "verify-signer"
+  },
+  "spec": {
+    "admission": true,
+    "background": false,
+    "emitWarning": false,
+    "failurePolicy": "Fail",
+    "rules": [
+      {
+        "context": [
+          {
+            "apiCall": {
+              "data": [
+                {
+                  "key": "images",
+                  "value": "{{ images }}"
+                },
+                {
+                  "key": "imageReferences",
+                  "value": [
+                    "*"
+                  ]
+                },
+                {
+                  "key": "trustPolicy",
+                  "value": "tp-supply-chain"
+                }
+              ],
+              "method": "POST",
+              "service": {
+                "caBundle": "-----BEGIN CERTIFICATE-----\nMIIC7TCCAdWgAwIBAgIBADANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDDA0qLmt5\ndmVybm8uc3ZjMB4XDTI2MTEyNjA2NTkxM1oXDTI3MTEyNjA3NTkxM1owGDEWMBQG\nA1UEAwwNKi5reXZlcm5vLnN2YzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC\nggEBAOvgtUswlp9UgWClynP0bnJgpA0Mi5g/wu4V1Q1bJbH8xNjDzV6iBDRyZQ7X\nDt/pGFMtLg1yzZmoeaptdsSo9yQ99CQv42Te8Y/bW3Tnwe0pzCMj92iJipDVEH3D\nrj4JSedr8FwLaMXS+frME0wgFYDvidAvqfQH1LanLWna0cewJoXEiUKOkkjQMqgr\nOqHPMBgoX472X1X+N3FV3YarqGS4I0t3Xi81cUVs4hniziwY36vWijWCQN1gpP0Z\ndoPmZvsVNrPGZV9htzMkWh1ullK3NcXhJ9w6tO8gqV6GmH+aRy25xa69v59ZKjFC\nI/M5a8gY5hebxEoDC2RtbYEM9I8CAwEAAaNCMEAwDgYDVR0PAQH/BAQDAgKkMA8G\nA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFFvr02jxEJuD2vMIemf0KZKtBLLyMA0G\nCSqGSIb3DQEBCwUAA4IBAQBDIVXzA/TiajwuqB4X4iFCi9wyCuG3LWXJUbMPqJs0\n39pxIMgFOhSbhkm8aaXcXAFQVa+9oCxwc9z/9R1NuJEmdCmxZgoIHPSUhlQaZ9NJ\nvr3jiMuPtk8151Z/hBqaQJF1KZ9Bhwt+Fj2YDktvmkaELuX1bWrE4W4uu7nXF05f\nk8IUK8pRQfj5TrKKGtkhKYPiEBPWBGk0vNSMD/Gssjv+B3A+3XJ0LwG1ZgzgJAy2\nWYsC+zgQEwPsunjdkKWhSeZwonUwdzDJdlpwqktzohNYCxUOZ98LViPNp37+eXH0\nW40WslpDqAVF/Y8Z5nUYG7YhoBzXDOnl6tFwcmQdEeJR\n-----END CERTIFICATE-----\n",
+                "url": "https://svc.kyverno-notation-aws/checkimages"
+              }
+            },
+            "name": "response"
+          }
+        ],
+        "match": {
+          "any": [
+            {
+              "resources": {
+                "kinds": [
+                  "Pod"
+                ],
+                "namespaces": [
+                  "app",
+                  "demo"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ]
+              }
+            }
+          ]
+        },
+        "name": "verify-aws-signer",
+        "skipBackgroundRequests": true,
+        "validate": {
+          "allowExistingViolations": true,
+          "deny": {
+            "conditions": {
+              "any": [
+                {
+                  "key": "{{ response.verified || false }}",
+                  "operator": "NotEquals",
+                  "value": true
+                }
+              ]
+            }
+          },
+          "failureAction": "Enforce",
+          "message": "Policy verify-signer: chữ ký image không hợp lệ: {{ response.message || 'không rõ lý do' }}"
+        }
+      }
+    ],
+    "validationFailureAction": "Audit",
+    "webhookTimeoutSeconds": 30
+  }
+}

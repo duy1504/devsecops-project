@@ -2,25 +2,31 @@
 
 Đọc file này đầu mỗi phiên. Cập nhật khi xong một giai đoạn hoặc có thay đổi quan trọng (quy tắc trong `CLAUDE.md`).
 
-**Cập nhật lần cuối:** 20/11/2026
-**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ✅ branch protection `main` (18/11) · ✅ TC02 + TC03 trên CI (18/11) · ✅ `docs/test-results.md` + `docs/evidence/` (18/11) · ✅ `docs/architecture.md` + nháp Chương 2 (20/11) · ✅ AWS sẵn sàng (SSO profile `devsecops`, 20/11) · ✅ Spike bước 1–7 (20/11): fixture `D_unsigned`/`D_wrongsigner`, **Managed Signing đã bật**, `D_signed` ký tự động `COMPLETE`, `notation verify` signed pass / 2 fixture fail
-**Giai đoạn kế tiếp:** spike bước 8–9 — cài extension `kyverno-notation-aws` (bản tự build) lên kind, credential verifier + pull secret ECR, Policy 2; Pod `D_signed` được nhận, `D_unsigned`/`D_wrongsigner` bị từ chối; thử fail-closed.
+**Cập nhật lần cuối:** 26/11/2026
+**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ✅ branch protection `main` (18/11) · ✅ TC02 + TC03 trên CI (18/11) · ✅ `docs/test-results.md` + `docs/evidence/` (18/11) · ✅ `docs/architecture.md` + nháp Chương 2 (20/11) · ✅ AWS sẵn sàng (SSO profile `devsecops`, 20/11) · ✅ Spike bước 1–7 (20/11): fixture `D_unsigned`/`D_wrongsigner`, **Managed Signing đã bật**, `D_signed` ký tự động `COMPLETE`, `notation verify` signed pass / 2 fixture fail · ✅ **Spike đạt (26/11): bước 8–9 trên kind** — role verifier, extension p2, Policy 2; TC01 nhận, TC04/TC06 từ chối, TC09 fail-closed; Policy 1 chạy lại với ECR thật (TC05/07/08 Đạt)
+**Giai đoạn kế tiếp:** chốt spike (bước 10, tiêu chí 6.2 đã đạt) → Giai đoạn 2–3: OIDC + role publisher, job `publish` (load `image.tar`, push tag `sha-…`, `wait-signature.sh`, `release.json`), lifecycle policy → TC01 end-to-end từ pipeline.
 
-## ⏸ Điểm dừng (20/11/2026, tối) — làm tiếp từ đây
+## ⏸ Điểm dừng (26/11/2026) — làm tiếp từ đây
 
-**Spike đường găng đã qua bước 1–7** (Managed Signing + Notation đạt). Còn bước 8–9 trên kind + fail-closed rồi mới làm pipeline `publish`.
+**Spike đường găng ĐẠT** (tiêu chí 6.2): `D_signed` do Managed Signing ký (không `notation sign`); `notation verify` pass/fail đúng; Kyverno **deny thật** (Enforce); fail-closed đã thử. Chi tiết số liệu trong `docs/test-results.md`.
 
-**Đang chờ người dùng quyết định (hỏi lại đầu phiên sau):** credential cho extension trên kind — đề xuất tạo **IAM role verifier riêng** (chỉ ECR read + `signer:GetRevocationStatus`, mục 8.4), lấy credential ngắn hạn đưa vào Secret trong cụm, **không** dùng credential admin SSO. Chưa tạo gì.
+**Spike bước 8–9 (26/11, người dùng đồng ý tạo role verifier):**
+- `scripts/aws-create-verifier-role.sh`: role **`devsecops-verifier`** (inline `verifier-read`: `ecr:GetAuthorizationToken`; đọc repo `podinfo`; `signer:GetRevocationStatus`), chỉ phiên SSO `AdministratorAccess` assume được; IAM Access Analyzer 0 finding. Template `infra/aws/verifier-{trust,policy}.template.json`.
+- `scripts/refresh-lab-credentials.sh`: assume role (phiên **≤ 1 giờ** do role chaining) → Secret `kyverno-notation-aws/verifier-aws-credentials` + Secret `ecr-pull` (namespace `app`, `demo`, gắn SA `default`), kiểm `PutImage` bị AccessDenied, rollout restart extension. **Chạy lại trước mỗi buổi làm việc/demo.**
+- `scripts/install-notation-ext.sh` + `infra/kyverno-notation-aws/` (CRD + `install.yaml` chỉnh từ upstream): image `local/kyverno-notation-aws:58b210b-p2`, TrustStore `policies/truststore.yaml` (kiểm fingerprint), TrustPolicy `policies/trustpolicy.template.yaml`, Policy 2 `policies/verify-signer.template.yaml` (`ClusterPolicy`, Fail, `imageReferences: ["*"]`, caBundle = CA công khai nhúng lúc render).
+- **Bản vá p2** cho thư viện `kyverno-notation-verifier` v1.1.0 (`infra/kyverno-notation-aws/patches/`, `scripts/build-notation-ext.sh`): TokenReview khai báo audience `kyverno-svc.kyverno.io` (không có thì mọi yêu cầu bị `Token is not authorized`), không ghi token ra log. Gate 0 Critical/0 High. Chi tiết `docs/versions.md` mục 2b.
+- `scripts/test-policy2-cluster.sh` (TC01/04/06/09) và `scripts/test-policy1-cluster.sh` (ECR thật) đều ĐẠT. Bằng chứng: `docs/evidence/spike/policy2-kind/`, `docs/evidence/policy1-real-ecr/`, `docs/evidence/spike/verifier-role/`.
+
+**⚠️ Ổ C: gần đầy** (26/11: có lúc 0 MB → `Bus error` khi build; còn ~7 GB sau build). Docker build cache ~14,6 GB (3,1 GB reclaimable), Docker vhdx chỉ tăng. **Hỏi người dùng trước khi xóa/thu gọn** (`docker builder prune`, compact vhdx, dọn `Downloads` ~43 GB là dữ liệu cá nhân).
 
 **Bắt đầu phiên sau:**
-1. Mở Docker Desktop (chờ engine chạy; nếu lỗi `0x80072746`: tắt Docker Desktop → `wsl --shutdown` → mở lại). Cụm kind `devsecops` tự lên lại.
-2. WSL: `aws sso login --profile devsecops` (mở link bằng tay trên Windows) → `source scripts/aws-env.sh`.
-3. Kiểm tra nhanh: `aws ecr get-signing-configuration`, `bash scripts/notation-verify.sh` (với `D_SIGNED` trong `reports/spike/fixtures.env`) phải ĐẠT.
-4. Làm spike bước 8–9 (mục 6.1, 10.1, 11.3).
+1. Mở Docker Desktop (nếu lỗi `0x80072746`: tắt Docker Desktop → `wsl --shutdown` → mở lại). Cụm kind `devsecops` tự lên lại (extension, Policy 1 thật, Policy 2 vẫn còn).
+2. WSL: `aws sso login --profile devsecops` → `bash scripts/refresh-lab-credentials.sh` (credential verifier chỉ sống 1 giờ; hết hạn thì Policy 2 chặn mọi Pod – fail-closed).
+3. Kiểm nhanh: `bash scripts/test-policy2-cluster.sh` phải ĐẠT.
 
-**Trạng thái repo/máy lúc dừng (20/11 tối):**
-- `main` = PR #13 + PR cập nhật điểm dừng này. Không có PR đang mở. Docker Desktop và WSL đã tắt; không có tài nguyên AWS tính phí theo giờ.
-- Kết quả kiểm thử tổng hợp ở `docs/test-results.md` (chưa cập nhật số liệu spike), bằng chứng chọn lọc ở `docs/evidence/` (bản đầy đủ ở `reports/`, không commit).
+**Trạng thái repo/máy lúc dừng (26/11):**
+- `main` sau PR spike Policy 2. Không tài nguyên AWS tính phí theo giờ (thêm IAM role verifier – miễn phí).
+- Kết quả kiểm thử tổng hợp ở `docs/test-results.md` (đã cập nhật 26/11), bằng chứng chọn lọc ở `docs/evidence/` (bản đầy đủ ở `reports/`, không commit).
 - Repo **public**; `gh` 2.104.0 đã đăng nhập (`%LOCALAPPDATA%\Programs\gh\bin\gh.exe`; trong Bash gọi `"$LOCALAPPDATA/Programs/gh/bin/gh.exe"`).
 - **Branch protection `main`** (bật 18/11, kiểm qua API): bắt PR, 0 approval, required `verify` + `policy-test`, strict, `enforce_admins`, cấm force push/xóa; secret scanning + push protection bật. **Mọi thay đổi (kể cả `PROGRESS.md`) phải qua PR**: tạo nhánh → commit (tác giả `Duy Phan`, không ghi công Claude) → `gh pr create` → chờ 2 check → `gh pr merge --merge --delete-branch`.
 - Ca đã có bằng chứng: TC02 (PR #4), TC03 (PR #6), TC10 (kind), branch protection; TC05/TC07/TC08 đạt logic trên kind với `ECR_IMAGE` giả → chạy lại khi có ECR. Chi tiết trong `docs/test-results.md`.
@@ -92,7 +98,7 @@ Làm ngay sau phần chuẩn bị. Chưa qua tiêu chí 6.2 thì chưa làm pipe
 - [x] Bước 3: profile B → fixture `D_wrongsigner` ký tay — **trước** khi bật signing rule (20/11).
 - [x] Bước 4: `notation verify` thất bại với cả hai fixture, đúng lý do; đối chứng tin profile B thì pass (20/11).
 - [x] Bước 5–7: profile chính + bật Managed Signing → `D_signed` → `COMPLETE` → `notation verify` thành công (20/11).
-- [ ] Bước 8–9: kind + Kyverno 1.19.2 + extension; signed được chấp nhận, unsigned và wrong-signer bị từ chối; thử fail-closed.
+- [x] Bước 8–9: kind + Kyverno 1.19.2 + extension; signed được chấp nhận, unsigned và wrong-signer bị từ chối; thử fail-closed (26/11).
 - [ ] Bước 10: lưu log, chốt bộ phiên bản vào mục 4 của `docs/versions.md`.
 - Nếu không đạt: lùi theo A → B → C (mục 6.3), tối đa 2–3 ngày mỗi phương án.
 
@@ -103,7 +109,7 @@ Làm ngay sau phần chuẩn bị. Chưa qua tiêu chí 6.2 thì chưa làm pipe
 - [ ] Giai đoạn 3 — pipeline: `verify`, `policy-test`, `publish`, branch protection (mục 9). **17/11:** `.github/workflows/ci-cd.yml` có `verify` (test → Gitleaks toàn lịch sử → build một lần → `image.tar` + checksum + image ID → Syft SBOM + kiểm có `pkg:golang` → Trivy một lần JSON → upload báo cáo `always()` → gate 0 Critical → summary → `verification.json` → upload approved image chỉ khi push `main`) và `policy-test` (Kyverno CLI ghim SHA-256 → `scripts/policy-test.sh`). Action ghim commit SHA; Gitleaks/Syft/Trivy/Kyverno cài binary ghim SHA-256; không `id-token`. Repo chuyển **public** 17/11 (người dùng chọn, để có branch protection miễn phí; đã rà: không secret, không account thật; email tác giả commit lộ trong lịch sử — đã báo người dùng) → thêm lại upload SARIF lên Code Scanning (`security-events: write`, bỏ qua PR từ fork) qua PR nhánh `ci/sarif-upload`. **Run đầu 17/11 (commit `e66dca7` — SHA lúc chạy `7aa3cba`, run 44024593626/2): `verify` 3m55s + `policy-test` 9s đều xanh; unit test, Gitleaks 0 finding, build, SBOM 1032 component, Trivy DB 2026-11-17T01:05:25Z, gate Critical 0 / High 2 — khớp số liệu local.** **Còn:** branch protection + required checks, `publish` (sau spike).
 - [ ] Giai đoạn 4 — triển khai: namespace, pull secret, RBAC, manifest, `deploy.sh` (mục 10). **Đã xong 17/11:** `scripts/cluster-up.sh` (kind v1.35.8 + Kyverno chart 3.9.2 qua OCI, kiểm SHA-256), `k8s/namespaces.yaml`, `k8s/rbac.yaml` (`scripts/check-rbac.sh`: 14/14 đúng), `k8s/deployment.template.yaml` + `service.yaml` (thử với image local ở namespace tạm: 2/2 Running, UID 65532, roFS, `/healthz` 200, ghi `/data` 202). **Còn:** pull secret ECR (`refresh-lab-credentials.sh`), `deploy.sh` (cần `release.json`).
 - [ ] Giai đoạn 5 — Policy 1 + Policy 2 hoàn chỉnh, test offline (mục 11). **Policy 1 xong 17/11:** `policies/allowed-image.template.yaml` (CEL, siết thêm 64 hex sau `@sha256:`), test offline 6/6 (`scripts/policy-test.sh`, đã thử đảo kỳ vọng → fail đúng); trên cụm (`scripts/test-policy1-cluster.sh`, ECR_IMAGE giả `111122223333`): TC05/TC07/TC08 bị từ chối, đối chứng + namespace ngoài phạm vi cho qua, Deployment vi phạm bị từ chối ngay khi apply (autogen). **Còn:** chạy lại với ECR_IMAGE thật; Policy 2 (sau spike).
-- [ ] Giai đoạn 6 — TC01–TC05 bắt buộc, TC06–TC10 nếu kịp; đo đạc, thu bằng chứng (mục 12). **18/11:** ✅ TC02 (Gitleaks, PR #4) và ✅ TC03 (Trivy gate, PR #6) có bằng chứng thật trên CI. TC05/TC07/TC08 và TC10 (`auth can-i`) đã đạt trên kind với ECR_IMAGE giả → chạy lại với ECR thật. TC01, TC04, TC06, TC09 cần AWS (spike).
+- [ ] Giai đoạn 6 — TC01–TC05 bắt buộc, TC06–TC10 nếu kịp; đo đạc, thu bằng chứng (mục 12). **18/11:** ✅ TC02 (Gitleaks, PR #4) và ✅ TC03 (Trivy gate, PR #6) có bằng chứng thật trên CI. TC05/TC07/TC08 và TC10 (`auth can-i`) đã đạt trên kind với ECR_IMAGE giả → chạy lại với ECR thật. TC01, TC04, TC06, TC09 cần AWS (spike). **26/11:** ✅ TC04, TC06, TC09; ✅ TC05/07/08 với ECR thật; TC01 đạt phần admission (còn phần pipeline `publish`).
 - [ ] Báo cáo, slide, video dự phòng, README dựng lại (mục 15–16); thu dọn AWS (mục 17); checklist (mục 18).
 
 ## Cần kiểm chứng khi triển khai
@@ -142,5 +148,6 @@ Các điểm kế hoạch ghi là "mẫu, cần đối chiếu":
 | 20/11/2026 | Spike bước 4: `scripts/notation-verify.sh` (root AWS Signer ghim fingerprint, trust policy strict chỉ tin profile chính). `D_unsigned` và `D_wrongsigner` bị từ chối đúng lý do; đối chứng tin profile B → pass. Bằng chứng `docs/evidence/spike/verify-fixtures/`. |
 | 20/11/2026 | Spike bước 5–7 (người dùng đồng ý): profile chính + ECR Managed Signing (1 rule, filter `podinfo`); fixture không bị ký thêm. `D_signed` tự ký `COMPLETE` ngay khi push; `notation verify` signed pass, unsigned/wrong-signer fail. Script `enable-managed-signing.sh`, `spike-signed.sh`, `wait-signature.sh`. |
 | 20/11/2026 | Dừng phiên theo yêu cầu người dùng. Chờ quyết định credential verifier cho kind (đề xuất IAM role riêng). Tắt Docker Desktop + WSL. |
+| 26/11/2026 | Người dùng đồng ý → spike bước 8–9: role `devsecops-verifier`, `refresh-lab-credentials.sh`, extension trên kind, Policy 2. Lỗi `Token is not authorized` (audience token Kyverno 1.19) + extension ghi token ra log → bản vá p2 thư viện verifier, rebuild 0 Critical/0 High. TC01 (admission), TC04, TC06, TC09 ĐẠT; Policy 1 với ECR thật ĐẠT. **Spike đạt tiêu chí 6.2.** Sự cố ổ C: đầy khi build. |
 
 <!-- Mẫu một dòng nhật ký: | dd/mm/yyyy | Giai đoạn · việc đã xong · bằng chứng (đường dẫn) · vấn đề còn mở | -->

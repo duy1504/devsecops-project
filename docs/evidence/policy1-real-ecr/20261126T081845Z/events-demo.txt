@@ -1,0 +1,17 @@
+LAST SEEN   TYPE     REASON      OBJECT            MESSAGE
+2m41s       Normal   Scheduled   pod/q-signed      Successfully assigned demo/q-signed to devsecops-control-plane
+2m41s       Normal   Pulling     pod/q-signed      Pulling image "<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:59c79d672187539c33b7da543c70360fd55a0963eaa780da44e3cad3db6d0035"
+2m40s       Normal   Pulled      pod/q-signed      Successfully pulled image "<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:59c79d672187539c33b7da543c70360fd55a0963eaa780da44e3cad3db6d0035" in 1.096s (1.097s including waiting). Image size: 12307029 bytes.
+2m39s       Normal   Created     pod/q-signed      Container created
+2m39s       Normal   Started     pod/q-signed      Container started
+99s         Normal   Killing     pod/q-signed      Stopping container q-signed
+60s         Normal   Scheduled   pod/tc01-signed   Successfully assigned demo/tc01-signed to devsecops-control-plane
+59s         Normal   Pulled      pod/tc01-signed   Container image "<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:59c79d672187539c33b7da543c70360fd55a0963eaa780da44e3cad3db6d0035" already present on machine and can be accessed by the pod
+59s         Normal   Created     pod/tc01-signed   Container created
+59s         Normal   Started     pod/tc01-signed   Container started
+55s         Normal   Killing     pod/tc01-signed   Stopping container app
+36s         Normal   Scheduled   pod/tc01-signed   Successfully assigned demo/tc01-signed to devsecops-control-plane
+35s         Normal   Pulled      pod/tc01-signed   Container image "<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:59c79d672187539c33b7da543c70360fd55a0963eaa780da44e3cad3db6d0035" already present on machine and can be accessed by the pod
+35s         Normal   Created     pod/tc01-signed   Container created
+35s         Normal   Started     pod/tc01-signed   Container started
+34s         Normal   Killing     pod/tc01-signed   Stopping container app

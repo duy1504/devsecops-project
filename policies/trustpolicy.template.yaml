@@ -1,0 +1,21 @@
+# TrustPolicy cho extension kyverno-notation-aws (kế hoạch mục 11.3).
+# Cùng scope / identity / trust store với trust policy Notation CLI của scripts/notation-verify.sh.
+# Render: envsubst '${ECR_IMAGE} ${SIGNING_PROFILE_ARN}'. Profile B (podinfo_wrong_signer) KHÔNG được có ở đây.
+apiVersion: notation.nirmata.io/v1alpha1
+kind: TrustPolicy
+metadata:
+  name: tp-supply-chain
+spec:
+  version: '1.0'
+  trustPolicyName: tp-supply-chain
+  trustPolicies:
+    - name: trusted-podinfo
+      registryScopes:
+        - "${ECR_IMAGE}"
+      signatureVerification:
+        level: strict
+        override: {}
+      trustStores:
+        - signingAuthority:aws-signer-ts
+      trustedIdentities:
+        - "${SIGNING_PROFILE_ARN}"

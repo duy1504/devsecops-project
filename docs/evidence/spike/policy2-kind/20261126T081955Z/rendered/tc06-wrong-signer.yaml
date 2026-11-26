@@ -1,0 +1,26 @@
+# Cùng repo, có chữ ký nhưng của profile B (không tin cậy) → Policy 2 phải TỪ CHỐI
+# Render: envsubst '<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo sha256:6452d1877aeb082b63b02e742fd04a30496f2acf9e2b135eccf2f8b776782e75' (giá trị trong reports/spike/fixtures.env).
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tc06-wrong-signer
+  namespace: demo
+  labels: { tc: tc06 }
+spec:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65532
+    runAsGroup: 65532
+  containers:
+    - name: app
+      image: <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:6452d1877aeb082b63b02e742fd04a30496f2acf9e2b135eccf2f8b776782e75
+      securityContext:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        capabilities: { drop: [ALL] }
+      volumeMounts:
+        - { name: tmp, mountPath: /tmp }
+        - { name: data, mountPath: /data }
+  volumes:
+    - { name: tmp, emptyDir: {} }
+    - { name: data, emptyDir: {} }

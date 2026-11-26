@@ -1,0 +1,55 @@
+# Policy 2 – xác minh chữ ký AWS Signer qua extension kyverno-notation-aws (kế hoạch mục 11.3, phương án A).
+# Hiệu chỉnh từ configs/samples/validate-policy.yaml của upstream (main@58b210b):
+#   - chỉ match Pod CREATE/UPDATE trong namespace app, demo; background tắt
+#   - failurePolicy Fail: extension lỗi/không trả lời → từ chối (fail-closed)
+#   - imageReferences "*": MỌI image trong Pod đều phải qua xác minh (Policy 1 lo nguồn, Policy 2 lo chữ ký)
+#   - trust policy cố định tp-supply-chain (chỉ tin profile chính)
+#   - bỏ điều kiện SBOM attestation minh họa của upstream (MVP chưa phát hành attestation)
+#   - caBundle = chứng chỉ CA công khai của extension, nhúng lúc render (Kyverno không cần quyền đọc Secret
+#     chứa private key); verified khác true (kể cả thiếu trường) → deny
+# Render: scripts/install-notation-ext.sh (biến EXT_CA_BUNDLE = PEM CA đã thụt lề).
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: verify-signer
+  annotations:
+    policies.kyverno.io/title: Verify AWS Signer signature
+    policies.kyverno.io/description: >-
+      Pod trong namespace app, demo chỉ được tạo khi mọi image có chữ ký Notation hợp lệ
+      của signing profile tin cậy (AWS Signer), kiểm tra cả thu hồi.
+spec:
+  background: false
+  failurePolicy: Fail
+  webhookTimeoutSeconds: 30
+  rules:
+    - name: verify-aws-signer
+      match:
+        any:
+          - resources:
+              kinds: [Pod]
+              namespaces: [app, demo]
+              operations: [CREATE, UPDATE]
+      context:
+        - name: response
+          apiCall:
+            method: POST
+            data:
+              - key: images
+                value: "{{ images }}"
+              - key: imageReferences
+                value: ["*"]
+              - key: trustPolicy
+                value: tp-supply-chain
+            service:
+              url: https://svc.kyverno-notation-aws/checkimages
+              caBundle: |
+${EXT_CA_BUNDLE}
+      validate:
+        failureAction: Enforce
+        message: "Policy verify-signer: chữ ký image không hợp lệ: {{ response.message || 'không rõ lý do' }}"
+        deny:
+          conditions:
+            any:
+              - key: "{{ response.verified || false }}"
+                operator: NotEquals
+                value: true

@@ -2,25 +2,26 @@
 
 Theo kế hoạch mục 12. Chỉ ghi số liệu từ lần chạy thật; bằng chứng chọn lọc nằm trong `docs/evidence/`. Thư mục bằng chứng đặt tên theo thời điểm **UTC**; giờ Việt Nam = UTC+7.
 
-**Cập nhật:** 18/11/2026. **Trạng thái AWS:** chưa có, nên ECR, Managed Signing và Policy 2 chưa chạy.
+**Cập nhật:** 26/11/2026. ECR, Managed Signing và Policy 2 đã chạy trên kind với AWS thật. **Chưa có:** job `publish` + OIDC, nên TC01 mới chứng minh nửa admission (image do spike push, chưa phải do pipeline).
 
 ## 1. Tổng hợp
 
 | Ca | Tình huống | Lớp kiểm soát | Kết luận | Bằng chứng |
 |---|---|---|---|---|
-| TC01 | Luồng hợp lệ end-to-end | CI + admission | **Chưa thực hiện** (cần ECR, Managed Signing) | — |
+| TC01 | Luồng hợp lệ end-to-end | CI + admission | **Đạt phần admission**: image ký bởi Managed Signing được nhận, Pod `Running`. Phần CI → `publish` chưa có | `evidence/spike/policy2-kind/20261126T081955Z/` |
 | TC02 | Secret giả trong mã | Gitleaks (CI) | **Đạt** | `evidence/TC02/20261117T171512Z/` |
 | TC03 | Image có CVE Critical | Trivy gate (CI) | **Đạt** | `evidence/TC03/20261117T172037Z/` |
-| TC04 | Image chưa ký | Admission (chữ ký) | **Chưa thực hiện** (cần spike) | — |
-| TC05 | Image sai nguồn | Admission (Policy 1) | **Đạt một phần**: logic đạt trên kind với `ECR_IMAGE` giả; chạy lại với ECR thật | `evidence/policy1/` |
-| TC06 | Sai người ký | Admission (trust identity) | **Chưa thực hiện** (cần spike) | — |
-| TC07 | Tag thay digest | Admission (Policy 1) | **Đạt một phần** (như TC05) | `evidence/policy1/` |
-| TC08 | Init container vi phạm | Admission (Policy 1) | **Đạt một phần** cho phần nguồn ảnh; phần chữ ký cần Policy 2 | `evidence/policy1/` |
-| TC09 | Verifier không khả dụng | Fail-closed | **Chưa thực hiện** (cần extension + AWS) | — |
+| TC04 | Image chưa ký | Admission (Policy 2) | **Đạt** | `evidence/spike/policy2-kind/20261126T081955Z/` |
+| TC05 | Image sai nguồn | Admission (Policy 1) | **Đạt** (ECR thật, 26/11) | `evidence/policy1-real-ecr/20261126T081845Z/` |
+| TC06 | Sai người ký | Admission (trust identity) | **Đạt** | `evidence/spike/policy2-kind/20261126T081955Z/` |
+| TC07 | Tag thay digest | Admission (Policy 1) | **Đạt** (ECR thật) | `evidence/policy1-real-ecr/20261126T081845Z/` |
+| TC08 | Init container vi phạm | Admission (Policy 1 + 2) | **Đạt** (ECR thật; Policy 2 cũng xác minh image init container) | `evidence/policy1-real-ecr/20261126T081845Z/` |
+| TC09 | Verifier không khả dụng | Fail-closed | **Đạt** | `evidence/spike/policy2-kind/20261126T081955Z/` |
 | TC10 | Deployer vượt quyền | RBAC | **Đạt** trên kind (impersonation) | `evidence/TC10/` |
 | — | Push thẳng vào `main` | Branch protection | **Đạt** | `evidence/github/20261117T170531Z/` |
+| — | `notation verify` (CLI) | Trust policy Notation | **Đạt**: signed pass, unsigned/wrong-signer fail, đối chứng tin profile B pass | `evidence/spike/verify-signed/` |
 
-"Đạt một phần" nghĩa là logic policy đã được chứng minh trên cụm thật, nhưng `ECR_IMAGE` còn là account ví dụ `111122223333`. Chỉ ghi "Đạt" sau khi chạy lại với registry thật.
+Lần chạy 17/11 của TC05/07/08 dùng `ECR_IMAGE` giả `111122223333` (`evidence/policy1/`), giữ lại để so sánh.
 
 ## 2. Chi tiết từng ca
 
@@ -62,6 +63,25 @@ Theo kế hoạch mục 12. Chỉ ghi số liệu từ lần chạy thật; bằ
 | Kết luận | **Đạt một phần** (logic đạt; cần chạy lại với `ECR_IMAGE` thật). TC08 mới kiểm nguồn ảnh của init container; phần chữ ký của init container thuộc Policy 2 |
 
 Test offline (`scripts/policy-test.sh`, Kyverno CLI v1.19.2): 6/6 ca, chạy trong job `policy-test` ở mọi run. Ca đảo kỳ vọng (cho `tc-ok` phải fail) đã thử và test báo fail đúng.
+
+**Chạy lại với ECR thật (2026-11-26 08:18:45 UTC, `scripts/test-policy1-cluster.sh`, `APP_DIGEST` = `D_signed`):** 6/6 đúng, cùng lúc Policy 2 đang bật. TC05 (223 ms), TC07 (833 ms), TC08 (1590 ms) đều deny, stderr có `Policy allowed-image failed`, đối chứng (dry-run server) và namespace ngoài phạm vi cho qua, Deployment vi phạm bị chặn khi apply. Kết luận: **Đạt**.
+
+### TC01, TC04, TC06, TC09 — Policy 2 (chữ ký AWS Signer) trên kind
+
+| Trường | Nội dung |
+|---|---|
+| Thời gian | 2026-11-26 08:19:55 UTC (`scripts/test-policy2-cluster.sh`); lượt trước 08:18:01 UTC cũng 6/6 |
+| Môi trường | kind v1.35.8; Kyverno 1.19.2; `ClusterPolicy/verify-signer` (`failurePolicy: Fail`, chỉ `app`/`demo`); extension `local/kyverno-notation-aws:58b210b-p2`; TrustPolicy `tp-supply-chain` (strict, chỉ tin `podinfo_signing_profile`); credential role `devsecops-verifier` (chỉ đọc ECR `podinfo` + `signer:GetRevocationStatus`, phiên 1 giờ) |
+| Input | `D_signed` `sha256:59c79d67…6d0035` (Managed Signing), `D_unsigned` `sha256:85b97e84…cdf6f`, `D_wrongsigner` `sha256:6452d187…82e75` (ký tay bằng profile B); manifest `tests/admission/tc0{1,4,6}-*.template.yaml` |
+| TC01 | `kubectl create` exit 0 (1569 ms); Pod `Running`, imageID đúng `D_signed` (kubelet pull bằng Secret `ecr-pull`) |
+| TC04 | exit 1 (1180 ms); stderr `verify-signer` … `no signature is associated with "<ECR>/podinfo@sha256:85b97e84…"` |
+| TC06 | exit 1 (1225 ms); stderr `trusted identify verification by plugin "com.amazonaws.signer.notation.plugin" failed with reason "Signature publisher doesn't match any trusted identities."` |
+| TC09 | Scale extension về 0 → tạo lại Pod hợp lệ: exit 1 (405 ms), `dial tcp …:443: connect: connection refused`. Scale lại 1 → Pod hợp lệ được nhận (1607 ms) |
+| Event | `PolicyViolation` trên `ClusterPolicy/verify-signer`: `Pod demo/tc04-unsigned: [verify-aws-signer] error (blocked)`, tương tự TC06 và TC09 |
+| Log | Extension: `Token is authorized: user="system:serviceaccount:kyverno:kyverno-admission-controller"` (10 lần), `Verfication failed no signature is associated …`, `failed with reason "Signature publisher doesn't match …"` |
+| Kết luận | **Đạt** cả 4 ca. Ghi chú: extension trả HTTP 406 khi xác minh thất bại nên Kyverno xếp là `error (blocked)` thay vì `fail`; kết quả chặn như nhau |
+
+Policy 2 dùng `imageReferences: ["*"]` nên cũng xác minh image ngoài ECR: với TC05 (ghcr.io) và TC08 (busybox) extension báo `has no applicable trust policy statement` → hai lớp cùng chặn.
 
 ### TC10 — RBAC deployer
 
@@ -112,6 +132,20 @@ Max của job (235 s) và unit test (90 s) thuộc run đầu tiên (44024593626
 | Đối chứng (dry-run server) | allow | 193, 199, 253 |
 | Namespace ngoài phạm vi (mốc) | allow | 155, 185, 244 |
 
+### Độ trễ admission có Policy 2 (2 lượt, 26/11)
+
+Mỗi yêu cầu hợp lệ phải qua cả Policy 1 và Policy 2; Policy 2 gọi extension → ECR (manifest, referrer, chữ ký) → AWS Signer (thu hồi). Cache kết quả của extension đang **tắt**.
+
+| Yêu cầu | Kết quả | ms (lượt 08:18, 08:19) |
+|---|---|---|
+| TC01 signed (tạo thật) | allow | 2167, 1569 |
+| TC04 unsigned | deny | 587, 1180 |
+| TC06 wrong-signer | deny | 1269, 1225 |
+| TC09 extension tắt | deny | 210, 405 |
+| TC09 bật lại, signed | allow | 2283, 1607 |
+
+So với Policy 1 (~200–300 ms), xác minh chữ ký thêm khoảng 1–2 s cho mỗi Pod.
+
 ### SBOM và lỗ hổng của image thật (podinfo 6.17.0)
 
 | Chỉ số | Giá trị |
@@ -125,3 +159,8 @@ Max của job (235 s) và unit test (90 s) thuộc run đầu tiên (44024593626
 2. **Allowlist Gitleaks toàn cục bỏ qua cả file.** Khi xử lý 3 dương tính giả trong mã podinfo upstream, allowlist toàn cục với `paths` + điều kiện AND vẫn bỏ qua mọi secret khác trong cùng file. Chuyển sang allowlist cấp rule và kiểm chứng bằng secret thử nghiệm.
 3. **`.gitignore` chặn nhầm mã nguồn.** Mẫu `*token*` (để chặn file token thật) đã bỏ qua 7 file `token*.go`/`token.proto` của podinfo, khiến CI sẽ build thiếu code. Thêm ngoại lệ cho `app/`.
 4. **Extension `kyverno-notation-aws` bản phát hành có 6 Critical.** Xem `docs/versions.md` mục 2b; đồ án tự build từ `main` có ghim commit.
+5. **Extension không xác thực được token của Kyverno 1.19.** Lần chạy đầu mọi Pod (kể cả hợp lệ) bị chặn với `HTTP 406 Not Acceptable: Token is not authorized` — fail-closed nên an toàn, nhưng hệ thống không dùng được. Log cho thấy token Kyverno có audience `kyverno-svc.kyverno.io` còn TokenReview của thư viện verifier không khai báo audience. Sửa bằng bản vá p2 (`TOKEN_REVIEW_AUDIENCES`), **không** tắt `--reviewKyvernoToken`.
+6. **Extension ghi bearer token của Kyverno vào log.** Thư viện verifier v1.1.0 in nguyên đối tượng TokenReview (gồm token) ở mức INFO. Bản vá p2 chỉ ghi tên user; script thu bằng chứng vẫn lọc chuỗi dạng JWT.
+7. **Mẫu policy upstream cần quyền đọc Secret chứa private key.** Mẫu lấy `caBundle` bằng cách để Kyverno đọc Secret TLS của extension. Đồ án nhúng chứng chỉ CA công khai lúc render, nên Kyverno không cần thêm quyền.
+8. **`envsubst` thay cả biến trong chú thích.** Chú thích nhắc `${EXT_CA_BUNDLE}` bị thay bằng PEM, làm hỏng YAML. Đổi cách viết chú thích.
+9. **Ổ C: đầy khi build lại extension** (26/11): `Bus error` ở `docker run`; còn khoảng 7 GB sau build. Ổ đĩa ảo của Docker Desktop chỉ tăng, không tự co lại.
