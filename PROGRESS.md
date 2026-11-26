@@ -4,7 +4,7 @@
 
 **Cập nhật lần cuối:** 26/11/2026
 **Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ✅ branch protection `main` (18/11) · ✅ TC02 + TC03 trên CI (18/11) · ✅ `docs/test-results.md` + `docs/evidence/` (18/11) · ✅ `docs/architecture.md` + nháp Chương 2 (20/11) · ✅ AWS sẵn sàng (SSO profile `devsecops`, 20/11) · ✅ Spike bước 1–7 (20/11): fixture `D_unsigned`/`D_wrongsigner`, **Managed Signing đã bật**, `D_signed` ký tự động `COMPLETE`, `notation verify` signed pass / 2 fixture fail · ✅ **Spike đạt (26/11): bước 8–9 trên kind** — role verifier, extension p2, Policy 2; TC01 nhận, TC04/TC06 từ chối, TC09 fail-closed; Policy 1 chạy lại với ECR thật (TC05/07/08 Đạt)
-**Giai đoạn kế tiếp:** chốt bước 10 spike (bộ phiên bản vào `docs/versions.md` mục 4) → các ca còn lại của giai đoạn 6 (TC09 đã có; demo TC02–TC06 theo `demo/commands.md`, đo đạc mục 12.5) → báo cáo/slide (mục 15–16). Tùy chọn: gắn SBOM vào ECR bằng `oras attach` (mục 9.6).
+**Giai đoạn kế tiếp:** ~~chốt bước 10 spike~~ ✅ 26/11 → các ca còn lại của giai đoạn 6 (TC09 đã có; demo TC02–TC06 theo `demo/commands.md`, đo đạc mục 12.5) → báo cáo/slide (mục 15–16). Tùy chọn: gắn SBOM vào ECR bằng `oras attach` (mục 9.6).
 
 ## ✅ Giai đoạn 2–3 (26/11/2026, chiều) — xong, **TC01 trọn luồng ĐẠT**
 
@@ -40,7 +40,7 @@
 **Bắt đầu phiên sau:**
 1. Mở Docker Desktop (nếu lỗi `0x80072746`: tắt Docker Desktop → `wsl --shutdown` → mở lại). Cụm kind `devsecops` tự lên lại (extension, Policy 1 thật, Policy 2 vẫn còn).
 2. WSL: `aws sso login --profile devsecops` → `bash scripts/refresh-lab-credentials.sh` (credential verifier chỉ sống 1 giờ; hết hạn thì Policy 2 chặn mọi Pod – fail-closed).
-3. Kiểm nhanh: `bash scripts/test-policy2-cluster.sh` phải ĐẠT.
+3. Kiểm nhanh: `bash scripts/preflight.sh` (chỉ đọc: công cụ, cụm, policy, AWS, fixture, credential — phải ĐẠT), rồi `bash scripts/test-policy2-cluster.sh` nếu cần.
 
 **Trạng thái repo/máy lúc dừng (26/11):**
 - `main` sau PR spike Policy 2. Không tài nguyên AWS tính phí theo giờ (thêm IAM role verifier – miễn phí).
@@ -117,7 +117,7 @@ Làm ngay sau phần chuẩn bị. Chưa qua tiêu chí 6.2 thì chưa làm pipe
 - [x] Bước 4: `notation verify` thất bại với cả hai fixture, đúng lý do; đối chứng tin profile B thì pass (20/11).
 - [x] Bước 5–7: profile chính + bật Managed Signing → `D_signed` → `COMPLETE` → `notation verify` thành công (20/11).
 - [x] Bước 8–9: kind + Kyverno 1.19.2 + extension; signed được chấp nhận, unsigned và wrong-signer bị từ chối; thử fail-closed (26/11).
-- [ ] Bước 10: lưu log, chốt bộ phiên bản vào mục 4 của `docs/versions.md`.
+- [x] Bước 10: lưu log, chốt bộ phiên bản vào mục 4 của `docs/versions.md` (26/11): upstream không có bản mới; `scripts/preflight.sh` 33/33 ĐẠT; bằng chứng `docs/evidence/spike/final-versions/`.
 - Nếu không đạt: lùi theo A → B → C (mục 6.3), tối đa 2–3 ngày mỗi phương án.
 
 ### Các giai đoạn sau (chỉ bắt đầu khi spike đạt)
@@ -169,5 +169,6 @@ Các điểm kế hoạch ghi là "mẫu, cần đối chiếu":
 | 26/11/2026 | Người dùng đồng ý → spike bước 8–9: role `devsecops-verifier`, `refresh-lab-credentials.sh`, extension trên kind, Policy 2. Lỗi `Token is not authorized` (audience token Kyverno 1.19) + extension ghi token ra log → bản vá p2 thư viện verifier, rebuild 0 Critical/0 High. TC01 (admission), TC04, TC06, TC09 ĐẠT; Policy 1 với ECR thật ĐẠT. **Spike đạt tiêu chí 6.2.** Sự cố ổ C: đầy khi build. |
 | 26/11/2026 | Người dùng dọn ổ C (~20 GB trống), đồng ý làm tiếp. Giai đoạn 2–3: OIDC provider + role `devsecops-publisher` (sub immutable), lifecycle `sha-` (preview 0 image), job `publish` trong `ci-cd.yml`, `fetch-release.sh`, `deploy.sh` (danh tính deployer). Bằng chứng `docs/evidence/aws/`. Chờ người dùng đặt Secret/Variables GitHub rồi merge để chạy `publish` lần đầu. |
 | 26/11/2026 | Người dùng đặt Secret/Variables. Merge PR #16 → run 45798939183: `publish` xanh 45 s, ký `COMPLETE` ~5 s, không lộ account ID trong log. `deploy.sh` → 2 Pod `Running` đúng digest, extension `verified: true`. **TC01 trọn luồng ĐẠT.** Sửa `fetch-release.sh` (Git Bash không có `jq`). Bằng chứng `docs/evidence/tc01-e2e/`. |
+| 26/11/2026 | Spike bước 10: kiểm upstream (1.19.2/chart 3.9.2 vẫn mới nhất, extension `main` không đổi) → chốt mục 4 `docs/versions.md`. Thêm `scripts/preflight.sh` (chỉ đọc, 33 mục) → ĐẠT. Phát hiện: Docker 29 dùng containerd store nên image ID local là digest **index**, còn node kind báo **config** → preflight so config `d3c72d96…`. |
 
 <!-- Mẫu một dòng nhật ký: | dd/mm/yyyy | Giai đoạn · việc đã xong · bằng chứng (đường dẫn) · vấn đề còn mở | -->
