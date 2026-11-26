@@ -1,0 +1,26 @@
+# Cùng repo được phép nhưng KHÔNG có chữ ký → Policy 2 phải TỪ CHỐI
+# Render: envsubst '${ECR_IMAGE} ${D_UNSIGNED}' (giá trị trong reports/spike/fixtures.env).
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tc04-unsigned
+  namespace: demo
+  labels: { tc: tc04 }
+spec:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65532
+    runAsGroup: 65532
+  containers:
+    - name: app
+      image: ${ECR_IMAGE}@${D_UNSIGNED}
+      securityContext:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        capabilities: { drop: [ALL] }
+      volumeMounts:
+        - { name: tmp, mountPath: /tmp }
+        - { name: data, mountPath: /data }
+  volumes:
+    - { name: tmp, emptyDir: {} }
+    - { name: data, emptyDir: {} }

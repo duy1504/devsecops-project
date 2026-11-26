@@ -1,0 +1,8 @@
+NAME                                            FAIL
+kyverno-cel-exception-validating-webhook-cfg    Fail
+kyverno-cleanup-validating-webhook-cfg          Fail
+kyverno-exception-validating-webhook-cfg        Fail
+kyverno-global-context-validating-webhook-cfg   Fail
+kyverno-policy-validating-webhook-cfg           Fail
+kyverno-resource-validating-webhook-cfg         Fail,Fail,Fail
+kyverno-ttl-validating-webhook-cfg              Ignore

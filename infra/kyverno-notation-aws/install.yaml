@@ -1,0 +1,196 @@
+# kyverno-notation-aws – bản tự build (scripts/build-notation-ext.sh, upstream main@58b210b + vá p2) cho cụm kind.
+# Dựa trên configs/install.yaml của upstream tại commit 58b210b
+# (sha256 159614a02ccf0166779e16630fcbaf6dd5b493cfd597d879caea04099dec68cd). Khác upstream:
+#   - image local/kyverno-notation-aws:58b210b-p2 nạp bằng `kind load`, imagePullPolicy Never (không kéo :latest)
+#   - TOKEN_REVIEW_AUDIENCES (bản vá p2 của thư viện verifier): xác thực đúng token Kyverno, không tắt TokenReview
+#   - bỏ annotation IRSA (kind không có IRSA); credential role verifier nạp từ Secret runtime
+#     verifier-aws-credentials (scripts/refresh-lab-credentials.sh, ngoài Git), optional=false → thiếu thì Pod không chạy
+#   - AWS_REGION ap-southeast-1, DEFAULT_TRUST_POLICY tp-supply-chain
+#   - tắt cache kết quả xác minh để mỗi yêu cầu đều xác minh lại (bằng chứng spike, thu hồi có hiệu lực ngay)
+#   - readinessProbe /readyz, livenessProbe /healthz (cổng 8081 của upstream)
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kyverno-notation-aws
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kyverno-notation-aws
+  namespace: kyverno-notation-aws
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kyverno-notation-aws-clusterrole
+rules:
+- apiGroups: [notation.nirmata.io]
+  resources: [trustpolicies, truststores]
+  verbs: [create, delete, get, list, patch, update, watch]
+- apiGroups: [notation.nirmata.io]
+  resources: [trustpolicies/finalizers, truststores/finalizers]
+  verbs: [update]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kyverno-notation-aws-clusterrolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kyverno-notation-aws-clusterrole
+subjects:
+- kind: ServiceAccount
+  name: kyverno-notation-aws
+  namespace: kyverno-notation-aws
+---
+# TokenReview: extension chỉ nhận yêu cầu mang token của Kyverno (--reviewKyvernoToken mặc định bật)
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kyverno-notation-aws-token-review-clusterrolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:auth-delegator
+subjects:
+- kind: ServiceAccount
+  name: kyverno-notation-aws
+  namespace: kyverno-notation-aws
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kyverno-notation-aws-role
+  namespace: kyverno-notation-aws
+rules:
+- apiGroups: [""]
+  resources: [secrets, configmaps]
+  verbs: [get, list, watch, create, update, delete]
+- apiGroups: [coordination.k8s.io]
+  resources: [leases]
+  verbs: [get, list, watch, create, update, delete]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kyverno-notation-aws-rolebinding
+  namespace: kyverno-notation-aws
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kyverno-notation-aws-role
+subjects:
+- kind: ServiceAccount
+  name: kyverno-notation-aws
+  namespace: kyverno-notation-aws
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: kyverno-notation-aws
+  name: kyverno-notation-aws
+  namespace: kyverno-notation-aws
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: kyverno-notation-aws
+  template:
+    metadata:
+      labels:
+        app: kyverno-notation-aws
+    spec:
+      terminationGracePeriodSeconds: 5
+      serviceAccountName: kyverno-notation-aws
+      securityContext:
+        runAsNonRoot: true
+      containers:
+      - name: kyverno-notation-aws
+        image: local/kyverno-notation-aws:58b210b-p2
+        imagePullPolicy: Never
+        args:
+        - --debug
+        - --cacheEnabled=false
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            memory: 32Mi
+            cpu: 100m
+        securityContext:
+          runAsUser: 2000
+          runAsGroup: 3000
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop: [ALL]
+        readinessProbe:
+          httpGet: { path: /readyz, port: 8081 }
+          periodSeconds: 5
+        livenessProbe:
+          httpGet: { path: /healthz, port: 8081 }
+          periodSeconds: 20
+        env:
+        - name: NOTATION_DIR
+          value: /notation
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: SERVICE_NAME
+          value: svc
+        - name: DEPLOYMENT_NAME
+          value: kyverno-notation-aws
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: AWS_REGION
+          value: ap-southeast-1
+        - name: DEFAULT_TRUST_POLICY
+          value: tp-supply-chain
+        # Bản vá p2: audience của token Kyverno 1.19 gửi kèm apiCall.service (TokenReview phải khai báo)
+        - name: TOKEN_REVIEW_AUDIENCES
+          value: kyverno-svc.kyverno.io
+        # Credential ngắn hạn của role verifier (Secret runtime, không nằm trong Git)
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom: { secretKeyRef: { name: verifier-aws-credentials, key: AWS_ACCESS_KEY_ID } }
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom: { secretKeyRef: { name: verifier-aws-credentials, key: AWS_SECRET_ACCESS_KEY } }
+        - name: AWS_SESSION_TOKEN
+          valueFrom: { secretKeyRef: { name: verifier-aws-credentials, key: AWS_SESSION_TOKEN } }
+        volumeMounts:
+        - name: notation
+          mountPath: /notation
+      volumes:
+      - name: notation
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: kyverno-notation-aws
+  name: svc
+  namespace: kyverno-notation-aws
+spec:
+  ports:
+  - port: 443
+    name: https
+    protocol: TCP
+    targetPort: 9443
+  selector:
+    app: kyverno-notation-aws
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notation-plugin-config
+  namespace: kyverno-notation-aws
+data:
+  debug: "false"

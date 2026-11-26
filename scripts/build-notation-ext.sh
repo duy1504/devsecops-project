@@ -12,11 +12,15 @@ BUILDER_IMAGE=golang:1.26.10-alpine3.24@sha256:87c65a688975c0b1d4585d204874c45ca
 RUNTIME_IMAGE=gcr.io/distroless/static:nonroot@sha256:aafe993665bf6200db38a02c11a9351e782a84b6a45e7f33b6695638c88e3931
 # Module vá thêm (CVE High trên main@58b210b, xem docs/versions.md mục 2b)
 GO_BUMPS="golang.org/x/net@v0.62.0 github.com/go-jose/go-jose/v4@v4.1.6"
-PATCH_LEVEL=p1                                        # tăng khi đổi bộ vá
+# Vá thư viện verifier (p2): TokenReview khai báo audience token của Kyverno 1.19; không ghi token ra log
+VERIFIER_MOD=github.com/nirmata/kyverno-notation-verifier
+VERIFIER_VER=v1.1.0
+PATCH_LEVEL=p2                                        # tăng khi đổi bộ vá (p1: chỉ GO_BUMPS)
 IMAGE_TAG="local/kyverno-notation-aws:${KNA_COMMIT:0:7}-${PATCH_LEVEL}"
 TRIVY_DB_REPO="${TRIVY_DB_REPO:-ghcr.io/aquasecurity/trivy-db:2}"  # mirror.gcr.io hay bị ngắt trên mạng lab
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
+VERIFIER_PATCH="$ROOT/infra/kyverno-notation-aws/patches/verifier-v1.1.0-token-review.patch"
 SRC="${KNA_SRC:-$HOME/build/kyverno-notation-aws}"
 OUT="$ROOT/reports/notation-ext"
 mkdir -p "$OUT" "$(dirname "$SRC")"
@@ -42,10 +46,28 @@ retry 4 docker run --rm -v "$SRC":/src -v kna-gomod:/go/pkg/mod -w /src "$BUILDE
   sh -c "go get $GO_BUMPS && go mod tidy"
 git -C "$SRC" diff --stat -- go.mod go.sum
 
-echo "== 3. Ghim runtime image trong Dockerfile"
+echo "== 2b. Vá thư viện $VERIFIER_MOD@$VERIFIER_VER (p2: TokenReview audience + không ghi token ra log)"
+# Lấy đúng bản module từ module cache sau khi `go mod verify` (đối chiếu go.sum), chép vào third_party,
+# áp bản vá trong repo đồ án, rồi trỏ go.mod tới bản đã vá bằng replace.
+retry 3 docker run --rm -v "$SRC":/src -v kna-gomod:/go/pkg/mod -w /src "$BUILDER_IMAGE" sh -c \
+  "go mod verify >/dev/null && mkdir -p third_party && rm -rf third_party/kyverno-notation-verifier \
+   && cp -r \$(go list -m -f '{{.Dir}}' $VERIFIER_MOD) third_party/kyverno-notation-verifier \
+   && chmod -R u+w third_party && chown -R $(id -u):$(id -g) third_party \
+   && [ \"\$(go list -m -f '{{.Version}}' $VERIFIER_MOD)\" = $VERIFIER_VER ]"
+git -C "$SRC" apply -p1 --directory=third_party/kyverno-notation-verifier "$VERIFIER_PATCH"
+docker run --rm -v "$SRC":/src -v kna-gomod:/go/pkg/mod -w /src "$BUILDER_IMAGE" sh -c \
+  "go mod edit -replace $VERIFIER_MOD=./third_party/kyverno-notation-verifier && go mod tidy \
+   && go vet $VERIFIER_MOD/verifier && chown $(id -u):$(id -g) go.mod go.sum"
+grep -q "tokenReviewAudiences()" "$SRC/third_party/kyverno-notation-verifier/verifier/client.go" \
+  || { echo "Bản vá verifier chưa được áp" >&2; exit 1; }
+
+echo "== 3. Ghim runtime image trong Dockerfile, đưa third_party vào build context trước go mod download"
 sed -i "s#^FROM gcr.io/distroless/static:nonroot\$#FROM $RUNTIME_IMAGE#" "$SRC/Dockerfile"
 grep -q "^FROM $RUNTIME_IMAGE\$" "$SRC/Dockerfile" || { echo "Không ghim được runtime image" >&2; exit 1; }
+sed -i 's#^COPY go.mod go.sum \.$#COPY go.mod go.sum .\nCOPY third_party ./third_party#' "$SRC/Dockerfile"
+grep -q '^COPY third_party ./third_party$' "$SRC/Dockerfile" || { echo "Không sửa được Dockerfile" >&2; exit 1; }
 git -C "$SRC" diff > "$OUT/local.patch"   # bằng chứng: toàn bộ thay đổi so với upstream
+cp "$VERIFIER_PATCH" "$OUT/verifier.patch"
 
 echo "== 4. Build $IMAGE_TAG (linux/amd64)"
 retry 4 docker buildx build -q --platform linux/amd64 --load \

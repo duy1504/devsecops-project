@@ -1,0 +1,26 @@
+# Cùng repo được phép nhưng KHÔNG có chữ ký → Policy 2 phải TỪ CHỐI
+# Render: envsubst '<ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo sha256:85b97e849174ed1d56fed8629ecb7cdb2bfd2a10bd9fe9f3110a6e97068cdf6f' (giá trị trong reports/spike/fixtures.env).
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tc04-unsigned
+  namespace: demo
+  labels: { tc: tc04 }
+spec:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65532
+    runAsGroup: 65532
+  containers:
+    - name: app
+      image: <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:85b97e849174ed1d56fed8629ecb7cdb2bfd2a10bd9fe9f3110a6e97068cdf6f
+      securityContext:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        capabilities: { drop: [ALL] }
+      volumeMounts:
+        - { name: tmp, mountPath: /tmp }
+        - { name: data, mountPath: /data }
+  volumes:
+    - { name: tmp, emptyDir: {} }
+    - { name: data, emptyDir: {} }
