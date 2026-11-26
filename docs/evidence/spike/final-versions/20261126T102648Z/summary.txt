@@ -1,0 +1,40 @@
+Preflight 20261126T102648Z
+== Công cụ (WSL)
+OK   Trivy                              0.76.2
+OK   Syft                               1.56.0
+OK   Gitleaks                           8.30.1
+OK   Kyverno CLI                        1.19.2
+OK   Notation                           1.3.2
+OK   AWS Signer plugin                  1.0.2292
+OK   AWS CLI                            2.40.4
+OK   kubectl / kind / helm / docker     v1.36.1 / v0.33.0 / v4.3.2 / 29.9.1
+== Cụm kind
+OK   Kubernetes server                  v1.35.8
+OK   Kyverno chart / app                kyverno-3.9.2 v1.19.2
+OK   Kyverno pods Running               4 pod
+OK   Extension image (config p2)        sha256:d3c72d9677faf176022f06a88e4016c7baa257f69b54f3aa83baef1de786c435
+OK   Extension ready replicas           1
+OK   Policy 1 allowed-image Ready       true
+OK   Policy 2 verify-signer Ready       True
+OK   Policy 2 failurePolicy             Fail
+OK   Webhook Kyverno Fail (vpol/policy) 0
+OK   TrustPolicy level                  strict
+OK   TrustPolicy trustedIdentities      arn:aws:signer:ap-southeast-1:<ACCOUNT_ID>:/signing-profiles/podinfo_signing_profile
+OK   Credential verifier                hết hạn 2026-11-26T11:11:31+00:00
+OK   SA default (app) imagePullSecrets  ecr-pull
+OK   SA default (demo) imagePullSecrets ecr-pull
+== AWS
+OK   ECR tag mutability                 IMMUTABLE
+OK   ECR encryption                     KMS
+OK   Signing rule (profile|filter)      arn:aws:signer:ap-southeast-1:<ACCOUNT_ID>:/signing-profiles/podinfo_signing_profile|podinfo
+OK   Signer podinfo_signing_profile     Active Notation-OCI-SHA384-ECDSA
+OK   Signer podinfo_wrong_signer        Active Notation-OCI-SHA384-ECDSA
+OK   Lifecycle policy                   khớp infra/aws/lifecycle-policy.json
+== Fixture (không được ký thêm)
+OK   D_unsigned: số chữ ký         0
+OK   D_wrongsigner: số chữ ký      1
+OK   D_wrongsigner: người ký        profile B
+OK   D_signed: số chữ ký           1
+== Trivy DB
+OK   Trivy DB local (UpdatedAt)         2026-11-26T07:04:32.419054275Z
+KẾT QUẢ: ĐẠT

@@ -1,0 +1,40 @@
+{
+  "checked_at": "20261126T102648Z",
+  "tools": {
+    "aws": "2.40.4",
+    "docker": "29.9.1",
+    "gitleaks": "8.30.1",
+    "helm": "v4.3.2",
+    "jq": "jq-1.8.2",
+    "kind": "v0.33.0",
+    "kubectl": "v1.36.1",
+    "kyverno_cli": "1.19.2",
+    "notation": "1.3.2",
+    "signer_plugin": "1.0.2292",
+    "syft": "1.56.0",
+    "trivy": "0.76.2"
+  },
+  "kind_node_image": "kindest/node:v1.35.8@sha256:07b2536e30b803ed61d1677a79df6115f798ce64c80f9e22f6ed45afd09323c0",
+  "kubernetes": "v1.35.8",
+  "kyverno_chart": "kyverno-3.9.2 v1.19.2",
+  "kyverno_pods": [
+    {
+      "component": "admission-controller",
+      "imageID": "reg.kyverno.io/kyverno/kyverno@sha256:c8c4dd09e720d2cd7fd24ca73ac28e46651001372f988e0cba3f2f612f04b955"
+    },
+    {
+      "component": "background-controller",
+      "imageID": "reg.kyverno.io/kyverno/background-controller@sha256:c46e124f21ef8a6bb4b48de57106808b1007edcd5ddd4ff7df5d23b9efa60ce2"
+    },
+    {
+      "component": "cleanup-controller",
+      "imageID": "reg.kyverno.io/kyverno/cleanup-controller@sha256:d7340aa7c9315080c3dafa7b765d090ced37353e89e5cd7a3f9ac69e8fb532b2"
+    },
+    {
+      "component": "reports-controller",
+      "imageID": "reg.kyverno.io/kyverno/reports-controller@sha256:5fb6d3e738050dbce84f60ecabaede7665fbe0578d07c1e8c912443b035e79c3"
+    }
+  ],
+  "extension_imageID": "sha256:d3c72d9677faf176022f06a88e4016c7baa257f69b54f3aa83baef1de786c435",
+  "trivy_db_updated": "2026-11-26T07:04:32.419054275Z"
+}

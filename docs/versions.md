@@ -66,6 +66,7 @@ Hệ quả cho đồ án:
 | Kiểm tra | `go vet ./...` + `go test ./...` đạt (17/11/2026) |
 | Vá cục bộ p2 (26/11/2026) | Thư viện `github.com/nirmata/kyverno-notation-verifier` v1.1.0 (lấy từ module cache sau `go mod verify`, `replace` sang `third_party/`): TokenReview khai báo audience từ biến `TOKEN_REVIEW_AUDIENCES` (Kyverno 1.19 gửi token audience `kyverno-svc.kyverno.io` → không có bản vá thì mọi yêu cầu bị `Token is not authorized`); log chỉ ghi tên user thay vì **cả token** (upstream ghi toàn bộ TokenReview, gồm bearer token của Kyverno, ở mức INFO). Bản vá: `infra/kyverno-notation-aws/patches/verifier-v1.1.0-token-review.patch` |
 | Image đang dùng | `local/kyverno-notation-aws:58b210b-p2`, image ID `sha256:f2d1998698b3f583b961590dd518af0ddb5458efb1f202ff5f1fddaa8e3c05be` (26/11/2026). Bản p1 cũ: `sha256:6835bbfd…b2480`. Build có thể không tái lập từng byte; ghi lại ID mỗi lần build |
+| Chuỗi digest (Docker 29, containerd store) | Image ID Docker `f2d19986…` = digest **OCI index** → manifest `linux/amd64` `sha256:1dd83a6037af1fb4ec1b1fa92d8cf1940bd51e89dd250c9535f17dcabb36140a` → **config** `sha256:d3c72d9677faf176022f06a88e4016c7baa257f69b54f3aa83baef1de786c435`. Trên node kind, containerd báo config `d3c72d96…`; `imageID` của Pod là `import-<ngày>@sha256:…` (index kind tạo khi nạp, không dùng để đối chiếu). `scripts/preflight.sh` so config của container đang chạy (`crictl ps`) với `d3c72d96…` (đã kiểm 26/11/2026 bằng `docker save` + đọc `index.json`) |
 | Trivy 0.76.2 | p2, DB 26/11/2026: **CRITICAL=0, HIGH=0**, MEDIUM=3, UNKNOWN=1 — gate đạt. (p1, DB 16/11: CRITICAL=0, HIGH=0, MEDIUM=2, UNKNOWN=2) |
 | Chạy trên kind (26/11/2026) | Kyverno 1.19.2 + `ClusterPolicy/verify-signer`: TC01 nhận, TC04/TC06 từ chối đúng lý do, TC09 fail-closed — xem `docs/test-results.md` |
 
@@ -108,16 +109,21 @@ curl -fsSL https://github.com/anchore/syft/releases/download/v1.56.0/syft_1.56.0
 kubectl -n kyverno get deploy -o jsonpath='{range .items[*]}{.metadata.name}{"  "}{.spec.template.spec.containers[0].image}{"\n"}{end}'
 ```
 
-## 4. Chưa kiểm tra — điền sau spike
+## 4. Bộ phiên bản đã chốt sau spike (bước 10, 26/11/2026)
+
+**Chốt 26/11/2026** sau khi spike đạt tiêu chí 6.2 và TC01 trọn luồng đạt. Kiểm lại upstream cùng ngày: nhánh 1.19 vẫn chỉ tới `v1.19.2`, chart `3.9.2` (không có `3.10.*`); `kyverno-notation-aws` `main` vẫn `58b210b`, chưa archive. Trạng thái thật của môi trường được chụp bằng `scripts/preflight.sh` (chỉ đọc, 33/33 mục ĐẠT) — bằng chứng `docs/evidence/spike/final-versions/`. **Chạy lại `preflight.sh` trước mỗi buổi demo/bảo vệ**; không nâng cấp công cụ sát giờ.
 
 | Thành phần | Phiên bản / digest | Nguồn | Ngày kiểm tra |
 |---|---|---|---|
 | Kubernetes (kind node image) | `kindest/node:v1.35.8@sha256:07b2536e30b803ed61d1677a79df6115f798ce64c80f9e22f6ed45afd09323c0` | Release notes kind v0.33.0 (image dựng sẵn cho bản này); Kyverno v1.19.2 chạy conformance trên K8s v1.33.7/v1.34.3/v1.35.1 (`.github/workflows/tests-conformance.yaml` tại tag) | 17/11/2026 |
 | Kyverno chart (cài thật) | 3.9.2 qua OCI `oci://ghcr.io/kyverno/charts/kyverno`; manifest digest `sha256:83054f30148c3cfc001087c1f5772eda7c7224e9b74b7f0e70c39c9cafe009d1`; file `.tgz` SHA-256 `3d561086a5c457f038ad5ec01f2b8a279738c44eae0e8506e271e4599e627ae9` | `helm show chart`: `appVersion: v1.19.2`. Không dùng `kyverno.github.io` (timeout từ mạng lab) | 17/11/2026 |
 | Kyverno image đang chạy | admission `reg.kyverno.io/kyverno/kyverno@sha256:c8c4dd09e720d2cd7fd24ca73ac28e46651001372f988e0cba3f2f612f04b955`; background `…@sha256:c46e124f21ef8a6bb4b48de57106808b1007edcd5ddd4ff7df5d23b9efa60ce2`; cleanup `…@sha256:d7340aa7c9315080c3dafa7b765d090ced37353e89e5cd7a3f9ac69e8fb532b2`; reports `…@sha256:5fb6d3e738050dbce84f60ecabaede7665fbe0578d07c1e8c912443b035e79c3` (cả 4 tag `v1.19.2`) | `kubectl get pods -o jsonpath='{..imageID}'` trên cụm kind | 17/11/2026 |
-| `kyverno-notation-aws` (release/commit, image digest) | | | |
-| Trivy DB (thời điểm, mỗi lần scan làm bằng chứng) | | | |
-| eksctl (nếu dùng EKS) | | | |
+| `kyverno-notation-aws` (release/commit, image digest) | Tự build `main@58b210b` + bản vá p2 → `local/kyverno-notation-aws:58b210b-p2`; image ID `f2d19986…` (index), config `d3c72d96…` (đang chạy trên kind, 1/1 Ready) — chi tiết mục 2b | `scripts/build-notation-ext.sh`, `crictl ps` trên node | 26/11/2026 |
+| Trivy DB (thời điểm, mỗi lần scan làm bằng chứng) | Không ghim (DB đổi hằng ngày); ghi theo từng lần scan: máy lab `2026-11-26T07:04:32Z`; CI ghi trong `reports/trivy-version.json` của mỗi run và trong `release.json` (`vulnerability_db_updated_at`). Nguồn DB `ghcr.io/aquasecurity/trivy-db:2` | `trivy version -f json` | 26/11/2026 |
+| eksctl (nếu dùng EKS) | **Không dùng** — đồ án chạy kind (quyết định mục 3.4); không có job `deploy`/role deployer OIDC | — | 26/11/2026 |
+| AWS Signer | Platform `Notation-OCI-SHA384-ECDSA`; profile chính `podinfo_signing_profile` (version `gwTPmh8tPO`, Active); profile B `podinfo_wrong_signer` (version `uG2yIHkItJ`, Active, chỉ dùng cho fixture TC06) | `aws signer get-signing-profile` | 26/11/2026 |
+| ECR / Managed Signing | Repo `podinfo` IMMUTABLE + KMS; signing configuration 1 rule (profile chính, filter `podinfo`); lifecycle chỉ tag `sha-` (giữ 10); fixture: `D_unsigned` 0 chữ ký, `D_wrongsigner` 1 chữ ký (profile B), `D_signed` 1 chữ ký | `scripts/preflight.sh` | 26/11/2026 |
+| Kubernetes server (kind) | `v1.35.8`; kubectl client `v1.36.1` (lệch 1 minor, trong mức hỗ trợ) | `kubectl version` | 26/11/2026 |
 | Base image builder | `golang:1.27.4-alpine@sha256:70bd7ddea8b6cbe5d6943cde279d6b67feb10cc924fb9100d1d8757c1575b280` (index) | `docker buildx imagetools inspect`; podinfo 6.17.0 yêu cầu `go 1.27.0` | 17/11/2026 |
 | Base image runtime | `gcr.io/distroless/static-debian12:nonroot@sha256:afa5c872c891853ca7fcf1f12c3edb23f7eeef36189728842dd51042ff57f7ab` (index) | `docker buildx imagetools inspect` | 17/11/2026 |
 | podinfo | tag `6.17.0`, commit `fd3a834ed8d14b80ea334cf8a2fddd4597924da6` | GitHub, chi tiết `docs/upstream.md` | 17/11/2026 |
