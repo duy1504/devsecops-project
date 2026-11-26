@@ -1,0 +1,6 @@
+Error from server: error when creating "reports/admission-p2/20261126T103250Z/rendered/tc01-signed.yaml": admission webhook "validate.kyverno.svc-fail" denied the request: 
+
+resource Pod/demo/tc01-signed was blocked due to the following policies 
+
+verify-signer:
+  verify-aws-signer: 'failed to check deny conditions: failed to substitute variables in condition key: failed to resolve response.verified || false at path : failed to fetch data for APICall: failed to execute HTTP request for APICall response: Post "https://svc.kyverno-notation-aws/checkimages": dial tcp 10.96.48.78:443: connect: connection refused'

@@ -1,0 +1,46 @@
+
+For OSS Maintainers: VEX Notice
+--------------------------------
+If you're an OSS maintainer and Trivy has detected vulnerabilities in your project that you believe are not actually exploitable, consider issuing a VEX (Vulnerability Exploitability eXchange) statement.
+VEX allows you to communicate the actual status of vulnerabilities in your project, improving security transparency and reducing false positives for your users.
+Learn more and start using VEX: https://trivy.dev/docs/v0.76/guide/supply-chain/vex/repo#publishing-vex-documents
+
+To disable this notice, set the TRIVY_DISABLE_VEX_NOTICE environment variable.
+
+
+image.tar (debian 12.15)
+========================
+Total: 4 (UNKNOWN: 4, LOW: 0, MEDIUM: 0, HIGH: 0, CRITICAL: 0)
+
+┌─────────────────┬───────────────┬──────────┬────────┬───────────────────┬──────────────────┬───────────────────────────────────┐
+│     Library     │ Vulnerability │ Severity │ Status │ Installed Version │  Fixed Version   │               Title               │
+├─────────────────┼───────────────┼──────────┼────────┼───────────────────┼──────────────────┼───────────────────────────────────┤
+│ ca-certificates │ DLA-4845-1    │ UNKNOWN  │ fixed  │ 20250419~deb12u1  │ 20250419~deb12u2 │ ca-certificates - security update │
+├─────────────────┼───────────────┤          │        ├───────────────────┼──────────────────┼───────────────────────────────────┤
+│ tzdata          │ DLA-4792-1    │          │        │ 2026b-0+deb12u1   │ 2026c-0+deb12u1  │ tzdata - new timezone database    │
+│                 ├───────────────┤          │        │                   ├──────────────────┤                                   │
+│                 │ DLA-4854-1    │          │        │                   │ 2026e-0+deb12u1  │                                   │
+│                 ├───────────────┤          │        │                   ├──────────────────┤                                   │
+│                 │ DLA-4867-1    │          │        │                   │ 2026f-0+deb12u1  │                                   │
+└─────────────────┴───────────────┴──────────┴────────┴───────────────────┴──────────────────┴───────────────────────────────────┘
+
+home/app/podinfo (gobinary)
+===========================
+Total: 3 (UNKNOWN: 0, LOW: 0, MEDIUM: 1, HIGH: 2, CRITICAL: 0)
+
+┌───────────────────────────────┬─────────────────┬──────────┬────────┬───────────────────┬───────────────┬────────────────────────────────────────────────────────────┐
+│            Library            │  Vulnerability  │ Severity │ Status │ Installed Version │ Fixed Version │                           Title                            │
+├───────────────────────────────┼─────────────────┼──────────┼────────┼───────────────────┼───────────────┼────────────────────────────────────────────────────────────┤
+│ github.com/go-jose/go-jose/v4 │ CVE-2026-116587 │ HIGH     │ fixed  │ v4.1.5            │ 4.1.6         │ github.com/go-jose/go-jose: go-jose: Denial of Service via │
+│                               │                 │          │        │                   │               │ crafted RSA parameters in JWKs                             │
+│                               │                 │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2026-116587                │
+├───────────────────────────────┼─────────────────┤          │        ├───────────────────┼───────────────┼────────────────────────────────────────────────────────────┤
+│ golang.org/x/net              │ CVE-2026-78661  │          │        │ v0.61.0           │ 0.62.0        │ golang.org/x/net/html: golang.org/x/net/html: Denial of    │
+│                               │                 │          │        │                   │               │ Service via crafted HTML input                             │
+│                               │                 │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2026-78661                 │
+│                               ├─────────────────┼──────────┤        │                   │               ├────────────────────────────────────────────────────────────┤
+│                               │ CVE-2026-97045  │ MEDIUM   │        │                   │               │ golang.org/x/net/html: golang.org/x/net/html: Cross-Site   │
+│                               │                 │          │        │                   │               │ Scripting via improper namespace handling during HTML      │
+│                               │                 │          │        │                   │               │ rendering                                                  │
+│                               │                 │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2026-97045                 │
+└───────────────────────────────┴─────────────────┴──────────┴────────┴───────────────────┴───────────────┴────────────────────────────────────────────────────────────┘

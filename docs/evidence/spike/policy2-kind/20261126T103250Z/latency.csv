@@ -1,0 +1,6 @@
+ca,mong_doi,thuc_te,exit,ms
+tc01-signed,allow,allow,0,1879
+tc04-unsigned,deny,deny,1,607
+tc06-wrong-signer,deny,deny,1,1028
+tc09-ext-down-signed,deny,deny,1,249
+tc09-ext-up-signed,allow,allow,0,2594
