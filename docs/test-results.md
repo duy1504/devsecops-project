@@ -17,7 +17,7 @@ Theo kế hoạch mục 12. Chỉ ghi số liệu từ lần chạy thật; bằ
 | TC07 | Tag thay digest | Admission (Policy 1) | **Đạt** (ECR thật) | `evidence/policy1-real-ecr/20261126T081845Z/` |
 | TC08 | Init container vi phạm | Admission (Policy 1 + 2) | **Đạt** (ECR thật; Policy 2 cũng xác minh image init container) | `evidence/policy1-real-ecr/20261126T081845Z/` |
 | TC09 | Verifier không khả dụng | Fail-closed | **Đạt** | `evidence/spike/policy2-kind/20261126T081955Z/` |
-| TC10 | Deployer vượt quyền | RBAC | **Đạt** trên kind (impersonation) | `evidence/TC10/` |
+| TC10 | Deployer vượt quyền | RBAC | **Đạt** trên kind (impersonation; 26/11 thêm yêu cầu thật tới Pod đang chạy: 6/6 Forbidden) | `evidence/TC10/` |
 | — | Push thẳng vào `main` | Branch protection | **Đạt** | `evidence/github/20261117T170531Z/` |
 | — | `notation verify` (CLI) | Trust policy Notation | **Đạt**: signed pass, unsigned/wrong-signer fail, đối chứng tin profile B pass | `evidence/spike/verify-signed/` |
 
@@ -105,7 +105,8 @@ Policy 2 dùng `imageReferences: ["*"]` nên cũng xác minh image ngoài ECR: v
 | Thời gian | 2026-11-17 17:35:23 UTC |
 | Cách chạy | `scripts/check-rbac.sh` với `--as=deployer --as-group=devsecops-deployers`, từ kubeconfig quản trị của kind |
 | Thực tế | `auth can-i`: 14/14 đúng (chỉ `patch deployments -n app` là `yes`). Yêu cầu thật: 4/4 `Forbidden` (đọc Secret, xóa `allowed-image`, tạo namespace, tạo Pod trực tiếp) |
-| Kết luận | **Đạt** trên kind. Chưa thử `exec` thật vì `app` chưa có Pod chạy image hợp lệ (cần ECR) |
+| Bổ sung 26/11 (Pod thật) | Sau TC01, `app` có 2 Pod podinfo chạy image đã ký. Yêu cầu thật bằng danh tính deployer: `exec`, `debug` (ephemeral container), `port-forward`, `attach`, `delete pod`, `get secret` → **6/6 Forbidden**, đúng động từ (`create pods/exec`, `patch pods/ephemeralcontainers`, `create pods/portforward`, …); `logs`, `get pods` → được phép (2/2). Bằng chứng `evidence/TC10/20261126T*/` |
+| Kết luận | **Đạt** trên kind. Deployer triển khai được (TC01) nhưng không vào được container, không đọc Secret, không xóa Pod |
 
 ### Branch protection `main`
 

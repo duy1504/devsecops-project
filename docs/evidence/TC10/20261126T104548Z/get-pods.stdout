@@ -1,0 +1,3 @@
+NAME                       READY   STATUS    RESTARTS   AGE
+podinfo-546898db97-djnlb   1/1     Running   0          30m
+podinfo-546898db97-mhh5p   1/1     Running   0          30m

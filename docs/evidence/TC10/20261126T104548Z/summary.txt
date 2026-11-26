@@ -1,0 +1,10 @@
+Pod: podinfo-546898db97-djnlb
+OK   exec                   mong=deny  thực=deny  exit=1  forbidden: User 
+OK   ephemeral-debug        mong=deny  thực=deny  exit=1  forbidden: User 
+OK   port-forward           mong=deny  thực=deny  exit=1  forbidden: User 
+OK   attach                 mong=deny  thực=deny  exit=1  forbidden: User 
+OK   delete-pod             mong=deny  thực=deny  exit=1  forbidden: User 
+OK   read-secret            mong=deny  thực=deny  exit=1  forbidden: User 
+OK   logs                   mong=allow thực=allow exit=0  
+OK   get-pods               mong=allow thực=allow exit=0  
+2026-11-26T10:46:02Z
