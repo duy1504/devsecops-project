@@ -3,8 +3,30 @@
 Đọc file này đầu mỗi phiên. Cập nhật khi xong một giai đoạn hoặc có thay đổi quan trọng (quy tắc trong `CLAUDE.md`).
 
 **Cập nhật lần cuối:** 26/11/2026
-**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ✅ branch protection `main` (18/11) · ✅ TC02 + TC03 trên CI (18/11) · ✅ `docs/test-results.md` + `docs/evidence/` (18/11) · ✅ `docs/architecture.md` + nháp Chương 2 (20/11) · ✅ AWS sẵn sàng (SSO profile `devsecops`, 20/11) · ✅ Spike bước 1–7 (20/11): fixture `D_unsigned`/`D_wrongsigner`, **Managed Signing đã bật**, `D_signed` ký tự động `COMPLETE`, `notation verify` signed pass / 2 fixture fail · ✅ **Spike đạt (26/11): bước 8–9 trên kind** — role verifier, extension p2, Policy 2; TC01 nhận, TC04/TC06 từ chối, TC09 fail-closed; Policy 1 chạy lại với ECR thật (TC05/07/08 Đạt)
-**Giai đoạn kế tiếp:** ~~chốt bước 10 spike~~ ✅ 26/11 → ~~đo đạc mục 12.5~~ ✅ 26/11 → **báo cáo** (~~Chương 5~~ nháp ✅ 26/11; còn Chương 3, 4, 1, 6 + phụ lục; rà Chương 2) → kịch bản demo (`docs/demo-script.md`, cập nhật `demo/commands.md` cho TC01/TC04/TC05 chạy trực tiếp) → báo cáo/slide (mục 15–16). Tùy chọn: gắn SBOM vào ECR bằng `oras attach` (mục 9.6).
+**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ✅ branch protection `main` (18/11) · ✅ TC02 + TC03 trên CI (18/11) · ✅ `docs/test-results.md` + `docs/evidence/` (18/11) · ✅ `docs/architecture.md` + nháp Chương 2 (20/11) · ✅ AWS sẵn sàng (SSO profile `devsecops`, 20/11) · ✅ Spike bước 1–7 (20/11): fixture `D_unsigned`/`D_wrongsigner`, **Managed Signing đã bật**, `D_signed` ký tự động `COMPLETE`, `notation verify` signed pass / 2 fixture fail · ✅ **Spike đạt (26/11): bước 8–9 trên kind** — role verifier, extension p2, Policy 2; TC01 nhận, TC04/TC06 từ chối, TC09 fail-closed; Policy 1 chạy lại với ECR thật (TC05/07/08 Đạt) · ✅ **Giai đoạn 2–4 (26/11): OIDC + `publish` + `deploy.sh`, TC01 trọn luồng** · ✅ Spike bước 10 (chốt phiên bản, `preflight.sh`) · ✅ Đo đạc mục 12.5 · ✅ **TC01–TC10 đều Đạt** · ✅ Nháp Chương 5
+**Giai đoạn kế tiếp:** **báo cáo** — Chương 4 (Triển khai) → Chương 3 (Phân tích & thiết kế, dựa `docs/architecture.md`) → Chương 1 → Chương 6 → phụ lục; rà lại Chương 2 → kịch bản demo (`docs/demo-script.md`, cập nhật `demo/commands.md` cho TC01/TC04/TC05 chạy trực tiếp) → slide, video dự phòng, README dựng lại từ môi trường sạch (mục 15–16) → thu dọn AWS sau bảo vệ (mục 17). Tùy chọn: gắn SBOM vào ECR bằng `oras attach` (mục 9.6). Ước tính còn ~30–40 giờ (≈ 1,5–2 tuần nếu 3–4 giờ/ngày); **chưa biết hạn nộp** — hỏi người dùng để xếp lịch.
+
+## ⏸ Điểm dừng (26/11/2026, tối) — làm tiếp từ đây
+
+**Phần kỹ thuật cốt lõi đã xong; còn lại chủ yếu là báo cáo, demo, slide.**
+
+**Đã làm trong ngày 26/11 (PR #15–#20, `main` = `e45ab14`):**
+- Spike bước 8–9 (Policy 2 trên kind, bản vá p2 extension) → **spike đạt 6.2**; bước 10: chốt `docs/versions.md` mục 4, thêm `scripts/preflight.sh` (chỉ đọc, 33/33 ĐẠT).
+- Giai đoạn 2–4: OIDC + role `devsecops-publisher`, lifecycle `sha-`, job `publish`, `fetch-release.sh` + `deploy.sh` → **TC01 trọn luồng** (run 45798939183).
+- Đo đạc (`docs/test-results.md` mục 3): độ trễ ký 1735–2509 ms (tb 2216, n=4, `scripts/signing-latency.sh`); `publish` tb 38 s (n=3), `verify` tb 106 s (n=35); admission Policy 2 4 lượt; SBOM/Trivy không đổi (0 Critical, 2 High).
+- TC10 bổ sung yêu cầu thật tới Pod đang chạy: 6/6 Forbidden.
+- Nháp **Chương 5** `docs/report/chuong-5-thuc-nghiem-danh-gia.md` — **còn thiếu ảnh Hình 5.1–5.5** (người dùng chụp: run TC02/TC03/TC01 trên Actions, ECR console image + chữ ký, `kubectl get pods` + `/version`). Hình 5.5 cần cụm đang chạy.
+
+**Bắt đầu phiên sau:**
+1. Viết báo cáo **không cần** Docker/AWS. Chỉ bật khi cần chụp ảnh, demo hoặc chạy lại kiểm thử.
+2. Khi cần môi trường: mở Docker Desktop (lỗi `0x80072746` → tắt Docker Desktop, `wsl --shutdown`, mở lại) → cụm kind `devsecops` tự lên (Kyverno, extension, Policy 1+2, Deployment `app/podinfo` 2 replica vẫn còn) → WSL: `aws sso login --profile devsecops` → `bash scripts/refresh-lab-credentials.sh` (credential verifier ≤ 1 giờ) → `bash scripts/preflight.sh` phải ĐẠT.
+3. Mỗi lần merge vào `main` sẽ chạy `publish` → thêm 1 image `sha-…` lên ECR (đúng thiết kế; lifecycle giữ 10).
+
+**Trạng thái lúc dừng (26/11, ~10:50 UTC):**
+- AWS (không có tài nguyên tính phí theo giờ): ECR `podinfo` 16 mục ~93 MB (3 fixture, 5 image `sha-…`, 7 chữ ký, 1 tag referrer); 2 signing profile; signing configuration; lifecycle; OIDC provider; role `devsecops-publisher`, `devsecops-verifier`. Budget 15 USD.
+- GitHub: Secret `AWS_ACCOUNT_ID`, Variables `AWS_REGION`, `ECR_REPOSITORY`, `SIGNING_PROFILE_NAME`, `AWS_PUBLISH_ROLE_NAME`.
+- Máy: đã tắt Docker Desktop + WSL. Ổ C: còn ~19 GB (người dùng đã dọn 26/11).
+- Credential verifier đã hết hạn (11:11 UTC) → khi bật lại cụm, Pod **mới** trong `app`/`demo` bị chặn tới khi refresh (fail-closed, đúng thiết kế).
 
 ## ✅ Giai đoạn 2–3 (26/11/2026, chiều) — xong, **TC01 trọn luồng ĐẠT**
 
@@ -24,7 +46,7 @@
 - Agent không được ghi GitHub Secret (auto mode chặn) → người dùng tự đặt. Đổi account/role thì đặt lại cùng tên.
 - `fetch-release.sh` chạy Git Bash (không có `jq` → chỉ `gh --jq`, ghi `run.json`); `deploy.sh` đối chiếu `release.json` với `run.json`.
 
-## ⏸ Điểm dừng (26/11/2026) — làm tiếp từ đây
+## Spike (26/11/2026, sáng) — ghi chép
 
 **Spike đường găng ĐẠT** (tiêu chí 6.2): `D_signed` do Managed Signing ký (không `notation sign`); `notation verify` pass/fail đúng; Kyverno **deny thật** (Enforce); fail-closed đã thử. Chi tiết số liệu trong `docs/test-results.md`.
 
@@ -35,19 +57,13 @@
 - **Bản vá p2** cho thư viện `kyverno-notation-verifier` v1.1.0 (`infra/kyverno-notation-aws/patches/`, `scripts/build-notation-ext.sh`): TokenReview khai báo audience `kyverno-svc.kyverno.io` (không có thì mọi yêu cầu bị `Token is not authorized`), không ghi token ra log. Gate 0 Critical/0 High. Chi tiết `docs/versions.md` mục 2b.
 - `scripts/test-policy2-cluster.sh` (TC01/04/06/09) và `scripts/test-policy1-cluster.sh` (ECR thật) đều ĐẠT. Bằng chứng: `docs/evidence/spike/policy2-kind/`, `docs/evidence/policy1-real-ecr/`, `docs/evidence/spike/verifier-role/`.
 
-**⚠️ Ổ C: gần đầy** (26/11: có lúc 0 MB → `Bus error` khi build; còn ~7 GB sau build). Docker build cache ~14,6 GB (3,1 GB reclaimable), Docker vhdx chỉ tăng. **Hỏi người dùng trước khi xóa/thu gọn** (`docker builder prune`, compact vhdx, dọn `Downloads` ~43 GB là dữ liệu cá nhân).
+**Ổ C:** sáng 26/11 có lúc 0 MB (`Bus error` khi build); chiều người dùng đã dọn, còn ~19 GB. Docker vhdx chỉ tăng — build nhiều thì theo dõi lại. **Hỏi người dùng trước khi xóa/thu gọn** (`docker builder prune`, compact vhdx, `Downloads` là dữ liệu cá nhân).
 
-**Bắt đầu phiên sau:**
-1. Mở Docker Desktop (nếu lỗi `0x80072746`: tắt Docker Desktop → `wsl --shutdown` → mở lại). Cụm kind `devsecops` tự lên lại (extension, Policy 1 thật, Policy 2 vẫn còn).
-2. WSL: `aws sso login --profile devsecops` → `bash scripts/refresh-lab-credentials.sh` (credential verifier chỉ sống 1 giờ; hết hạn thì Policy 2 chặn mọi Pod – fail-closed).
-3. Kiểm nhanh: `bash scripts/preflight.sh` (chỉ đọc: công cụ, cụm, policy, AWS, fixture, credential — phải ĐẠT), rồi `bash scripts/test-policy2-cluster.sh` nếu cần.
-
-**Trạng thái repo/máy lúc dừng (26/11):**
-- `main` sau PR spike Policy 2. Không tài nguyên AWS tính phí theo giờ (thêm IAM role verifier – miễn phí).
+**Thông tin chung về repo/máy:**
 - Kết quả kiểm thử tổng hợp ở `docs/test-results.md` (đã cập nhật 26/11), bằng chứng chọn lọc ở `docs/evidence/` (bản đầy đủ ở `reports/`, không commit).
 - Repo **public**; `gh` 2.104.0 đã đăng nhập (`%LOCALAPPDATA%\Programs\gh\bin\gh.exe`; trong Bash gọi `"$LOCALAPPDATA/Programs/gh/bin/gh.exe"`).
 - **Branch protection `main`** (bật 18/11, kiểm qua API): bắt PR, 0 approval, required `verify` + `policy-test`, strict, `enforce_admins`, cấm force push/xóa; secret scanning + push protection bật. **Mọi thay đổi (kể cả `PROGRESS.md`) phải qua PR**: tạo nhánh → commit (tác giả `Duy Phan`, không ghi công Claude) → `gh pr create` → chờ 2 check → `gh pr merge --merge --delete-branch`.
-- Ca đã có bằng chứng: TC02 (PR #4), TC03 (PR #6), TC10 (kind), branch protection; TC05/TC07/TC08 đạt logic trên kind với `ECR_IMAGE` giả → chạy lại khi có ECR. Chi tiết trong `docs/test-results.md`.
+- Ca đã có bằng chứng: **TC01–TC10 đều Đạt** (TC02 PR #4, TC03 PR #6 trên CI; TC04–TC09 trên kind với ECR thật; TC01 trọn luồng run 45798939183; TC10 kind) + branch protection + `notation verify`. Chi tiết trong `docs/test-results.md`.
 - Lỗi tìm ra nhờ thực nghiệm (đưa vào báo cáo): Gitleaks quét lây sang nhánh khác → sửa `--log-opts=HEAD` (PR #5); allowlist Gitleaks toàn cục bỏ qua cả file; `.gitignore` `*token*` chặn nhầm mã podinfo; extension bản phát hành có 6 Critical.
 - Nhánh sao lưu **chỉ ở local**: `backup/main-before-rewrite`, `backup/sarif-before-rewrite` — chờ người dùng xác nhận rồi xóa.
 - Cụm kind `devsecops` (Kyverno 1.19.2 + Policy 1 với ECR_IMAGE giả) vẫn tồn tại. Docker Desktop phải chạy trước (WSL báo "docker could not be found" khi Docker Desktop tắt); cụm tự lên lại khi Docker chạy. Dựng mới: `bash scripts/cluster-up.sh` rồi `ECR_IMAGE=... bash scripts/apply-policies.sh`.
@@ -169,8 +185,9 @@ Các điểm kế hoạch ghi là "mẫu, cần đối chiếu":
 | 26/11/2026 | Người dùng đồng ý → spike bước 8–9: role `devsecops-verifier`, `refresh-lab-credentials.sh`, extension trên kind, Policy 2. Lỗi `Token is not authorized` (audience token Kyverno 1.19) + extension ghi token ra log → bản vá p2 thư viện verifier, rebuild 0 Critical/0 High. TC01 (admission), TC04, TC06, TC09 ĐẠT; Policy 1 với ECR thật ĐẠT. **Spike đạt tiêu chí 6.2.** Sự cố ổ C: đầy khi build. |
 | 26/11/2026 | Người dùng dọn ổ C (~20 GB trống), đồng ý làm tiếp. Giai đoạn 2–3: OIDC provider + role `devsecops-publisher` (sub immutable), lifecycle `sha-` (preview 0 image), job `publish` trong `ci-cd.yml`, `fetch-release.sh`, `deploy.sh` (danh tính deployer). Bằng chứng `docs/evidence/aws/`. Chờ người dùng đặt Secret/Variables GitHub rồi merge để chạy `publish` lần đầu. |
 | 26/11/2026 | Người dùng đặt Secret/Variables. Merge PR #16 → run 45798939183: `publish` xanh 45 s, ký `COMPLETE` ~5 s, không lộ account ID trong log. `deploy.sh` → 2 Pod `Running` đúng digest, extension `verified: true`. **TC01 trọn luồng ĐẠT.** Sửa `fetch-release.sh` (Git Bash không có `jq`). Bằng chứng `docs/evidence/tc01-e2e/`. |
-| 26/11/2026 | Nháp **Chương 5** `docs/report/chuong-5-thuc-nghiem-danh-gia.md` (phương pháp, môi trường, kết quả 10 ca, số liệu, truy vết, phân tích, giới hạn). TC10 bổ sung yêu cầu thật tới Pod đang chạy: 6/6 Forbidden đúng động từ, logs/get pods được phép (`docs/evidence/TC10/20261126T*/`). Còn: chèn ảnh Hình 5.1–5.5. |
-| 26/11/2026 | Đo đạc mục 12.5 (`docs/test-results.md` mục 3): Policy 2 thêm 2 lượt (đủ 4, đều 6/6); **độ trễ Managed Signing 1735–2509 ms, tb 2216 ms** (n=4, đo bằng `imagePushedAt` của ECR, `scripts/signing-latency.sh`); `ci-metrics.sh` mở rộng cho `publish` (n=3, tb 38 s; `verify` n=35 tb 106 s); SBOM/Trivy run mới nhất không đổi (0 Critical, 2 High); bảng truy vết tự động/thủ công. |
 | 26/11/2026 | Spike bước 10: kiểm upstream (1.19.2/chart 3.9.2 vẫn mới nhất, extension `main` không đổi) → chốt mục 4 `docs/versions.md`. Thêm `scripts/preflight.sh` (chỉ đọc, 33 mục) → ĐẠT. Phát hiện: Docker 29 dùng containerd store nên image ID local là digest **index**, còn node kind báo **config** → preflight so config `d3c72d96…`. |
+| 26/11/2026 | Đo đạc mục 12.5 (`docs/test-results.md` mục 3): Policy 2 thêm 2 lượt (đủ 4, đều 6/6); **độ trễ Managed Signing 1735–2509 ms, tb 2216 ms** (n=4, đo bằng `imagePushedAt` của ECR, `scripts/signing-latency.sh`); `ci-metrics.sh` mở rộng cho `publish` (n=3, tb 38 s; `verify` n=35 tb 106 s); SBOM/Trivy run mới nhất không đổi (0 Critical, 2 High); bảng truy vết tự động/thủ công. |
+| 26/11/2026 | Nháp **Chương 5** `docs/report/chuong-5-thuc-nghiem-danh-gia.md` (phương pháp, môi trường, kết quả 10 ca, số liệu, truy vết, phân tích, giới hạn). TC10 bổ sung yêu cầu thật tới Pod đang chạy: 6/6 Forbidden đúng động từ, logs/get pods được phép (`docs/evidence/TC10/20261126T*/`). Còn: chèn ảnh Hình 5.1–5.5. |
+| 26/11/2026 | Dừng phiên theo yêu cầu người dùng. Cập nhật điểm dừng; tắt Docker Desktop + WSL. Việc tiếp: Chương 4 → 3 → 1 → 6, ảnh Hình 5.1–5.5, demo/slide. |
 
 <!-- Mẫu một dòng nhật ký: | dd/mm/yyyy | Giai đoạn · việc đã xong · bằng chứng (đường dẫn) · vấn đề còn mở | -->
