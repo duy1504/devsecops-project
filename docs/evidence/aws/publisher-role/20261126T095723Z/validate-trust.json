@@ -1,0 +1,43 @@
+{
+    "findings": [
+        {
+            "findingDetails": "The \"token.actions.githubusercontent.com:aud\" (audience) claim key identifies the recipients that the JSON web token is intended for. Because this claim is single-valued, do not use a qualifier.",
+            "findingType": "SUGGESTION",
+            "issueCode": "CONFIRM_AUDIENCE_CLAIM_TYPE",
+            "learnMoreLink": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-policy-checks.html#access-analyzer-reference-policy-checks-suggestion-confirm-audience-claim-type",
+            "locations": [
+                {
+                    "path": [
+                        {
+                            "value": "Statement"
+                        },
+                        {
+                            "index": 0
+                        },
+                        {
+                            "value": "Condition"
+                        },
+                        {
+                            "value": "StringEquals"
+                        },
+                        {
+                            "key": "token.actions.githubusercontent.com:aud"
+                        }
+                    ],
+                    "span": {
+                        "start": {
+                            "line": 13,
+                            "column": 10,
+                            "offset": 353
+                        },
+                        "end": {
+                            "line": 13,
+                            "column": 51,
+                            "offset": 394
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
