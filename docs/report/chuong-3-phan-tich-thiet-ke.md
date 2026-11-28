@@ -1,6 +1,6 @@
 # Chương 3. Phân tích và thiết kế (bản nháp)
 
-> Bản nháp theo dàn ý `KE_HOACH_DO_AN_FINAL.md` mục 15. Chương này trình bày **vì sao** hệ thống được thiết kế như vậy; cách cài đặt nằm ở Chương 4, kết quả kiểm chứng ở Chương 5. Nguồn: kế hoạch mục 1–2, 8.4, 9, 11, 12 và `docs/architecture.md`. Trước khi nộp: xuất sơ đồ Mermaid (Hình 3.1, 3.2) thành ảnh.
+> Bản nháp theo dàn ý `KE_HOACH_DO_AN_FINAL.md` mục 15. Chương này trình bày **vì sao** hệ thống được thiết kế như vậy; cách cài đặt nằm ở Chương 4, kết quả kiểm chứng ở Chương 5. Nguồn: kế hoạch mục 1–2, 8.4, 9, 11, 12 và `docs/architecture.md`. Hình vẽ ở `figures/` (SVG; bản PNG để chèn vào Word/slide).
 
 ## 3.1. Phân tích bài toán
 
@@ -53,43 +53,9 @@ Yêu cầu thứ năm là **truy vết**: từ một Pod đang chạy phải l�
 
 ## 3.3. Kiến trúc tổng thể
 
-```mermaid
-flowchart LR
-    Dev[Developer] -->|PR / push| GH[GitHub repo<br/>main có branch protection]
+![Hình 3.1. Kiến trúc và luồng tin cậy](figures/hinh-3-1-kien-truc.svg)
 
-    subgraph CI["GitHub Actions"]
-        subgraph V["Job verify — không có quyền AWS"]
-            T[Unit test] --> S[Gitleaks]
-            S --> B[Build 1 lần → image.tar]
-            B --> SB[Syft SBOM]
-            SB --> TV[Trivy scan → gate 0 Critical]
-        end
-        PT["Job policy-test<br/>Kyverno CLI offline"]
-        TV -->|FAIL| X[[Dừng, lưu báo cáo]]
-        TV -->|PASS + push main| P["Job publish (OIDC)<br/>load đúng image.tar → push"]
-        P --> W[Chờ ký COMPLETE<br/>→ release.json]
-    end
-
-    GH --> T
-    GH --> PT
-    P --> ECR[(Amazon ECR<br/>repo podinfo)]
-    ECR -->|Managed Signing| SIG[AWS Signer]
-    SIG -->|chữ ký Notation<br/>OCI referrer| ECR
-
-    subgraph K8S["Kubernetes (kind)"]
-        API[kube-apiserver] --> P1{Policy 1<br/>đúng repo + digest}
-        P1 -->|đạt| P2{Policy 2<br/>chữ ký tin cậy}
-        P2 -->|đạt| POD[Pod chạy]
-        P1 -->|vi phạm| DENY[[Từ chối]]
-        P2 -->|không ký / sai signer / lỗi| DENY
-    end
-
-    W -->|deploy.sh: image@sha256:digest| API
-    P2 -.->|đọc chữ ký| ECR
-    P2 -.->|kiểm tra thu hồi| SIG
-```
-
-*Hình 3.1. Kiến trúc và luồng tin cậy.*
+*Hình 3.1. Kiến trúc và luồng tin cậy. Nét đứt xám: job không có quyền AWS; xanh dương: quyền phát hành (chỉ `main`, OIDC); cam đứt: truy cập AWS của verifier.*
 
 Hệ thống gồm hai lớp kiểm soát, nối với nhau bằng chữ ký số:
 
@@ -263,16 +229,9 @@ Ba giá trị này **không bằng nhau**. Thiết kế nối chúng bằng *quy
 
 ### 3.8.3. Chuỗi truy vết
 
-```mermaid
-flowchart LR
-    POD[Pod<br/>spec.image = …@sha256:D] --> ECR[ECR: digest D<br/>tag sha-commit-run-attempt]
-    ECR --> SIG[Chữ ký Notation<br/>profile chính]
-    ECR --> REL[release.json<br/>của run]
-    REL --> ART[image.tar đã kiểm<br/>SBOM + báo cáo CVE]
-    REL --> GIT[Commit nguồn]
-```
+![Hình 3.2. Chuỗi truy vết](figures/hinh-3-2-truy-vet.svg)
 
-*Hình 3.2. Chuỗi truy vết từ Pod về commit.*
+*Hình 3.2. Chuỗi truy vết, chiều xuôi (pipeline) và chiều ngược (từ Pod), với số liệu thật của TC01.*
 
 ## 3.9. Thiết kế kiểm thử
 
