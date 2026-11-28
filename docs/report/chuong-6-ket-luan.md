@@ -57,13 +57,13 @@ Các hướng phát triển, xếp theo mức độ bổ sung trực tiếp cho 
 | # | Hướng phát triển | Giải quyết hạn chế |
 |---|---|---|
 | 1 | **Ký và kiểm attestation cho SBOM, kết quả quét và provenance** (in-toto/SLSA). Admission chỉ nhận image có attestation "đã quét, 0 Critical" do pipeline ký | Chữ ký chưa chứng minh image đã qua quét; SBOM chưa được ký |
-| 2 | **Gắn SBOM vào ECR dưới dạng OCI referrer** (`oras attach`) để SBOM đi cùng digest, không phụ thuộc thời hạn lưu artifact của GitHub (30 ngày) | Truy vết dài hạn |
+| 2 | **Gắn SBOM vào ECR dưới dạng OCI referrer** (`oras attach` [44]) để SBOM đi cùng digest, không phụ thuộc thời hạn lưu artifact của GitHub (30 ngày) | Truy vết dài hạn |
 | 3 | **Quét lại định kỳ từ SBOM** (`trivy sbom`, hoặc nạp vào Dependency-Track) để phát hiện CVE mới trên image đang chạy mà không phải build lại | Kết quả quét chỉ đúng tại thời điểm quét |
 | 4 | **Khắc phục workload đang chạy:** khi chữ ký bị thu hồi hoặc phát hiện CVE mới, tự động tìm Pod dùng digest đó (nhờ truy vết) và cảnh báo hoặc thay thế | Admission không gỡ Pod đã chạy |
 | 5 | **Chuyển sang EKS:** IRSA/Pod Identity cho extension (credential tự làm mới), IAM role của node để pull image, Access Entry giới hạn namespace, job `deploy` qua role deployer với trust theo `environment` | Credential 1 giờ; triển khai thủ công; RBAC dùng impersonation |
 | 6 | **GitOps (Argo CD / Flux):** cụm tự kéo cấu hình từ Git, không cần quyền triển khai từ bên ngoài | Triển khai thủ công; giảm quyền của CI |
 | 7 | **Chuyển Policy 2 sang policy CEL của Kyverno** (`ImageValidatingPolicy`) hoặc phương án được hỗ trợ lâu dài, khi có cách tích hợp plugin AWS Signer; bật cache xác minh | `ClusterPolicy` deprecated; extension sắp hết bảo trì; độ trễ admission |
-| 8 | **Hạ tầng dưới dạng mã (Terraform)** cho ECR, Signer, IAM, OIDC thay cho script AWS CLI | Tái lập và rà soát thay đổi hạ tầng |
+| 8 | **Hạ tầng dưới dạng mã (Terraform)** cho ECR, Signer, IAM, OIDC thay cho script AWS CLI; dùng **workflow dependency lockfile** của GitHub Actions, mức bảo vệ mà GitHub xếp trên việc ghim SHA [39] | Tái lập và rà soát thay đổi hạ tầng; bảo vệ phụ thuộc của pipeline |
 | 9 | **Mở rộng gate:** chặn cả High có bản vá; dùng VEX để ghi nhận lỗ hổng không ảnh hưởng; kiểm giấy phép (license compliance) từ SBOM | Gate hiện chỉ chặn Critical |
 | 10 | **Image đa kiến trúc** (index `linux/amd64` + `linux/arm64`) và kiểm ephemeral container trong policy (hiện chặn bằng RBAC) | Phạm vi hiện tại một kiến trúc |
 

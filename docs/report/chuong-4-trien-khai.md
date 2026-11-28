@@ -33,7 +33,7 @@ docs/                      kiến trúc, phiên bản, kết quả, bằng chứ
 
 ### 4.2.1. Mã nguồn
 
-Workload là **podinfo 6.17.0**, một ứng dụng web nhỏ viết bằng Go thường dùng để thử nghiệm Kubernetes. Mã nguồn được đưa vào thư mục `app/` bằng `scripts/vendor-podinfo.sh` tại đúng commit `fd3a834` của tag 6.17.0; nguồn gốc ghi trong `docs/upstream.md`. Đồ án **build lại từ source** thay vì dùng image dựng sẵn của tác giả. Nhờ vậy SBOM và kết quả quét phản ánh đúng thứ mà pipeline tạo ra.
+Workload là **podinfo 6.17.0** [45], một ứng dụng web nhỏ viết bằng Go thường dùng để thử nghiệm Kubernetes. Mã nguồn được đưa vào thư mục `app/` bằng `scripts/vendor-podinfo.sh` tại đúng commit `fd3a834` của tag 6.17.0; nguồn gốc ghi trong `docs/upstream.md`. Đồ án **build lại từ source** thay vì dùng image dựng sẵn của tác giả. Nhờ vậy SBOM và kết quả quét phản ánh đúng thứ mà pipeline tạo ra.
 
 ### 4.2.2. Dockerfile
 
@@ -102,7 +102,7 @@ Ký tay ở đây **chỉ** để tạo fixture cho TC06; đường phát hành 
   "repositoryFilters":[{"filter":"${ECR_REPOSITORY}","filterType":"WILDCARD_MATCH"}]}]}
 ```
 
-Trước khi gọi `put-signing-configuration`, script dừng nếu registry đã có cấu hình (phải hợp nhất chứ không ghi đè), rồi dùng `jq` kiểm cấu hình đã render:
+Trước khi gọi `put-signing-configuration` [14], script dừng nếu registry đã có cấu hình (phải hợp nhất chứ không ghi đè), rồi dùng `jq` kiểm cấu hình đã render:
 - đúng một rule;
 - đúng ARN profile chính, không phải profile B;
 - filter đúng `podinfo` và **không** chứa `*`. Wildcard như `podinfo*` sẽ khớp cả repository khác và ký nhầm bằng profile tin cậy.
@@ -151,7 +151,7 @@ GitHub Actions không lưu access key nào. Job `publish` xin một token OIDC t
     "repo:duy1504@210903593/devsecops-project@1460578199:ref:refs/heads/main" } }
 ```
 
-Claim `sub` ở đây khác mẫu thường gặp trong tài liệu (`repo:<owner>/<repo>:ref:…`). Repo bật **immutable subject claims**, nên `sub` chứa cả ID số của owner và repo. Cách này còn an toàn hơn: nếu repo bị xóa rồi một repo khác được tạo lại cùng tên, token của repo mới sẽ không khớp trust policy. Dạng claim thực tế được lấy bằng `gh api repos/<owner>/<repo>/actions/oidc/customization/sub` trước khi viết trust policy (mục 4.8).
+Claim `sub` ở đây khác mẫu thường gặp trong tài liệu (`repo:<owner>/<repo>:ref:…`). Repo bật **immutable subject claims**: GitHub mô tả đây là định dạng `sub` ổn định, dựa trên ID của repository thay vì tên [38]. Vì claim gắn với ID số, đổi tên repo hay tạo lại một repo khác cùng tên sẽ không cho ra cùng `sub`. Điều này là suy luận từ định dạng claim; đồ án không thử nghiệm trường hợp đó. Dạng claim thực tế được lấy bằng `gh api repos/<owner>/<repo>/actions/oidc/customization/sub` trước khi viết trust policy (mục 4.8).
 
 Trust policy chỉ chấp nhận token của **nhánh `main`**. Job chạy trên pull request, hay chạy với `environment`, có `sub` khác nên không assume được role. Thêm vào đó, chỉ job `publish` có quyền `id-token: write`.
 
@@ -180,10 +180,10 @@ Nguyên tắc áp dụng trong `.github/workflows/ci-cd.yml`:
 | Bước | Thực hiện | Khi không đạt |
 |---|---|---|
 | Unit test | `go -C app test -count=1 ./...` với Go đúng phiên bản của Dockerfile | Dừng |
-| Gitleaks | `gitleaks git . --config .gitleaks.toml --redact --log-opts=HEAD`: quét **toàn bộ lịch sử** đi tới được từ commit đang kiểm | Dừng; báo cáo đã che giá trị |
+| Gitleaks [43] | `gitleaks git . --config .gitleaks.toml --redact --log-opts=HEAD`: quét **toàn bộ lịch sử** đi tới được từ commit đang kiểm | Dừng; báo cáo đã che giá trị |
 | Build một lần | `docker/build-push-action`, `linux/amd64`, `load: true`, không provenance/SBOM tự động → `docker save` ra `image.tar` + SHA-256 + image ID | Dừng |
-| SBOM | `syft docker-archive:image.tar -o cyclonedx-json`; kiểm định dạng CycloneDX, `components` > 0 và có `pkg:golang/*` | Dừng |
-| Quét lỗ hổng | `trivy image --input image.tar` **một lần** ra JSON; SARIF và bảng chuyển từ chính JSON đó | Lỗi công cụ/DB → dừng |
+| SBOM (Syft [42]) | `syft docker-archive:image.tar -o cyclonedx-json`; kiểm định dạng CycloneDX, `components` > 0 và có `pkg:golang/*` | Dừng |
+| Quét lỗ hổng (Trivy [41]) | `trivy image --input image.tar` **một lần** ra JSON; SARIF và bảng chuyển từ chính JSON đó | Lỗi công cụ/DB → dừng |
 | Upload báo cáo | Artifact `security-reports-<run>-<attempt>` (30 ngày) và SARIF lên Code Scanning | Luôn chạy |
 | Gate | Đếm `Severity == "CRITICAL"` trong JSON, phải bằng 0. **Không** dùng `--ignore-unfixed` | Dừng |
 | `verification.json` | Commit, run, attempt, image ID, SHA-256 của `image.tar`, SBOM, báo cáo, phiên bản scanner, thời điểm DB | — |
@@ -195,7 +195,7 @@ Quét một lần rồi dùng chung kết quả cho cả báo cáo lẫn gate gi
 
 ### 4.4.3. Job `policy-test`
 
-Job chạy song song với `verify`, không có quyền AWS và không nằm trong chuỗi `needs` của `publish`. Nhờ vậy lỗi policy không lẫn với lỗi CVE của image, nhưng job vẫn chặn merge vì là required check. Job cài Kyverno CLI v1.19.2 (cùng bản với cụm) rồi chạy `scripts/policy-test.sh`, đúng lệnh dùng ở máy local. Script render policy và resource bằng một giá trị ECR giả cố định, rồi chạy `kyverno test` với 6 Pod mẫu: 1 hợp lệ phải `pass` (`tc-ok`) và 5 phải `fail`. Năm Pod `fail` gồm sai account (`tc-wrong-account`, ứng với TC05), chỉ có tag (`tc-tag-only`, TC07), init container vi phạm (`tc-bad-init`, TC08), digest không đủ 64 hex (`tc-bad-digest`) và repository tên gần giống (`tc-similar-repo`).
+Job chạy song song với `verify`, không có quyền AWS và không nằm trong chuỗi `needs` của `publish`. Nhờ vậy lỗi policy không lẫn với lỗi CVE của image, nhưng job vẫn chặn merge vì là required check. Job cài Kyverno CLI v1.19.2 (cùng bản với cụm) rồi chạy `scripts/policy-test.sh`, đúng lệnh dùng ở máy local. Script render policy và resource bằng một giá trị ECR giả cố định, rồi chạy `kyverno test` [32] với 6 Pod mẫu: 1 hợp lệ phải `pass` (`tc-ok`) và 5 phải `fail`. Năm Pod `fail` gồm sai account (`tc-wrong-account`, ứng với TC05), chỉ có tag (`tc-tag-only`, TC07), init container vi phạm (`tc-bad-init`, TC08), digest không đủ 64 hex (`tc-bad-digest`) và repository tên gần giống (`tc-similar-repo`).
 
 ### 4.4.4. Job `publish`
 
@@ -244,9 +244,9 @@ Ba giá trị này không bằng nhau. Chúng được nối với nhau bằng q
 
 ### 4.5.1. Cụm kind và Kyverno
 
-`scripts/cluster-up.sh` dựng cụm kind `devsecops` từ node image ghim digest (`kindest/node:v1.35.8@sha256:07b2536e…`), tạo namespace và RBAC, rồi cài Kyverno:
+`scripts/cluster-up.sh` dựng cụm kind [27] `devsecops` từ node image ghim digest (`kindest/node:v1.35.8@sha256:07b2536e…`), tạo namespace và RBAC, rồi cài Kyverno:
 
-- Chart **3.9.2** (app v1.19.2) được tải qua OCI `oci://ghcr.io/kyverno/charts/kyverno`, vì `kyverno.github.io` bị timeout từ mạng lab.
+- Chart **3.9.2** (app v1.19.2) [28] được tải qua OCI `oci://ghcr.io/kyverno/charts/kyverno`, vì `kyverno.github.io` bị timeout từ mạng lab.
 - File `.tgz` được **kiểm SHA-256** trước khi cài, và cài từ đúng file đã kiểm.
 - Lệnh Helm luôn có `--version`, không dùng `--devel`.
 - Sau khi cài, script kiểm cả bốn controller đều chạy image `v1.19.2`.
@@ -256,7 +256,7 @@ Kyverno 1.20.0 đã phát hành trong thời gian làm đồ án (11/11/2026), n
 ### 4.5.2. Namespace, RBAC và manifest
 
 - **Namespace:** `app` cho workload; `demo` cho các ca kiểm thử. Cả hai policy **chỉ** áp lên hai namespace này, để không chặn nhầm thành phần hệ thống.
-- **RBAC (`k8s/rbac.yaml`):** Role `app-deployer` gắn cho group `devsecops-deployers`, chỉ trong `app`. Role cho phép tạo/sửa Deployment và Service, và đọc Pod, log, event, ReplicaSet. Ngoài ra có `get services/proxy` để smoke test. Role **không** cấp `secrets`, `pods/exec`, `pods/attach`, `pods/portforward`, `pods/ephemeralcontainers`, quyền tạo namespace, policy Kyverno, TrustPolicy hay webhook.
+- **RBAC (`k8s/rbac.yaml`) [25]:** Role `app-deployer` gắn cho group `devsecops-deployers`, chỉ trong `app`. Role cho phép tạo/sửa Deployment và Service, và đọc Pod, log, event, ReplicaSet. Ngoài ra có `get services/proxy` để smoke test. Role **không** cấp `secrets`, `pods/exec`, `pods/attach`, `pods/portforward`, `pods/ephemeralcontainers`, quyền tạo namespace, policy Kyverno, TrustPolicy hay webhook.
 - **Deployment (`k8s/deployment.template.yaml`):**
   - 2 replica; `automountServiceAccountToken: false`;
   - `runAsNonRoot`, `runAsUser`/`runAsGroup: 65532`, seccomp `RuntimeDefault`;
@@ -328,7 +328,7 @@ Policy kiểm cả container chính lẫn **init container** (TC08). Nó yêu c�
 
 ### 4.6.2. Extension `kyverno-notation-aws`: tự build và vá
 
-Kyverno có xác minh chữ ký Notary dựa trên chứng chỉ, nhưng không chạy plugin AWS Signer của Notation. Plugin này là thành phần kiểm danh tính theo ARN signing profile (`trustedIdentities`) và kiểm thu hồi qua AWS Signer. Vì vậy, theo quyết định ở mục 3.4 của kế hoạch, đồ án dùng **phương án A**: extension `kyverno-notation-aws` của Nirmata, một service nhận danh sách image từ Kyverno và xác minh bằng thư viện Notation cùng plugin AWS Signer. Kyverno native được giữ làm phương án lùi B. Khi đánh giá, đồ án gặp hai vấn đề:
+Kyverno có xác minh chữ ký Notary dựa trên chứng chỉ, nhưng không chạy plugin AWS Signer của Notation. Plugin này là thành phần kiểm danh tính theo ARN signing profile (`trustedIdentities`) và kiểm thu hồi qua AWS Signer. Vì vậy, theo quyết định ở mục 3.4 của kế hoạch, đồ án dùng **phương án A**: extension `kyverno-notation-aws` của Nirmata [33], một service nhận danh sách image từ Kyverno và xác minh bằng thư viện Notation cùng plugin AWS Signer. Kyverno native được giữ làm phương án lùi B. Khi đánh giá, đồ án gặp hai vấn đề:
 
 - **Bản phát hành chính thức mới nhất (`v1.1`, 01/2025) có 6 CVE Critical và 80 High** (Trivy, DB 16/11/2026). Các bản 1.2.x đã bị gỡ, và upstream ghi rõ sắp lưu trữ repo.
 - **Nhánh `main` đã vá phần lớn** nhưng không có artifact phát hành. Build nguyên trạng từ `main@58b210b` vẫn còn 6 High.
