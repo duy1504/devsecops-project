@@ -1,5 +1,19 @@
 # Lệnh demo theo thứ tự
 
+Kịch bản và lời dẫn buổi bảo vệ: [`docs/report/phu-luc-b-kich-ban-demo.md`](../docs/report/phu-luc-b-kich-ban-demo.md). Các ca **chạy trực tiếp trên cụm** (TC01, TC04, TC05, TC06, truy vết) dùng `scripts/demo.sh` trên WSL:
+
+```bash
+bash scripts/refresh-lab-credentials.sh   # credential verifier ≤ 1 giờ: chạy sát giờ demo
+bash scripts/demo.sh check
+bash scripts/demo.sh tc01                 # Pod chạy đúng digest + /version + release.json
+bash scripts/demo.sh tc04                 # chưa ký → Policy 2 từ chối
+bash scripts/demo.sh tc05                 # sai nguồn → Policy 1 từ chối
+bash scripts/demo.sh tc06                 # ký bởi profile B → Policy 2 từ chối
+bash scripts/demo.sh trace                # Pod → digest → tag ECR + chữ ký → run, commit
+```
+
+Phần dưới đây là lệnh tạo lại TC02/TC03 bằng PR từ nhánh demo (đã có bằng chứng; buổi demo chỉ mở lại run cũ).
+
 Chạy trong **PowerShell** tại `C:\Teo\DevOps` cho git/gh (xem quy tắc 9 trong `CLAUDE.md`). Chạy trong **WSL** cho docker/trivy/kubectl. `main` đã bật branch protection: mọi thay đổi phải qua PR, và hai check `verify` + `policy-test` phải đạt.
 
 Biến dùng chung (PowerShell):
@@ -65,11 +79,12 @@ trivy image --input /tmp/tc03.tar --scanners vuln --severity CRITICAL
 
 ## TC05, TC07, TC08 — Policy 1 trên cụm kind
 
+Chạy đủ bộ ca (có đối chứng, đo độ trễ, lưu bằng chứng), không phải lệnh demo:
+
 ```bash
-bash scripts/cluster-up.sh
-export ECR_IMAGE=<account>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo   # mục 4.3 kế hoạch
-export APP_DIGEST=sha256:<digest image hợp lệ từ release.json>
-bash scripts/apply-policies.sh
-bash scripts/test-policy1-cluster.sh       # bằng chứng: reports/admission/<thời điểm>/
-bash scripts/check-rbac.sh                 # TC10 (phần auth can-i)
+source scripts/aws-env.sh                              # ECR_IMAGE thật, lấy account ID từ STS
+set -a; source reports/spike/fixtures.env; set +a      # D_SIGNED, D_UNSIGNED, D_WRONGSIGNER
+APP_DIGEST=$D_SIGNED bash scripts/test-policy1-cluster.sh   # TC05/07/08 → reports/admission/<thời điểm>/
+bash scripts/test-policy2-cluster.sh                   # TC01/04/06/09 → reports/admission-p2/<thời điểm>/
+bash scripts/check-rbac.sh                             # TC10 (phần auth can-i)
 ```
