@@ -32,9 +32,14 @@ try_create() {  # try_create <tên manifest>: in image, chạy kubectl create, i
   kubectl -n demo delete pod "$1" --ignore-not-found --wait=true > /dev/null 2>&1
   echo "\$ kubectl create -f $f"
   grep -E '^\s+image:' "$f" | sed 's/^ */  /' | mask
-  kubectl create -f "$f" 2>&1 | mask
-  local rc=${PIPESTATUS[0]}
+  local out rc
+  out=$(kubectl create -f "$f" 2>&1); rc=$?
+  mask <<< "$out"
   echo "exit code: $rc"
+  # Thông báo của Policy 2 dài (gồm chi tiết HTTP 406 nội bộ của extension): in riêng câu nói lên nguyên nhân
+  local why
+  why=$(grep -oE "no signature is associated with[^,]*|Signature publisher doesn't match any trusted identities\.?|Policy allowed-image failed|has no applicable trust policy statement|connection refused|no endpoints available" <<< "$out" | head -1)
+  [ -n "$why" ] && printf '\033[1;33m→ Lý do chính: %s\033[0m\n' "$why" | mask
   [ "$rc" = 0 ] && kubectl -n demo delete pod "$1" --wait=false > /dev/null 2>&1
   return 0
 }

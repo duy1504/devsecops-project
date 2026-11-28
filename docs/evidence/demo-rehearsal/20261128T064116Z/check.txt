@@ -1,0 +1,17 @@
+
+▶ Credential verifier
+còn hạn: 2026-11-28T07:41:19+00:00
+
+▶ Extension + policy
+NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
+kyverno-notation-aws   1/1     1            1           46h
+NAME            AGE   READY
+allowed-image   11d   true
+NAME            ADMISSION   BACKGROUND   READY   AGE   MESSAGE
+verify-signer   true        false        True    46h   Ready
+
+▶ Workload
+NAME      READY   UP-TO-DATE   AVAILABLE   AGE
+podinfo   2/2     2            2           44h
+
+Kiểm tra đầy đủ: bash scripts/preflight.sh
