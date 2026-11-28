@@ -2,7 +2,7 @@
 
 Tài liệu ghi lại kiến trúc của đồ án và lý do của từng quyết định. Phần nền tảng lấy từ `KE_HOACH_DO_AN_FINAL.md` (mục 2, 3.4). Phần quyết định phát sinh khi triển khai ghi rõ ngày và bằng chứng. Phiên bản và hash nằm trong `docs/versions.md`; kết quả kiểm thử nằm trong `docs/test-results.md`.
 
-**Cập nhật:** 20/11/2026. Các thành phần cần AWS (ECR, Managed Signing, job `publish`, Policy 2) **chưa triển khai**; mỗi quyết định có ghi trạng thái.
+**Cập nhật:** 28/11/2026. **Mọi thành phần đã triển khai và chạy thật** (ECR, Managed Signing, job `publish` qua OIDC, Policy 1 + Policy 2 trên kind); TC01–TC10 đều Đạt (`docs/test-results.md`). Báo cáo: Chương 3 (thiết kế), Chương 4 (triển khai) trong `docs/report/`.
 
 ## 1. Bài toán và câu hỏi nghiên cứu
 
@@ -66,9 +66,9 @@ flowchart LR
 |---|---|---|---|
 | PR (chưa tin cậy) | Chạy test, scan, policy-test | Có `id-token`, assume role AWS | Workflow chỉ cấp `contents: read` (+ `security-events: write` để upload SARIF); không dùng `pull_request_target` |
 | Nhánh `main` | Nhận thay đổi đã qua PR và 2 check | Push thẳng, force push, xóa nhánh | Branch protection, `enforce_admins` (đã kiểm: push thẳng bị GH006) |
-| Publisher (role CI) | Push vào repo tin cậy | Sửa signing rule, IAM, policy Kubernetes | Role OIDC giới hạn `ref:refs/heads/main` *(chưa triển khai)* |
-| Verifier (extension) | Đọc image, chữ ký; kiểm tra thu hồi | Ký, push | Credential ngắn hạn của role verifier *(chưa triển khai)* |
-| Deployer | Quản lý Deployment/Service trong `app` | Đọc Secret, exec, ephemeral container, sửa policy/webhook, tạo namespace | `k8s/rbac.yaml` (đã kiểm: 14/14 `can-i`, 4/4 yêu cầu thật `Forbidden`) |
+| Publisher (role CI) | Push vào repo tin cậy | Sửa signing rule, IAM, policy Kubernetes | Role `devsecops-publisher`: trust OIDC `sub` = `repo:duy1504@210903593/devsecops-project@1460578199:ref:refs/heads/main` (immutable subject); chỉ push repo `podinfo` + `SignPayload` profile chính (26/11, run 45798939183) |
+| Verifier (extension) | Đọc image, chữ ký; kiểm tra thu hồi | Ký, push | Role `devsecops-verifier`, phiên ≤ 1 giờ; `PutImage` bị `AccessDenied` (kiểm mỗi lần refresh) |
+| Deployer | Quản lý Deployment/Service trong `app` | Đọc Secret, exec, ephemeral container, sửa policy/webhook, tạo namespace | `k8s/rbac.yaml` (đã kiểm: 14/14 `can-i`, 4/4 yêu cầu thật `Forbidden`; 26/11 thêm 6/6 yêu cầu thật tới Pod đang chạy `Forbidden`; triển khai TC01 bằng chính danh tính này) |
 
 > **Giả định tin cậy (ghi vào phần giới hạn):** danh tính nào có quyền push vào repo tin cậy và quyền ký trên profile đều tạo được image có chữ ký hợp lệ, kể cả image chưa scan. Hướng nâng cấp: ký hoặc attest kết quả scan và kiểm tra attestation ở admission.
 
@@ -103,7 +103,7 @@ Mỗi mục: **bối cảnh → quyết định → lý do → thay thế đã c
 
 - **Quyết định:** `verify` build một lần → `docker save image.tar` → SBOM và scan trên chính tar đó → (push vào `main`) upload tar + checksum + `verification.json`. `publish` sẽ tải đúng tar của cùng run, kiểm `sha256sum`, `docker load`, push — **không build lại**.
 - **Lý do:** hai lần build có thể ra dependency hoặc base khác nhau, khiến image được scan không phải image được ký.
-- **Trạng thái:** ✅ phần `verify`; `publish` chờ spike.
+- **Trạng thái:** ✅ (26/11): `publish` kiểm checksum, `verification.json` (commit/run/attempt/gate) và image ID trước khi push; digest registry = digest push (run 45798939183).
 
 ### Q4. Gate lỗ hổng: Trivy, 0 Critical, không nới lỏng
 
@@ -130,7 +130,7 @@ Mỗi mục: **bối cảnh → quyết định → lý do → thay thế đã c
 - **Quyết định:** repo ECR private `podinfo` (tag IMMUTABLE), signing rule filter đúng tên `podinfo`, platform `Notation-OCI-SHA384-ECDSA`. Đường phát hành không có lệnh ký thủ công.
 - **Lý do:** ký tự động khi push, không phải quản lý khóa; chữ ký dạng Notation lưu như OCI referrer.
 - **Không chọn:** Cosign/Sigstore — là hệ sinh thái khác, không khớp đề tài.
-- **Trạng thái:** ⏳ chờ AWS (spike mục 6).
+- **Trạng thái:** ✅ (20/11 bật; 26/11 chạy qua pipeline): mỗi image phát hành có đúng 1 chữ ký của profile chính, độ trễ ký 1,7–2,5 s; publisher không cần `signer:GetSigningProfile`.
 
 ### Q8. Kubernetes: kind
 
@@ -152,14 +152,15 @@ Mỗi mục: **bối cảnh → quyết định → lý do → thay thế đã c
 - **Quyết định:** `policies/allowed-image.template.yaml` chỉ cho `<account>.dkr.ecr.<region>.amazonaws.com/podinfo@sha256:` + **đúng 64 ký tự hex**, áp cho cả container và init container, chỉ ở namespace `app` và `demo`, `failurePolicy: Fail`.
 - **Lý do:** viết bằng CEL ngay từ đầu để không phải viết lại khi `ClusterPolicy` bị gỡ. Siết 64 hex (phát sinh 17/11) vì mẫu chỉ kiểm tiền tố sẽ chấp nhận `podinfo@sha256:abc`.
 - **Ephemeral containers:** chặn bằng RBAC (deployer không có `pods/ephemeralcontainers`), chưa đưa vào policy.
-- **Trạng thái:** ✅ test offline 6/6; trên kind TC05/TC07/TC08 bị từ chối, với `ECR_IMAGE` giả.
+- **Trạng thái:** ✅ test offline 6/6; trên kind TC05/TC07/TC08 bị từ chối, với `ECR_IMAGE` giả (17/11) và ECR thật (26/11).
 
 ### Q11. Policy 2: `ClusterPolicy` gọi extension `kyverno-notation-aws` tự build
 
 - **Quyết định:** dùng extension để chạy Notation + AWS Signer plugin (xác minh chữ ký, `trustedIdentities`, thu hồi). Tự build từ `main@58b210b` bằng `scripts/build-notation-ext.sh`: builder và runtime ghim digest, vá thêm `x/net` và `go-jose`, gate 0 Critical.
 - **Lý do tự build** (phát sinh 17/11): bản phát hành mới nhất `v1.1` có 6 Critical / 80 High; repo upstream sắp archive, nhánh `main` đã vá nhưng không phát hành. Bản tự build: 0 Critical / 0 High, `go test` đạt.
 - **Giới hạn:** dùng bản không phát hành chính thức; upstream sắp ngừng bảo trì.
-- **Trạng thái:** ⏳ image đã build; chưa chạy trên cụm (cần AWS).
+- **Phát sinh khi chạy trên cụm (26/11):** mọi Pod bị chặn `Token is not authorized` (TokenReview thiếu audience của Kyverno 1.19) và thư viện ghi bearer token ra log → **bản vá p2** cho `kyverno-notation-verifier` v1.1.0; không tắt xác thực token. `caBundle` nhúng CA công khai thay vì cho Kyverno đọc Secret TLS.
+- **Trạng thái:** ✅ (26/11): TC01 nhận, TC04/TC06 từ chối đúng lý do, TC09 fail-closed; 4 lượt đều 6/6.
 
 ### Q12. Pipeline tự bảo vệ
 
@@ -175,7 +176,7 @@ Mỗi mục: **bối cảnh → quyết định → lý do → thay thế đã c
 
 - **Quyết định:** `scripts/deploy.sh` lấy `APP_IMAGE_REF` (`<ECR_IMAGE>@sha256:…`) từ `release.json` của run thành công trên `main`, render manifest cuối cùng rồi mới apply. Không apply bản có tag rồi `kubectl set image`.
 - **Lý do:** digest cố định chính xác nội dung đã scan, đã ký và được xác minh; tag có thể bị trỏ sang image khác.
-- **Trạng thái:** ⏳ chờ `release.json` (job `publish`).
+- **Trạng thái:** ✅ (26/11): `fetch-release.sh` + `deploy.sh`, chạy dưới danh tính deployer; 2 Pod `Running`, `spec.image` và `status.imageID` đúng digest phát hành (TC01).
 
 ## 5. Truy vết
 
@@ -184,8 +185,9 @@ Mỗi mục: **bối cảnh → quyết định → lý do → thay thế đã c
 | Commit → run CI | `GITHUB_SHA`, run ID | Tự động |
 | Run → image | `verification.json`: image ID, SHA-256 của `image.tar` | Tự động |
 | Image → SBOM, báo cáo lỗ hổng | SHA-256 của `sbom.cdx.json`, `trivy.json` trong `verification.json` | Tự động |
-| Image → digest trên ECR → chữ ký | `release.json` (job `publish`) | *Chờ AWS* |
-| Digest → Pod | Image ID runtime của Pod đối chiếu `release.json` | Thủ công khi demo |
+| Image → digest trên ECR → chữ ký | `release.json` (job `publish`): digest, tag `sha-<commit12>-run-<id>-<attempt>`, profile, `COMPLETE` | Tự động |
+| `release.json` → Pod | `fetch-release.sh` → `deploy.sh` render digest | Thủ công (2 lệnh; không có job `deploy` trên kind) |
+| Pod → digest | `spec.image`, `status.imageID` đối chiếu `release.json` | Kiểm tự động trong `deploy.sh` |
 
 ## 6. Giới hạn
 
@@ -195,3 +197,6 @@ Mỗi mục: **bối cảnh → quyết định → lý do → thay thế đã c
 - Kết quả Trivy phụ thuộc DB tại thời điểm quét; không phát hiện zero-day.
 - Kyverno 1.19 hết hỗ trợ cộng đồng khi 1.21 phát hành; extension là bản tự build từ upstream sắp archive.
 - Trên kind, impersonation để kiểm RBAC chạy từ kubeconfig quản trị.
+- Trên kind, credential verifier sống tối đa 1 giờ (role chaining từ SSO): hết hạn thì mọi Pod mới trong `app`/`demo` bị chặn tới khi chạy `refresh-lab-credentials.sh` (fail-closed). EKS dùng IRSA/Pod Identity sẽ tự làm mới.
+- Extension trả HTTP 406 khi xác minh thất bại → Kyverno ghi `error (blocked)` thay vì `fail`; cache xác minh đang tắt.
+- Bước `release.json` → Pod trên kind là thủ công (`deploy.sh`), không có job `deploy`.
