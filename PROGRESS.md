@@ -3,30 +3,51 @@
 Đọc file này đầu mỗi phiên. Cập nhật khi xong một giai đoạn hoặc có thay đổi quan trọng (quy tắc trong `CLAUDE.md`).
 
 **Cập nhật lần cuối:** 28/11/2026
-**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest (phần không cần AWS của giai đoạn 4–5) · ✅ CI `verify` + `policy-test` xanh (push và PR) · ✅ branch protection `main` (18/11) · ✅ TC02 + TC03 trên CI (18/11) · ✅ `docs/test-results.md` + `docs/evidence/` (18/11) · ✅ `docs/architecture.md` + nháp Chương 2 (20/11) · ✅ AWS sẵn sàng (SSO profile `devsecops`, 20/11) · ✅ Spike bước 1–7 (20/11): fixture `D_unsigned`/`D_wrongsigner`, **Managed Signing đã bật**, `D_signed` ký tự động `COMPLETE`, `notation verify` signed pass / 2 fixture fail · ✅ **Spike đạt (26/11): bước 8–9 trên kind** — role verifier, extension p2, Policy 2; TC01 nhận, TC04/TC06 từ chối, TC09 fail-closed; Policy 1 chạy lại với ECR thật (TC05/07/08 Đạt) · ✅ **Giai đoạn 2–4 (26/11): OIDC + `publish` + `deploy.sh`, TC01 trọn luồng** · ✅ Spike bước 10 (chốt phiên bản, `preflight.sh`) · ✅ Đo đạc mục 12.5 · ✅ **TC01–TC10 đều Đạt** · ✅ Nháp Chương 5 · ✅ Nháp Chương 1, 3, 4, 6 (28/11)
-**Giai đoạn kế tiếp:** báo cáo nháp đủ (Ch.1–6, Phụ lục A, B, tài liệu tham khảo, Hình 3.1/3.2/4.1, khung slide — 28/11). **Còn:** (1) ~~dựng slide~~ ✅ 28/11 (`docs/report/slides/`), người dùng điền họ tên, MSSV, ngày bảo vệ ở slide 1; (2) người dùng: ảnh Hình 5.1–5.5, tập demo có bấm giờ, video dự phòng; (3) thử dựng lại cụm kind từ đầu (KQ7); (4) ~~ghép báo cáo Word~~ ✅ 28/11 (`docs/report/word/bao-cao-do-an.docx`, 85 trang; điền bìa, chèn Hình 5.1–5.5, chỉnh theo mẫu của môn nếu có); (5) sát ngày bảo vệ: kiểm lại fixture TC03, `preflight.sh`; (6) sau bảo vệ: thu dọn AWS (mục 17). Tùy chọn: `oras attach` SBOM. **Chưa biết hạn nộp** — hỏi người dùng để xếp lịch.
+**Trạng thái:** ✅ Lập kế hoạch · ✅ Giai đoạn 1 (podinfo, Dockerfile, test, scan local) · ✅ kind + Kyverno 1.19.2 + Policy 1 + RBAC/manifest · ✅ CI `verify` + `policy-test` + branch protection · ✅ AWS (SSO profile `devsecops`) · ✅ **Spike đạt 6.2** (bước 1–10, 20–26/11) · ✅ **Giai đoạn 2–4** (OIDC + `publish` + `deploy.sh`, TC01 trọn luồng, 26/11) · ✅ Đo đạc mục 12.5 · ✅ **TC01–TC10 đều Đạt** · ✅ **Báo cáo đủ** (Ch.1–6, Phụ lục A, B, tài liệu tham khảo, hình) · ✅ **Slide .pptx** · ✅ **Báo cáo Word** · ✅ `demo.sh` đã tập chạy (28/11)
+**Giai đoạn kế tiếp:** hoàn thiện để nộp và bảo vệ — xem danh sách "Việc còn lại" ngay dưới. **Chưa biết hạn nộp / ngày bảo vệ** — hỏi người dùng để xếp lịch.
 
-## ⏸ Điểm dừng (26/11/2026, tối) — làm tiếp từ đây
+## ⏸ Điểm dừng (28/11/2026) — làm tiếp từ đây
 
-**Phần kỹ thuật cốt lõi đã xong; còn lại chủ yếu là báo cáo, demo, slide.**
+**Toàn bộ phần kỹ thuật và tài liệu đã xong ở dạng có thể nộp; còn lại là việc của người dùng và kiểm tra trước giờ bảo vệ.**
 
-**Đã làm trong ngày 26/11 (PR #15–#20, `main` = `e45ab14`):**
-- Spike bước 8–9 (Policy 2 trên kind, bản vá p2 extension) → **spike đạt 6.2**; bước 10: chốt `docs/versions.md` mục 4, thêm `scripts/preflight.sh` (chỉ đọc, 33/33 ĐẠT).
-- Giai đoạn 2–4: OIDC + role `devsecops-publisher`, lifecycle `sha-`, job `publish`, `fetch-release.sh` + `deploy.sh` → **TC01 trọn luồng** (run 45798939183).
-- Đo đạc (`docs/test-results.md` mục 3): độ trễ ký 1735–2509 ms (tb 2216, n=4, `scripts/signing-latency.sh`); `publish` tb 38 s (n=3), `verify` tb 106 s (n=35); admission Policy 2 4 lượt; SBOM/Trivy không đổi (0 Critical, 2 High).
-- TC10 bổ sung yêu cầu thật tới Pod đang chạy: 6/6 Forbidden.
-- Nháp **Chương 5** `docs/report/chuong-5-thuc-nghiem-danh-gia.md` — **còn thiếu ảnh Hình 5.1–5.5** (người dùng chụp: run TC02/TC03/TC01 trên Actions, ECR console image + chữ ký, `kubectl get pods` + `/version`). Hình 5.5 cần cụm đang chạy.
+**Đã làm ngày 28/11 (PR #22–#31, `main` = `bba99a4`, run `main` mới nhất 46122839130 xanh):**
+- Báo cáo: nháp Chương 4, 3, 1, 6; rà Chương 2 (thêm mục 2.7 bảo mật pipeline); Phụ lục A (dựng lại) + `README.md`; Phụ lục B (kịch bản demo, câu hỏi bảo vệ); `tai-lieu-tham-khao.md` (45 mục, liên kết kiểm HTTP 200, mọi mục đều được trích); cập nhật `docs/architecture.md` (hết trạng thái chờ).
+- Hình: `docs/report/figures/` — Hình 3.1 (kiến trúc), 3.2 (truy vết), 4.1 (ba đường xác thực), SVG + PNG 2x.
+- `scripts/demo.sh` (check/tc01/tc04/tc05/tc06/trace, che account ID) — **đã tập chạy trên cụm: 6/6 đúng** (`docs/evidence/demo-rehearsal/`).
+- Slide: `docs/report/slides/bao-ve-chuoi-cung-ung.pptx` (16 + 4 dự phòng, có speaker notes), dựng bằng `build-slides.js`.
+- Word: `docs/report/word/bao-cao-do-an.docx` (85 trang), dựng bằng `build-report.js` từ các file `.md`.
+- Sửa câu sai/thiếu căn cứ khi rà: "ghim SHA là cách duy nhất" (GitHub nay xếp workflow dependency lockfile cao hơn); câu suy luận về immutable subject ghi rõ là suy luận.
+
+**Việc còn lại:**
+1. **Người dùng:**
+   - Điền chỗ tô vàng: bìa Word (trường, khoa, GVHD, họ tên/MSSV, lớp, địa điểm/tháng) và slide 1 (họ tên, MSSV, ngày bảo vệ).
+   - Chụp **Hình 5.1–5.5** (run TC02, TC03, TC01 trên Actions; ECR console image + chữ ký; `demo.sh tc01`), chèn vào 5 chỗ `[CHÈN ẢNH CHỤP]` trong Word, rồi Update mục lục. Ảnh chụp phải che account ID.
+   - Mở trang CISA [9] bằng trình duyệt để xác nhận liên kết (trang chặn truy cập tự động).
+   - Tập demo trọn 15 phút có bấm giờ; quay video dự phòng.
+   - Cho biết mẫu trình bày của môn (nếu có) và hạn nộp.
+2. **Agent (khi có môi trường):** thử dựng lại cụm kind từ đầu theo Phụ lục A (KQ7 — hiện ghi "chưa chạy lại trọn một lượt").
+3. **Sát ngày bảo vệ:** kiểm lại fixture TC03 theo DB Trivy mới (`demo/commands.md`); `refresh-lab-credentials.sh` sát giờ; `preflight.sh` phải ĐẠT.
+4. **Sau bảo vệ:** thu dọn AWS (kế hoạch mục 17, Phụ lục A.10).
+5. Tùy chọn: gắn SBOM vào ECR bằng `oras attach`.
+
+**Lưu ý khi sửa tài liệu:**
+- Nguồn nội dung là các file `.md` trong `docs/report/`. Sửa ở đó rồi chạy lại `build-report.js` (cần `npm install docx`) / `build-slides.js` (cần `npm install pptxgenjs`, biến `PPTX_SKILL_DIR`). Chạy lại sẽ **ghi đè** file `.docx`/`.pptx` → nếu đã điền bìa/chèn ảnh trong Word thì lưu bản đó tên khác.
+- Thư viện `docx`, `pptxgenjs`, `python-pptx`, `pymupdf` chỉ cài tạm cho phiên 28/11 (scratchpad, `pip --user`) — cài lại khi cần.
 
 **Bắt đầu phiên sau:**
-1. Viết báo cáo **không cần** Docker/AWS. Chỉ bật khi cần chụp ảnh, demo hoặc chạy lại kiểm thử.
-2. Khi cần môi trường: mở Docker Desktop (lỗi `0x80072746` → tắt Docker Desktop, `wsl --shutdown`, mở lại) → cụm kind `devsecops` tự lên (Kyverno, extension, Policy 1+2, Deployment `app/podinfo` 2 replica vẫn còn) → WSL: `aws sso login --profile devsecops` → `bash scripts/refresh-lab-credentials.sh` (credential verifier ≤ 1 giờ) → `bash scripts/preflight.sh` phải ĐẠT.
-3. Mỗi lần merge vào `main` sẽ chạy `publish` → thêm 1 image `sha-…` lên ECR (đúng thiết kế; lifecycle giữ 10).
+1. Việc tài liệu **không cần** Docker/AWS.
+2. Khi cần môi trường: mở Docker Desktop (lỗi `0x80072746` → tắt Docker Desktop, `wsl --shutdown`, mở lại) → cụm kind `devsecops` tự lên (Kyverno, extension, Policy 1 + 2, `app/podinfo` 2 replica) → WSL: `aws sso login --profile devsecops` → `bash scripts/refresh-lab-credentials.sh` (credential verifier ≤ 1 giờ) → `bash scripts/preflight.sh` phải ĐẠT → `bash scripts/demo.sh check`.
+3. Mỗi lần merge vào `main` chạy `publish` → thêm 1 image `sha-…` lên ECR (đúng thiết kế).
 
-**Trạng thái lúc dừng (26/11, ~10:50 UTC):**
-- AWS (không có tài nguyên tính phí theo giờ): ECR `podinfo` 16 mục ~93 MB (3 fixture, 5 image `sha-…`, 7 chữ ký, 1 tag referrer); 2 signing profile; signing configuration; lifecycle; OIDC provider; role `devsecops-publisher`, `devsecops-verifier`. Budget 15 USD.
-- GitHub: Secret `AWS_ACCOUNT_ID`, Variables `AWS_REGION`, `ECR_REPOSITORY`, `SIGNING_PROFILE_NAME`, `AWS_PUBLISH_ROLE_NAME`.
-- Máy: đã tắt Docker Desktop + WSL. Ổ C: còn ~19 GB (người dùng đã dọn 26/11).
-- Credential verifier đã hết hạn (11:11 UTC) → khi bật lại cụm, Pod **mới** trong `app`/`demo` bị chặn tới khi refresh (fail-closed, đúng thiết kế).
+**Trạng thái lúc dừng (28/11, ~07:50 UTC):**
+- AWS (không có tài nguyên tính phí theo giờ): ECR `podinfo` 38 mục ~223 MB (3 fixture, 16 image `sha-…`, 18 chữ ký). Lifecycle giữ 10 image `sha-` nhưng ECR áp **không đồng bộ** (thường trong 24 giờ) → phiên sau kiểm lại còn ≤ 10. 2 signing profile; signing configuration; OIDC provider; role `devsecops-publisher`, `devsecops-verifier`. Budget 15 USD.
+- GitHub: Secret `AWS_ACCOUNT_ID`, Variables `AWS_REGION`, `ECR_REPOSITORY`, `SIGNING_PROFILE_NAME`, `AWS_PUBLISH_ROLE_NAME`. Nhánh local chỉ còn `main` + 2 nhánh `backup/*` (chờ người dùng quyết định xóa).
+- Máy: đã tắt Docker Desktop + WSL. Ổ C: còn ~23 GB.
+- Credential verifier hết hạn 07:41 UTC → khi bật lại cụm, Pod **mới** trong `app`/`demo` bị chặn tới khi refresh (fail-closed, đúng thiết kế).
+
+## Điểm dừng 26/11/2026 (tối) — ghi chép
+
+- Spike bước 8–10, Giai đoạn 2–4, đo đạc, TC10 bổ sung, nháp Chương 5 (PR #15–#20). Chi tiết ở các mục bên dưới và nhật ký.
 
 ## ✅ Giai đoạn 2–3 (26/11/2026, chiều) — xong, **TC01 trọn luồng ĐẠT**
 
@@ -139,12 +160,12 @@ Làm ngay sau phần chuẩn bị. Chưa qua tiêu chí 6.2 thì chưa làm pipe
 ### Các giai đoạn sau (chỉ bắt đầu khi spike đạt)
 
 - [x] Giai đoạn 1 — podinfo, Dockerfile, test, scan local (mục 7). Làm trước spike vì AWS chưa dùng được (17/11/2026). podinfo 6.17.0 `fd3a834` → `app/` (`scripts/vendor-podinfo.sh`, nguồn gốc `docs/upstream.md`); `go test` đạt; image distroless `USER 65532:65532`, 50,6 MB (`image.tar` 12 MB); `/healthz` `/readyz` `/` HTTP 200, `/version` = 6.17.0/`fd3a834`, tiến trình chạy UID 65532; SBOM CycloneDX 1.7 (1032 component); Trivy (DB 16/11): **0 Critical**, HIGH=2 (`go-jose/v4` 4.1.5, `x/net` 0.61.0 — đều có bản vá, giữ nguyên upstream làm số liệu ban đầu), MEDIUM=1, UNKNOWN=4; Gitleaks sạch với `.gitleaks.toml` (3 dương tính giả upstream allowlist cấp rule, đã kiểm chứng không che secret khác). Bằng chứng: `reports/podinfo/` (không commit).
-- [ ] Giai đoạn 2 — hoàn thiện AWS/IAM: lifecycle, ma trận quyền, OIDC, `wait-signature.sh` (mục 8). **26/11:** ✅ lifecycle, ✅ OIDC + role publisher, ✅ role verifier, ✅ tập quyền publisher tối thiểu xác nhận qua run `publish` thật (không cần `GetSigningProfile`).
+- [x] Giai đoạn 2 — hoàn thiện AWS/IAM: lifecycle, ma trận quyền, OIDC, `wait-signature.sh` (mục 8). **26/11:** ✅ lifecycle, ✅ OIDC + role publisher, ✅ role verifier, ✅ tập quyền publisher tối thiểu xác nhận qua run `publish` thật (không cần `GetSigningProfile`).
 - [x] Giai đoạn 3 — pipeline: `verify`, `policy-test`, `publish`, branch protection (mục 9). **26/11:** ✅ `publish` (PR #16, run 45798939183 xanh). **17/11:** `.github/workflows/ci-cd.yml` có `verify` (test → Gitleaks toàn lịch sử → build một lần → `image.tar` + checksum + image ID → Syft SBOM + kiểm có `pkg:golang` → Trivy một lần JSON → upload báo cáo `always()` → gate 0 Critical → summary → `verification.json` → upload approved image chỉ khi push `main`) và `policy-test` (Kyverno CLI ghim SHA-256 → `scripts/policy-test.sh`). Action ghim commit SHA; Gitleaks/Syft/Trivy/Kyverno cài binary ghim SHA-256; không `id-token`. Repo chuyển **public** 17/11 (người dùng chọn, để có branch protection miễn phí; đã rà: không secret, không account thật; email tác giả commit lộ trong lịch sử — đã báo người dùng) → thêm lại upload SARIF lên Code Scanning (`security-events: write`, bỏ qua PR từ fork) qua PR nhánh `ci/sarif-upload`. **Run đầu 17/11 (commit `e66dca7` — SHA lúc chạy `7aa3cba`, run 44024593626/2): `verify` 3m55s + `policy-test` 9s đều xanh; unit test, Gitleaks 0 finding, build, SBOM 1032 component, Trivy DB 2026-11-17T01:05:25Z, gate Critical 0 / High 2 — khớp số liệu local.** **Còn:** branch protection + required checks, `publish` (sau spike).
 - [x] Giai đoạn 4 — triển khai: namespace, pull secret, RBAC, manifest, `deploy.sh` (mục 10). **26/11:** ✅ pull secret (`refresh-lab-credentials.sh`), ✅ `deploy.sh` + `fetch-release.sh` (TC01 trọn luồng). **Đã xong 17/11:** `scripts/cluster-up.sh` (kind v1.35.8 + Kyverno chart 3.9.2 qua OCI, kiểm SHA-256), `k8s/namespaces.yaml`, `k8s/rbac.yaml` (`scripts/check-rbac.sh`: 14/14 đúng), `k8s/deployment.template.yaml` + `service.yaml` (thử với image local ở namespace tạm: 2/2 Running, UID 65532, roFS, `/healthz` 200, ghi `/data` 202). **Còn:** pull secret ECR (`refresh-lab-credentials.sh`), `deploy.sh` (cần `release.json`).
-- [ ] Giai đoạn 5 — Policy 1 + Policy 2 hoàn chỉnh, test offline (mục 11). **Policy 1 xong 17/11:** `policies/allowed-image.template.yaml` (CEL, siết thêm 64 hex sau `@sha256:`), test offline 6/6 (`scripts/policy-test.sh`, đã thử đảo kỳ vọng → fail đúng); trên cụm (`scripts/test-policy1-cluster.sh`, ECR_IMAGE giả `111122223333`): TC05/TC07/TC08 bị từ chối, đối chứng + namespace ngoài phạm vi cho qua, Deployment vi phạm bị từ chối ngay khi apply (autogen). **Còn:** chạy lại với ECR_IMAGE thật; Policy 2 (sau spike).
-- [ ] Giai đoạn 6 — TC01–TC05 bắt buộc, TC06–TC10 nếu kịp; đo đạc, thu bằng chứng (mục 12). **18/11:** ✅ TC02 (Gitleaks, PR #4) và ✅ TC03 (Trivy gate, PR #6) có bằng chứng thật trên CI. TC05/TC07/TC08 và TC10 (`auth can-i`) đã đạt trên kind với ECR_IMAGE giả → chạy lại với ECR thật. TC01, TC04, TC06, TC09 cần AWS (spike). **26/11:** ✅ TC04, TC06, TC09; ✅ TC05/07/08 với ECR thật; TC01 đạt phần admission. **26/11 chiều:** ✅ **TC01 trọn luồng** (run 45798939183 → `deploy.sh`). Còn: TC02–TC10 đều đã có bằng chứng; đo đạc tổng hợp mục 12.5, demo.
-- [ ] Báo cáo, slide, video dự phòng, README dựng lại (mục 15–16); thu dọn AWS (mục 17); checklist (mục 18).
+- [x] Giai đoạn 5 — Policy 1 + Policy 2 hoàn chỉnh, test offline (mục 11). **Policy 1 xong 17/11:** `policies/allowed-image.template.yaml` (CEL, siết thêm 64 hex sau `@sha256:`), test offline 6/6 (`scripts/policy-test.sh`, đã thử đảo kỳ vọng → fail đúng); trên cụm (`scripts/test-policy1-cluster.sh`, ECR_IMAGE giả `111122223333`): TC05/TC07/TC08 bị từ chối, đối chứng + namespace ngoài phạm vi cho qua, Deployment vi phạm bị từ chối ngay khi apply (autogen). **Còn:** chạy lại với ECR_IMAGE thật; Policy 2 (sau spike). **26/11:** ✅ Policy 2 (`ClusterPolicy` + extension p2) trên kind, Policy 1 với ECR thật.
+- [x] Giai đoạn 6 — TC01–TC05 bắt buộc, TC06–TC10 nếu kịp; đo đạc, thu bằng chứng (mục 12). **18/11:** ✅ TC02 (Gitleaks, PR #4) và ✅ TC03 (Trivy gate, PR #6) có bằng chứng thật trên CI. TC05/TC07/TC08 và TC10 (`auth can-i`) đã đạt trên kind với ECR_IMAGE giả → chạy lại với ECR thật. TC01, TC04, TC06, TC09 cần AWS (spike). **26/11:** ✅ TC04, TC06, TC09; ✅ TC05/07/08 với ECR thật; TC01 đạt phần admission. **26/11 chiều:** ✅ **TC01 trọn luồng** (run 45798939183 → `deploy.sh`). Còn: TC02–TC10 đều đã có bằng chứng; đo đạc tổng hợp mục 12.5, demo. **28/11:** đo đạc mục 12.5 xong, TC01–TC10 đều Đạt.
+- [ ] Báo cáo, slide, video dự phòng, README dựng lại (mục 15–16); thu dọn AWS (mục 17); checklist (mục 18). **28/11:** ✅ báo cáo Ch.1–6 + Phụ lục A, B + tài liệu tham khảo, ✅ README, ✅ slide .pptx, ✅ báo cáo Word; còn: ảnh Hình 5.1–5.5, video dự phòng, thử dựng lại từ môi trường sạch, thu dọn AWS sau bảo vệ, rà checklist mục 18.
 
 ## Cần kiểm chứng khi triển khai
 
@@ -199,5 +220,6 @@ Các điểm kế hoạch ghi là "mẫu, cần đối chiếu":
 | 28/11/2026 | **Hình 3.1** (kiến trúc + vùng tin cậy), **3.2** (truy vết, số liệu TC01), **4.1** (ba đường xác thực): SVG tự vẽ + PNG xuất bằng Edge headless, đã kiểm bằng mắt và sửa chữ đè/tràn; chèn vào Chương 3 (thay Mermaid) và Chương 4 (mục 4.5.3). **`docs/report/khung-slide.md`**: 16 slide + 4 slide dự phòng, khớp mốc thời gian Phụ lục B. Còn: dựng slide thật (pptx), ảnh Hình 5.1–5.5 (người dùng). |
 | 28/11/2026 | **Slide bảo vệ** `docs/report/slides/bao-ve-chuoi-cung-ung.pptx` (20 slide: 16 chính + 4 dự phòng, có speaker notes) dựng bằng `build-slides.js` (pptxgenjs, theme + layout + section; Cambria/Calibri). `validate.py` đạt; xuất từng slide bằng PowerPoint để kiểm bằng mắt, sửa 13 lỗi (tiêu đề xuống dòng, chữ đè, chỗ trống, định dạng số). Hình 3.1/3.2/4.1 xuất lại PNG 2x. Chỗ cần điền: họ tên, MSSV, ngày bảo vệ (slide 1). |
 | 28/11/2026 | **Báo cáo Word** `docs/report/word/bao-cao-do-an.docx` (85 trang, A4, Times New Roman 13, giãn 1,5, lề 3/2/2/2 cm): bìa, mục lục (Word cập nhật số trang), danh mục viết tắt, Ch.1–6, tài liệu tham khảo, Phụ lục A, B; Hình 3.1/3.2/4.1 trên trang ngang. Dựng bằng `build-report.js` từ các file .md (bỏ ghi chú biên tập). Kiểm: `validate.py` đạt, xuất PDF qua Word, soát 85 trang, sửa 7 lỗi (hình quá nhỏ, liên kết thô, căn đều giãn chữ ở TLTK, số trang, tab bìa…). Chỗ cần điền (tô vàng): trường, khoa, GVHD, họ tên/MSSV, lớp, địa điểm/thời gian; 5 chỗ chèn ảnh Hình 5.1–5.5. |
+| 28/11/2026 | Dừng phiên theo yêu cầu người dùng. Viết lại điểm dừng 28/11 (việc còn lại, cách dựng lại Word/slide, trạng thái AWS/máy). Tắt Docker Desktop + WSL. |
 
 <!-- Mẫu một dòng nhật ký: | dd/mm/yyyy | Giai đoạn · việc đã xong · bằng chứng (đường dẫn) · vấn đề còn mở | -->
