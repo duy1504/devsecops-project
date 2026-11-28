@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1350 380" width="1350" height="380" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#1f2933">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f6fd6"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2e7d32"/></marker>
+  </defs>
+  <rect width="1350" height="380" fill="#ffffff"/>
+  <text x="20" y="28" font-weight="700" font-size="14" fill="#1e3a8a">Chiều xuôi — pipeline nối các mắt xích (ví dụ TC01, run 45798939183)</text>
+
+  <!-- 6 mắt xích -->
+  <g>
+    <rect x="20" y="80" width="200" height="100" rx="10" fill="#f0f4f8" stroke="#52606d"/>
+    <text x="120" y="106" text-anchor="middle" font-weight="700">Commit nguồn</text>
+    <text x="120" y="130" text-anchor="middle" font-size="12">d1cd8dd72cd8</text>
+    <text x="120" y="150" text-anchor="middle" font-size="11">nhánh main, qua PR</text>
+    <text x="120" y="166" text-anchor="middle" font-size="11">+ 2 check bắt buộc</text>
+
+    <rect x="242" y="80" width="200" height="100" rx="10" fill="#eef1f5" stroke="#7b8794"/>
+    <text x="342" y="106" text-anchor="middle" font-weight="700">Run CI (verify)</text>
+    <text x="342" y="130" text-anchor="middle" font-size="12">run 45798939183 / 1</text>
+    <text x="342" y="150" text-anchor="middle" font-size="11">test · Gitleaks · gate</text>
+    <text x="342" y="166" text-anchor="middle" font-size="11">0 Critical</text>
+
+    <rect x="464" y="80" width="200" height="100" rx="10" fill="#eef1f5" stroke="#7b8794"/>
+    <text x="564" y="106" text-anchor="middle" font-weight="700">Artifact đã kiểm</text>
+    <text x="564" y="130" text-anchor="middle" font-size="12">image.tar (SHA-256)</text>
+    <text x="564" y="150" text-anchor="middle" font-size="11">image ID local</text>
+    <text x="564" y="166" text-anchor="middle" font-size="11">SBOM · báo cáo CVE</text>
+
+    <rect x="686" y="80" width="200" height="100" rx="10" fill="#fff7ed" stroke="#e08a2e"/>
+    <text x="786" y="106" text-anchor="middle" font-weight="700">Image trên ECR</text>
+    <text x="786" y="128" text-anchor="middle" font-size="12">sha256:8d0b9dd6…</text>
+    <text x="786" y="148" text-anchor="middle" font-size="10">tag sha-d1cd8dd72cd8-</text>
+    <text x="786" y="163" text-anchor="middle" font-size="10">run-45798939183-1</text>
+
+    <rect x="908" y="80" width="200" height="100" rx="10" fill="#fff7ed" stroke="#e08a2e"/>
+    <text x="1008" y="106" text-anchor="middle" font-weight="700">Chữ ký Notation</text>
+    <text x="1008" y="130" text-anchor="middle" font-size="12">podinfo_signing_profile</text>
+    <text x="1008" y="150" text-anchor="middle" font-size="11">COMPLETE</text>
+    <text x="1008" y="166" text-anchor="middle" font-size="11">gắn với digest</text>
+
+    <rect x="1130" y="80" width="200" height="100" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.6"/>
+    <text x="1230" y="106" text-anchor="middle" font-weight="700" fill="#1b5e20">Pod đang chạy</text>
+    <text x="1230" y="130" text-anchor="middle" font-size="11">spec.image</text>
+    <text x="1230" y="148" text-anchor="middle" font-size="11">= …/podinfo@sha256:8d0b…</text>
+    <text x="1230" y="166" text-anchor="middle" font-size="11">status.imageID khớp</text>
+  </g>
+
+  <!-- liên kết xuôi -->
+  <g stroke="#2f6fd6" stroke-width="1.8" marker-end="url(#a)">
+    <line x1="220" y1="130" x2="240" y2="130"/>
+    <line x1="442" y1="130" x2="462" y2="130"/>
+    <line x1="664" y1="130" x2="684" y2="130"/>
+    <line x1="886" y1="130" x2="906" y2="130"/>
+    <line x1="1108" y1="130" x2="1128" y2="130"/>
+  </g>
+  <g font-size="11" fill="#1d4ed8" text-anchor="middle">
+    <text x="231" y="58">commit SHA</text><text x="231" y="72">trong run</text>
+    <text x="453" y="58">build 1 lần</text><text x="453" y="72">docker save</text>
+    <text x="675" y="58">kiểm SHA-256 + ID,</text><text x="675" y="72">push, đọc digest</text>
+    <text x="897" y="58">Managed Signing</text><text x="897" y="72">~2 s sau push</text>
+    <text x="1119" y="58">deploy bằng digest,</text><text x="1119" y="72">admission xác minh</text>
+  </g>
+
+  <!-- release.json -->
+  <rect x="265" y="215" width="820" height="76" rx="10" fill="#e8f0fe" stroke="#2f6fd6" stroke-width="1.5"/>
+  <text x="675" y="238" text-anchor="middle" font-weight="700" fill="#1e3a8a">release.json (hồ sơ phát hành, ghi bởi job publish)</text>
+  <text x="675" y="259" text-anchor="middle" font-size="11">commit_sha · workflow_run_id · run_attempt · local_image_id · image_tar_sha256 · sbom_sha256 · vulnerability_report_sha256</text><text x="675" y="277" text-anchor="middle" font-size="11">scanner_version · critical_count · gate_result · image_uri · image_tag · image_digest · signing_profile_arn · signing_status</text>
+  <g stroke="#2f6fd6" stroke-width="1" stroke-dasharray="3 3">
+    <line x1="120" y1="180" x2="330" y2="215"/>
+    <line x1="342" y1="180" x2="470" y2="215"/>
+    <line x1="564" y1="180" x2="600" y2="215"/>
+    <line x1="786" y1="180" x2="760" y2="215"/>
+    <line x1="1008" y1="180" x2="930" y2="215"/>
+  </g>
+
+  <!-- chiều ngược -->
+  <polyline points="1230,180 1230,320 120,320 120,182" fill="none" stroke="#2e7d32" stroke-width="2" stroke-dasharray="7 4" marker-end="url(#g)"/>
+  <text x="20" y="348" font-weight="700" font-size="14" fill="#1b5e20">Chiều ngược — truy vết từ Pod (scripts/demo.sh trace)</text>
+  <text x="20" y="368" font-size="12" fill="#1b5e20">digest của Pod → tag sha-&lt;commit&gt;-run-&lt;id&gt;-&lt;attempt&gt; trên ECR → trạng thái ký → run và commit → SBOM, báo cáo CVE (đối chiếu SHA-256 trong release.json)</text>
+</svg>

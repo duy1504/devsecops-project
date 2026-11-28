@@ -1,6 +1,6 @@
 # Chương 4. Triển khai (bản nháp)
 
-> Bản nháp theo dàn ý `KE_HOACH_DO_AN_FINAL.md` mục 15. Mọi cấu hình trích trong chương lấy nguyên từ repo `duy1504/devsecops-project` (nhánh `main`). Phiên bản và hash chi tiết nằm ở `docs/versions.md`; kết quả kiểm thử ở Chương 5. Account ID AWS được thay bằng `<ACCOUNT_ID>`. Trước khi nộp: thêm hình sơ đồ luồng (Hình 4.1) và ảnh chụp các màn hình cấu hình.
+> Bản nháp theo dàn ý `KE_HOACH_DO_AN_FINAL.md` mục 15. Mọi cấu hình trích trong chương lấy nguyên từ repo `duy1504/devsecops-project` (nhánh `main`). Phiên bản và hash chi tiết nằm ở `docs/versions.md`; kết quả kiểm thử ở Chương 5. Account ID AWS được thay bằng `<ACCOUNT_ID>`. Hình vẽ ở `figures/`. Trước khi nộp: thêm ảnh chụp các màn hình cấu hình nếu cần.
 
 ## 4.1. Tổng quan
 
@@ -11,7 +11,7 @@ Hệ thống được triển khai theo kiến trúc đã thiết kế ở Chư�
 3. **AWS:** Amazon ECR lưu image; ECR Managed Signing dùng AWS Signer ký tự động mỗi image được push.
 4. **Kubernetes (kind):** Kyverno chặn ở admission bằng hai policy, một kiểm nguồn image và một kiểm chữ ký thông qua extension `kyverno-notation-aws`.
 
-*(Hình 4.1: sơ đồ luồng commit → `verify` → `publish` → ECR + chữ ký → `deploy.sh` → admission → Pod.)*
+Luồng tổng thể và ranh giới tin cậy: xem Hình 3.1 (Chương 3).
 
 Mọi thao tác hạ tầng đều được viết thành script trong `scripts/`, chạy lại được (idempotent) và tự kiểm tra kết quả. Không có bước nào làm tay trên console AWS. Cấu trúc repo:
 
@@ -274,6 +274,10 @@ Trên cụm có ba nhu cầu truy cập AWS khác nhau, và đồ án tách chú
 | GitHub Actions → AWS | Push image, kích hoạt ký | OIDC → role publisher |
 | Extension → ECR, AWS Signer | Đọc chữ ký, kiểm tra thu hồi | Credential tạm của role verifier, nạp qua Secret `verifier-aws-credentials` (ngoài Git) |
 | Kubelet → ECR | Pull image sau khi được nhận | `imagePullSecret` `ecr-pull` gắn vào ServiceAccount `default` của `app` và `demo` |
+
+![Hình 4.1. Ba đường xác thực](figures/hinh-4-1-xac-thuc.svg)
+
+*Hình 4.1. Ba đường xác thực tới AWS: mỗi thành phần một danh tính, chỉ đủ quyền cho đúng việc của nó.*
 
 `scripts/refresh-lab-credentials.sh` làm mới cả hai đường trên cụm:
 - assume role verifier (phiên ≤ 1 giờ, do role chaining từ phiên SSO);
