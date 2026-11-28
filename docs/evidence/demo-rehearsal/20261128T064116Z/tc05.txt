@@ -1,0 +1,6 @@
+
+▶ TC05 · image podinfo UPSTREAM (ghcr.io), digest thật → Policy 1 phải từ chối vì sai nguồn
+$ kubectl create -f reports/demo/rendered/tc05-wrong-source.yaml
+  image: ghcr.io/stefanprodan/podinfo@sha256:fa2f27c1a8561097e5144bfc0853eba6054d743b68b03de4cad4675616ddefb0
+Error from server: error when creating "reports/demo/rendered/tc05-wrong-source.yaml": admission webhook "vpol.validate.kyverno.svc-fail" denied the request: Policy allowed-image failed: Image phải thuộc <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo và được tham chiếu bằng sha256 digest (64 ký tự hex).
+exit code: 1

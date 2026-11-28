@@ -1,0 +1,24 @@
+
+▶ TC01 · Pod trong namespace app chạy image phát hành (theo digest)
+NAME                       STATUS    IMAGE
+podinfo-546898db97-djnlb   Running   <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+podinfo-546898db97-mhh5p   Running   <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com/podinfo@sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3
+
+▶ Ứng dụng trả lời (qua API server, không port-forward)
+{
+  "commit": "fd3a834ed8d14b80ea334cf8a2fddd4597924da6",
+  "version": "6.17.0"
+}
+
+▶ Hồ sơ phát hành: reports/release/45798939183/release.json
+{
+  "commit_sha": "d1cd8dd72cd8ddb451f6f5cbf0e6fc03513264a2",
+  "workflow_run_id": "45798939183",
+  "run_attempt": "1",
+  "image_tag": "sha-d1cd8dd72cd8-run-45798939183-1",
+  "image_digest": "sha256:8d0b9dd6a7e794df46671cc9b9c8f99c5f9e0d1265685eede11e20761c74a2f3",
+  "signing_status": "COMPLETE",
+  "critical_count": 0,
+  "gate_result": "pass",
+  "sbom_sha256": "4826ca68d36a280850ee78fc0ece3f8855652f1b88583f0ee7344846a69c8579"
+}

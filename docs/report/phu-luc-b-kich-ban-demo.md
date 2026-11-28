@@ -1,5 +1,7 @@
 # Phụ lục B. Kịch bản demo và câu hỏi bảo vệ
 
+> **Đã tập chạy 28/11/2026 (06:41 UTC):** cả 6 lệnh `demo.sh` (`check`, `tc01`, `tc04`, `tc05`, `tc06`, `trace`) cho kết quả đúng mong đợi, mỗi lệnh 1,7–4,6 s; account ID được che trên màn hình. Đầu ra: `docs/evidence/demo-rehearsal/20261128T064116Z/`, dùng được làm tư liệu dự phòng.
+>
 > Theo kế hoạch mục 16. Thời lượng 12–15 phút. Lệnh chạy trực tiếp dùng `scripts/demo.sh` trên WSL: một lệnh cho mỗi ca, không phải gõ account, region hay digest, và mặc định che account ID trên màn hình. Lệnh cho TC02/TC03 (mở PR từ nhánh demo) nằm ở `demo/commands.md`.
 
 ## B.1. Chuẩn bị
